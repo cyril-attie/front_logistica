@@ -30,3 +30,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 //Aleix comentarios del primer commit el la branch RamaAleix1 primera prueba
 
 //Aleix segundo commit en ramaaleix2
+
+//Aleix commit 3 en rama3
+//Aleix commit 4 en rama4
