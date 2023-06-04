@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.service';
+import jwtDecode from "jwt-decode";
 
 @Component({
   selector: 'app-login-form',
@@ -36,7 +37,21 @@ export class LoginFormComponent {
       return alert("No ha ido bien");
     } 
     
+    //Obtenemos rol
+    const tokenDecode = 
+        jwtDecode<{ user_role: string, 
+                    user_id: number, 
+                    iat: number, 
+                    exp: number 
+                  }>(response.token!);
+    if (!tokenDecode){
+      return alert("No ha ido bien por el rol");
+    }
+
+    //Guardamos en variables del navegador
     localStorage.setItem('token_almacen', response.token);
+    localStorage.setItem('role_almacen', tokenDecode.user_role);
+
     this.usuariosService.changeLogin(true);
     this.router.navigate(['/pedidos']);
 

@@ -12,26 +12,94 @@ import { DetalleAlmacenFormComponent } from './components/formulario/detalle-alm
 import { DetalleCamionFormComponent } from './components/formulario/detalle-camion-form/detalle-camion-form.component';
 import { DetalleMaterialFormComponent } from './components/formulario/detalle-material-form/detalle-material-form.component';
 import { DetallePerfilFormComponent } from './components/formulario/detalle-perfil-form/detalle-perfil-form.component';
+import { LoginGuard } from './guards/login.guard';
+import { RoleGuard } from './guards/role.guard';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/pedidos'},
-  { path: 'login', component: LoginFormComponent},
-  { path: 'pedidos', component: PedidosComponent},
-  { path: 'pedido/nuevo', component: DetallePedidoFormComponent},
-  { path: 'pedido/:id', component: DetallePedidoFormComponent},
-  { path: 'usuarios', component: UsuariosComponent},
-  { path: 'usuario/nuevo', component: DetalleUsuarioFormComponent},
-  { path: 'usuario/:id', component: DetalleUsuarioFormComponent},
-  { path: 'almacenes', component: AlmacenesComponent},
-  { path: 'almacen/nuevo', component: DetalleAlmacenFormComponent},
-  { path: 'almacen/:id', component: DetalleAlmacenFormComponent},
-  { path: 'camiones', component: CamionesComponent},
-  { path: 'comion/nuevo', component: DetalleCamionFormComponent},
-  { path: 'comion/:id', component: DetalleCamionFormComponent},
-  { path: 'materiales', component: MaterialesComponent},
-  { path: 'material/nuevo', component: DetalleMaterialFormComponent},
-  { path: 'material/:id', component: DetalleMaterialFormComponent},
-  { path: 'perfil', component: DetallePerfilFormComponent},
+  { path: 'login', 
+    component: LoginFormComponent, 
+    canDeactivate: [LoginGuard]},
+  { path: 'pedidos', 
+    component: PedidosComponent, 
+    canActivate: [LoginGuard,RoleGuard],
+    data: {role : ['JEFE_DE_EQUIPO','ENCARGADO','OPERARIO']}
+  },
+  { path: 'pedido/nuevo', 
+    component: DetallePedidoFormComponent,
+    canActivate: [LoginGuard,RoleGuard],
+    data: {role : ['JEFE_DE_EQUIPO','ENCARGADO','OPERARIO']}
+  },
+  { path: 'pedido/:id',
+    component: DetallePedidoFormComponent,
+    canActivate: [LoginGuard,RoleGuard],
+    data: {role : ['JEFE_DE_EQUIPO','ENCARGADO','OPERARIO']}
+  },
+  { path: 'usuarios', 
+    component: UsuariosComponent,
+    canActivate: [LoginGuard,RoleGuard],
+    data: {role : ['JEFE_DE_EQUIPO']}
+  },
+  { path: 'usuario/nuevo',
+    component: DetalleUsuarioFormComponent,
+    canActivate: [LoginGuard,RoleGuard],
+    data: {role : ['JEFE_DE_EQUIPO']}
+  },
+  { path: 'usuario/:id', 
+    component: DetalleUsuarioFormComponent,
+    canActivate: [LoginGuard,RoleGuard],
+    data: {role : ['JEFE_DE_EQUIPO']}
+  },
+  { path: 'almacenes', 
+    component: AlmacenesComponent,
+    canActivate: [LoginGuard,RoleGuard],
+    data: {role : ['ENCARGADO']}
+  },
+  { path: 'almacen/nuevo',
+    component: DetalleAlmacenFormComponent,
+    canActivate: [LoginGuard,RoleGuard],
+    data: {role : ['ENCARGADO']}
+  },
+  { path: 'almacen/:id',
+    component: DetalleAlmacenFormComponent,
+    canActivate: [LoginGuard,RoleGuard],
+    data: {role : ['ENCARGADO']}
+  },
+  { path: 'camiones',
+    component: CamionesComponent,
+    canActivate: [LoginGuard,RoleGuard],
+    data: {role : ['JEFE_DE_EQUIPO']}
+  },
+  { path: 'comion/nuevo',
+    component: DetalleCamionFormComponent,
+    canActivate: [LoginGuard,RoleGuard],
+    data: {role : ['JEFE_DE_EQUIPO']}
+  },
+  { path: 'comion/:id',
+    component: DetalleCamionFormComponent,
+    canActivate: [LoginGuard,RoleGuard],
+    data: {role : ['JEFE_DE_EQUIPO']}
+  },
+  { path: 'materiales',
+    component: MaterialesComponent,
+    canActivate: [LoginGuard,RoleGuard],
+    data: {role : ['ENCARGADO']}
+  },
+  { path: 'material/nuevo',
+    component: DetalleMaterialFormComponent,
+    canActivate: [LoginGuard,RoleGuard],
+    data: {role : ['ENCARGADO']}
+  },
+  { path: 'material/:id',
+    component: DetalleMaterialFormComponent,
+    canActivate: [LoginGuard,RoleGuard],
+    data: {role : ['ENCARGADO']}
+  },
+  { path: 'perfil',
+    component: DetallePerfilFormComponent, 
+    canActivate: [LoginGuard,RoleGuard],
+    data: {role : ['JEFE_DE_EQUIPO','ENCARGADO','OPERARIO']}
+  },
   { path: '**', redirectTo: '/pedidos' }
 
 
