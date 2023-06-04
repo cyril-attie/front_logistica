@@ -1,5 +1,6 @@
 // Librerías 
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -48,8 +49,14 @@ import { DetalleCamionFormComponent } from './components/formulario/detalle-cami
   ],
   imports: [
     BrowserModule,
+<<<<<<< develop
     AppRoutingModule, 
     HttpClientModule
+=======
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+>>>>>>> Detalle Pedido Form
   ],
   providers: [],
   bootstrap: [AppComponent]
