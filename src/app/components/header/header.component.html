@@ -4,7 +4,7 @@
     </div>
     <nav>
         <ul class="menu">
-            <li><a class="menu-item" href="loginForm">Log In</a></li>
+            <li *ngIf="!isLogged"><a class="menu-item" href="loginForm">Log In</a></li>
         </ul>
     </nav>
 </header>
