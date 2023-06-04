@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Usuario } from 'src/app/interfaces/usuario';
 import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.servi
 })
 export class UsuariosComponent implements OnInit{
 
-  arrUsuariosComponent: string[] = [];
+  arrUsuarios: Usuario[] = [];
 
   constructor(private userService: UsuariosServiceService){}
 
@@ -16,7 +17,7 @@ export class UsuariosComponent implements OnInit{
 
     try{
       let response = await this.userService.getAll()
-      console.log(response)
+      this.arrUsuarios = response;
 
     } catch(error){
       console.log(error)

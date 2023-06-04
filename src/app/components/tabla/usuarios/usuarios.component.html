@@ -10,7 +10,8 @@
 </div>
 
     <hr>
-<table class="table table-striped table-container"> 
+    <div> 
+<table class="table table-striped table-container" > 
     <thead> 
         <tr class="thead"> 
             <th>Nombre</th> 
@@ -21,83 +22,21 @@
             <th>Edit</th>
         </tr> 
             </thead> 
-                <tbody> 
+                <tbody *ngFor="let usuario of arrUsuarios"> 
                     <tr> 
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>xxxxxxxxxxxx</td> 
+                        <td>{{usuario.nombre}} {{usuario.apellido}}</td> 
+                        <td>{{usuario.email}}</td> 
+                        <td>{{usuario.edad}}</td> 
+                        <td>{{usuario.ciudad}}</td> 
+                        <td>{{usuario.activo}}</td> 
                         <td>
                             <button class="material-symbols-outlined icon">visibility</button>
                             <button class="material-symbols-outlined icon">edit</button>
                             <button class="material-symbols-outlined icon">delete</button>
                         </td>  
-                        
-                    </tr> 
-                    <tr>
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>xxxxxxxxxxxx</td>  
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>
-                            <button class="material-symbols-outlined icon">visibility</button>
-                            <button class="material-symbols-outlined icon">edit</button>
-                            <button class="material-symbols-outlined icon">delete</button>
-                        </td>  
-                     </tr> 
-                     <tr> 
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>xxxxxxxxxxxx</td>  
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>
-                            <button class="material-symbols-outlined icon">visibility</button>
-                            <button class="material-symbols-outlined icon">edit</button>
-                            <button class="material-symbols-outlined icon">delete</button>
-                        </td>  
-                    </tr> 
-                    <tr> 
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>xxxxxxxxxxxx</td>  
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>xxxxxxxxxxxx</td>  
-                        <td>
-                            <button class="material-symbols-outlined icon">visibility</button>
-                            <button class="material-symbols-outlined icon">edit</button>
-                            <button class="material-symbols-outlined icon">delete</button>
-                        </td> 
-                    </tr> 
-                    <tr> 
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>xxxxxxxxxxxx</td>  
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>
-                            <button class="material-symbols-outlined icon">visibility</button>
-                            <button class="material-symbols-outlined icon">edit</button>
-                            <button class="material-symbols-outlined icon">delete</button>
-                        </td>  
-                    </tr> 
-                    <tr> 
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>xxxxxxxxxxxx</td>  
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>xxxxxxxxxxxx</td> 
-                        <td>
-                            <button class="material-symbols-outlined icon">visibility</button>
-                            <button class="material-symbols-outlined icon">edit</button>
-                            <button class="material-symbols-outlined icon">delete</button>
-                        </td> 
                     </tr> 
                 </tbody> 
             </table>
-
-
-
+        </div>
+  
 
