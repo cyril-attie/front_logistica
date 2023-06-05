@@ -21,9 +21,7 @@ export class UsuariosComponent implements OnInit{
 
     } catch(error){
       console.log(error)
-
     }
-    
   }
 
 }
