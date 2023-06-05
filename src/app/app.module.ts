@@ -50,6 +50,7 @@ import { DetalleCamionFormComponent } from './components/formulario/detalle-cami
   imports: [
     BrowserModule,
 <<<<<<< develop
+<<<<<<< develop
     AppRoutingModule, 
 <<<<<<< HEAD
     HttpClientModule
@@ -63,6 +64,14 @@ import { DetalleCamionFormComponent } from './components/formulario/detalle-cami
     FormsModule,
     ReactiveFormsModule
 >>>>>>> develop
+=======
+    AppRoutingModule,
+    HttpClientModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+
+>>>>>>> Pedidos Component
   ],
   providers: [],
   bootstrap: [AppComponent]
