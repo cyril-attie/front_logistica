@@ -1,6 +1,5 @@
 // Librerías 
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -24,6 +23,7 @@ import { DetalleUsuarioFormComponent } from './components/formulario/detalle-usu
 import { DetalleAlmacenFormComponent } from './components/formulario/detalle-almacen-form/detalle-almacen-form.component';
 import { DetalleMaterialFormComponent } from './components/formulario/detalle-material-form/detalle-material-form.component';
 import { DetalleCamionFormComponent } from './components/formulario/detalle-camion-form/detalle-camion-form.component';
+import { SubHeaderComponent } from './components/sub-header/sub-header.component';
 
 
 
@@ -46,32 +46,14 @@ import { DetalleCamionFormComponent } from './components/formulario/detalle-cami
     DetalleAlmacenFormComponent,
     DetalleMaterialFormComponent,
     DetalleCamionFormComponent,
+    SubHeaderComponent,
   ],
   imports: [
     BrowserModule,
-<<<<<<< develop
-<<<<<<< develop
     AppRoutingModule, 
-<<<<<<< HEAD
-    HttpClientModule
-=======
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
->>>>>>> Detalle Pedido Form
-=======
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
->>>>>>> develop
-=======
-    AppRoutingModule,
-    HttpClientModule,
-    AppRoutingModule,
-    FormsModule,
     ReactiveFormsModule,
-
->>>>>>> Pedidos Component
   ],
   providers: [],
   bootstrap: [AppComponent]

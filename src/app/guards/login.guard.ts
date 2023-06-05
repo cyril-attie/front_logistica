@@ -6,21 +6,31 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginGuard implements CanActivate {
-  constructor(private router : Router) {}
-  canActivate() : boolean {
-    let token : string | null = localStorage.getItem('token-almacen');
-    if (!token) {
-      this.router.navigate(['/login']);
-      return false;
-    }
-    return true;
+  constructor(
+    private router : Router,
+  ) {}
+
+  canActivate(route: ActivatedRouteSnapshot) : boolean {
+
+      const pantallaLogin = route.data.pantallaLogin;
+      let token : string | null = localStorage.getItem('token_almacen');
+      
+      //Si es la pantalla de login debera funcionara la inversa
+      if (pantallaLogin) {
+        if (!token) {
+          return true;
+        } else {
+          this.router.navigate(['/pedidos']);
+          return false;
+        }
+      }
+
+      if (!token) {
+        this.router.navigate(['/login']);
+        return false;
+      }
+      
+      return true;
   }
 
-  canDeactivate() {
-    let token : string | null = localStorage.getItem('token-almacen');
-    if (!token) {
-      return false;
-    }
-    return true;
-  }
 }

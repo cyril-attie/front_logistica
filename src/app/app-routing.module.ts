@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+//Importamos variables globales
+import * as myGlobals from './general/globals';
+
+
 import { LoginFormComponent } from './components/formulario/login-form/login-form.component';
 import { AlmacenesComponent } from './components/tabla/almacenes/almacenes.component';
 import { CamionesComponent } from './components/tabla/camiones/camiones.component';
@@ -15,90 +19,95 @@ import { DetallePerfilFormComponent } from './components/formulario/detalle-perf
 import { LoginGuard } from './guards/login.guard';
 import { RoleGuard } from './guards/role.guard';
 
+
+
+
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/pedidos'},
   { path: 'login', 
-    component: LoginFormComponent, 
-    canDeactivate: [LoginGuard]},
+    component: LoginFormComponent,
+    canActivate: [LoginGuard],
+    data: {pantallaLogin : true}
+  },
   { path: 'pedidos', 
     component: PedidosComponent, 
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : ['JEFE_DE_EQUIPO','ENCARGADO','OPERARIO']}
+    data: {role : [myGlobals.rolSuperusuario, myGlobals.rolJefeDeEquipo,myGlobals.rolEncargado,myGlobals.rolOperario]}
   },
   { path: 'pedido/nuevo', 
     component: DetallePedidoFormComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : ['JEFE_DE_EQUIPO','ENCARGADO','OPERARIO']}
+    data: {role : [myGlobals.rolOperario]}
   },
   { path: 'pedido/:id',
     component: DetallePedidoFormComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : ['JEFE_DE_EQUIPO','ENCARGADO','OPERARIO']}
+    data: {role : [myGlobals.rolSuperusuario,myGlobals.rolJefeDeEquipo,myGlobals.rolEncargado,myGlobals.rolOperario]}
   },
   { path: 'usuarios', 
     component: UsuariosComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : ['JEFE_DE_EQUIPO']}
+    data: {role : [myGlobals.rolSuperusuario,myGlobals.rolJefeDeEquipo]}
   },
   { path: 'usuario/nuevo',
     component: DetalleUsuarioFormComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : ['JEFE_DE_EQUIPO']}
+    data: {role : [myGlobals.rolSuperusuario,myGlobals.rolJefeDeEquipo]}
   },
   { path: 'usuario/:id', 
     component: DetalleUsuarioFormComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : ['JEFE_DE_EQUIPO']}
+    data: {role : [myGlobals.rolSuperusuario,myGlobals.rolJefeDeEquipo]}
   },
   { path: 'almacenes', 
     component: AlmacenesComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : ['ENCARGADO']}
+    data: {role : [myGlobals.rolEncargado]}
   },
   { path: 'almacen/nuevo',
     component: DetalleAlmacenFormComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : ['ENCARGADO']}
+    data: {role : [myGlobals.rolEncargado]}
   },
   { path: 'almacen/:id',
     component: DetalleAlmacenFormComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : ['ENCARGADO']}
+    data: {role : [myGlobals.rolEncargado]}
   },
   { path: 'camiones',
     component: CamionesComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : ['JEFE_DE_EQUIPO']}
+    data: {role : [myGlobals.rolSuperusuario,myGlobals.rolJefeDeEquipo]}
   },
   { path: 'comion/nuevo',
     component: DetalleCamionFormComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : ['JEFE_DE_EQUIPO']}
+    data: {role : [myGlobals.rolSuperusuario,myGlobals.rolJefeDeEquipo]}
   },
   { path: 'comion/:id',
     component: DetalleCamionFormComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : ['JEFE_DE_EQUIPO']}
+    data: {role : [myGlobals.rolSuperusuario,myGlobals.rolJefeDeEquipo]}
   },
   { path: 'materiales',
     component: MaterialesComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : ['ENCARGADO']}
+    data: {role : [myGlobals.rolEncargado]}
   },
   { path: 'material/nuevo',
     component: DetalleMaterialFormComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : ['ENCARGADO']}
+    data: {role : [myGlobals.rolEncargado]}
   },
   { path: 'material/:id',
     component: DetalleMaterialFormComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : ['ENCARGADO']}
+    data: {role : [myGlobals.rolEncargado]}
   },
   { path: 'perfil',
     component: DetallePerfilFormComponent, 
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : ['JEFE_DE_EQUIPO','ENCARGADO','OPERARIO']}
+    data: {role : [myGlobals.rolSuperusuario,myGlobals.rolJefeDeEquipo,myGlobals.rolEncargado,myGlobals.rolOperario]}
   },
   { path: '**', redirectTo: '/pedidos' }
 
