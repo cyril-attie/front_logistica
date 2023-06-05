@@ -1,5 +1,9 @@
 
+
+
+
 <section class="template form">
+    <h2>{{ title }} usuario </h2>
     <form [formGroup]="usuarioForm" (ngSubmit)="datosUsuarios()"></form>
 
 
@@ -7,12 +11,12 @@
         <div class="container-1">
 
                 <div class="wp-img">
-                    <label for="imagen" class="textImagen">Añadir imagen</label>
+                    <label for="imagen" class="textImagen"></label>
                     <input type="text" formControlName="imagen" placeholder="Añadir imagen" class="inputImagen">
                 </div>
 
-            <div class="wp-text-1"> 
-                <div class="prueba">
+            <div class="wp-text"> 
+                <div>
                     <label for="nombre" class="form-label">Nombre</label>
                     <input type="text" class="form-control" formControlName="nombre">
                 </div>

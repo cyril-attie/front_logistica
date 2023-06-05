@@ -8,7 +8,7 @@ export interface Usuario {
     ciudad: string;
     codigo_postal: number; 
     edad: number; 
-    descripcion_rol: string;
-    activo: boolean;
+    rol: string;
+    estado: boolean;
 
 }

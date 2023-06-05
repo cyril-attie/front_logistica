@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Usuario } from 'src/app/interfaces/usuario';
+import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.service';
 
 @Component({
   selector: 'app-detalle-usuario-form',
@@ -8,9 +11,15 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class DetalleUsuarioFormComponent implements OnInit{
 
+  title: string = "Registrar";
   usuarioForm: FormGroup;
 
-  constructor(){
+  constructor(
+    private usuarioService: UsuariosServiceService,
+    private activdateRoute: ActivatedRoute
+
+
+  ){
     this.usuarioForm = new FormGroup({
       nombre: new FormControl('', [Validators.required]),
       apellido: new FormControl('', [Validators.required]),
@@ -32,12 +41,42 @@ export class DetalleUsuarioFormComponent implements OnInit{
     }, []);
   }
 
-  ngOnInit(){
-  }
-
 
   datosUsuarios(){
     this.usuarioForm.value
+  }
 
+
+  ngOnInit(): void {
+    this.activdateRoute.params.subscribe(async (params:any)=> {
+
+      let id: number = (params.id); 
+      if (id) {
+        this.title = 'Actualizar';
+        let response: any = await this.usuarioService.getById(id);
+        const usuario: Usuario = response; 
+
+
+        this.usuarioForm = new FormGroup({
+          nombre: new FormControl(usuario.nombre, [Validators.required]),
+          apellido: new FormControl(usuario.apellido, [Validators.required]),
+          email: new FormControl(usuario.email, [
+            Validators.required,
+            Validators.pattern(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)]),
+          contrasena: new FormControl(usuario.contrasena, [
+            Validators.required,
+            Validators.minLength(3)
+          ]),
+          pais: new FormControl(usuario.pais, [Validators.required]),
+          ciudad: new FormControl(usuario.ciudad, [Validators.required]),
+          codigo_postal: new FormControl(usuario.codigo_postal, [
+            Validators.required, 
+            Validators.pattern('^(0[1-9]|[1-4]\\d|5[0-2])\\d{3}$')]),
+          edad: new FormControl(usuario.edad, [Validators.required]),
+          rol: new FormControl(usuario.rol, [Validators.required]),
+          estado: new FormControl(usuario.estado, [Validators.required]),
+        }, []);
+      }
+    }) 
   }
 }
