@@ -1,1 +1,128 @@
-<p>detalle-pedido-form works!</p>
+<!--<h1>{{}} usuario</h1>
+<app-notifications [msg]="msg" [type]="type"></app-notifications>-->
+
+<nav>
+    <ul class="menu">
+        <li><a class="menu-item" href="detallePedido">Pedidos</a></li>
+        <li><a class="menu-item" href="detalleUsuario">Perfil</a></li>
+    </ul>
+</nav>
+
+<hr>
+<form [formGroup]="nuevoPedido" (ngSubmit)=" recogerDatosForm()" class="formulario-global">
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <label for="fecha_creacion" class="form-label">Fecha de creación</label>
+                <input class="form-control" type="date" id="fecha_creacion" formControlName="fecha_creacion">
+            </div>
+            <div class="col">
+                <label for="estado" class="form-label">Estado</label>
+                <input class="form-control" type="text" id="estado" formControlName="estado">
+            </div>
+            <div class="col">
+                <label for="operario_asignado" class="form-label">Operario asignado</label>
+                <input class="form-control" type="text" id="operario_asignado" formControlName="operario_asignado">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="fecha_salida" class="form-label">Fecha de salida</label>
+                <input class="form-control" type="date" id="fecha_salida" formControlName="fecha_salida">
+            </div>
+            <div class="col">
+                <label for="fecha_llegada" class="form-label">Fecha de llegada</label>
+                <input class="form-control" type="date" id="fecha_llegada" formControlName="fecha_llegada">
+            </div>
+            <div class="col">
+                <label for="camion_asignado" class="form-label">Camión asignado</label>
+                <input class="form-control" type="text" id="camion_asignado" formControlName="camion_asignado">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="capacidad" class="form-label">Capacidad</label>
+                <input class="form-control" type="number" id="capacidad" formControlName="capacidad">
+            </div>
+            <div class="col">
+                <label for="medida" class="form-label">Medida</label>
+                <input class="form-control" type="text" id="medida" formControlName="medida">
+            </div>
+            <div class="col">
+                <label for="usuario_creador" class="form-label">Usuario creador</label>
+                <input class="form-control" type="text" id="usuario_creador" formControlName="usuario_creador">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="almacen_origen" class="form-label">Almacén de origen</label>
+                <input class="form-control" type="text" id="almacen_origen" formControlName="almacen_origen">
+            </div>
+            <div class="col">
+                <label for="almacen_destino" class="form-label">Almacén de destino</label>
+                <input class="form-control" type="text" id="almacen_destino" formControlName="almacen_destino">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="observaciones" class="form-label">Observaciones</label>
+                <input class="form-control" type="text" id="observaciones" formControlName="observaciones">
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive-sm">
+        <caption>Añadir material</caption>
+        <hr>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Nºmaterial</th>
+                    <th scope="col">Nombre material</th>
+                    <th scope="col">Categoría</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Total stock</th>
+                    <th scope="col">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row"><input class="form-control" type="number" id="n_material"
+                            formControlName="n_material"></th>
+                    <td><input class="form-control" type="text" id="nombre_material" formControlName="nombre_material">
+                    </td>
+                    <td><input class="form-control" type="text" id="categoria" formControlName="categoria">
+                    </td>
+                    <td><input class="form-control" type="number" id="stock" formControlName="stock"></td>
+                    <td><input class="form-control" type="number" id="stock_total" formControlName="stock_total"></td>
+
+                    <td><button class="material-symbols-outlined icon">delete</button></td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                    <td>200</td>
+                    <td><button class="material-symbols-outlined icon">delete</button></td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                    <td>300</td>
+                    <td><button class="material-symbols-outlined icon">delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="botones">
+        <div class="btn-crear">
+            <input type="submit" value="Crear nuevo pedido" class="btn btn-success mt-3">
+        </div>
+        <div>
+            <input type="reset" value="Cancelar" class="btn btn-danger mt-3">
+        </div>
+    </div>
+</form>
