@@ -25,7 +25,9 @@ import { RoleGuard } from './guards/role.guard';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/pedidos'},
   { path: 'login', 
-    component: LoginFormComponent
+    component: LoginFormComponent,
+    canActivate: [LoginGuard],
+    data: {pantallaLogin : true}
   },
   { path: 'pedidos', 
     component: PedidosComponent, 
