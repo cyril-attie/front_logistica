@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Componentes
 import { AppRoutingModule } from './app-routing.module';
@@ -51,12 +51,18 @@ import { DetalleCamionFormComponent } from './components/formulario/detalle-cami
     BrowserModule,
 <<<<<<< develop
     AppRoutingModule, 
+<<<<<<< HEAD
     HttpClientModule
 =======
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
 >>>>>>> Detalle Pedido Form
+=======
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
+>>>>>>> develop
   ],
   providers: [],
   bootstrap: [AppComponent]

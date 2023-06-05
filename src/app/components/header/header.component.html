@@ -4,7 +4,8 @@
     </div>
     <nav>
         <ul class="menu">
-            <li><a class="menu-item" href="loginForm">Log In</a></li>
+            <li *ngIf="!isLogged"><a class="menu-item" [routerLink]="['/login']">Log In</a></li>
+            <li *ngIf="isLogged"><a  class="menu-item" (click)="logout()">Log Out</a></li>
         </ul>
     </nav>
 </header>
