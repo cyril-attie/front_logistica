@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.service';
 import jwtDecode from "jwt-decode";
+import * as myGlobals from './../../../general/globals';
 
 @Component({
   selector: 'app-login-form',
@@ -22,7 +23,7 @@ export class LoginFormComponent {
         Validators.required,
         Validators.pattern(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)
       ]),
-      password: new FormControl("", [
+      contrasena: new FormControl("", [
         Validators.required,
         Validators.minLength(3)
       ])
@@ -33,26 +34,33 @@ export class LoginFormComponent {
   async onSubmitLogin() : Promise<void> {
     const response = await this.usuariosService.login(
                       this.formModel.value);
+    
+    //Mensaje de error si no va bien
     if (!response.token) {
       return alert("No ha ido bien");
     } 
     
     //Obtenemos rol
     const tokenDecode = 
-        jwtDecode<{ user_role: string, 
+        jwtDecode<{ roles_id: string, 
                     user_id: number, 
                     iat: number, 
                     exp: number 
                   }>(response.token!);
+
+    //Mensaje de error si no se obtiene el rol
     if (!tokenDecode){
       return alert("No ha ido bien por el rol");
     }
 
     //Guardamos en variables del navegador
     localStorage.setItem('token_almacen', response.token);
-    localStorage.setItem('role_almacen', tokenDecode.user_role);
-
+    localStorage.setItem('rol_almacen', tokenDecode.roles_id);
+    console.log("Te has logedo correctamente - " + response.token + " - " + tokenDecode.roles_id );
+  
+    //Actualizamos variable de login
     this.usuariosService.changeLogin(true);
+    this.usuariosService.changeRol(parseInt(tokenDecode.roles_id));
     this.router.navigate(['/pedidos']);
 
   }
