@@ -8,17 +8,10 @@ import { Observable } from 'rxjs';
 export class LoginGuard implements CanActivate {
   constructor(private router : Router) {}
   canActivate() : boolean {
-    let token : string | null = localStorage.getItem('token-almacen');
+    let token : string | null = localStorage.getItem('token_almacen');
+    console.log(token);
     if (!token) {
       this.router.navigate(['/login']);
-      return false;
-    }
-    return true;
-  }
-
-  canDeactivate() {
-    let token : string | null = localStorage.getItem('token-almacen');
-    if (!token) {
       return false;
     }
     return true;

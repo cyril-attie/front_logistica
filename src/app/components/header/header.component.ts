@@ -10,10 +10,12 @@ import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.servi
 export class HeaderComponent {
 
   isLogged : boolean;
+  rol : Number;
 
   constructor(private usuariosServices: UsuariosServiceService,
               private router: Router) {
     this.isLogged = false;
+    this.rol = 0;
   }
 
   ngOnInit() {
@@ -21,11 +23,17 @@ export class HeaderComponent {
     this.usuariosServices.isLogged.subscribe(value => {
       this.isLogged = value;
     });
+    //Sabemos que rol tiene con la propiedad "rol" - APSP
+    this.usuariosServices.rol.subscribe(value => {
+      this.rol = value;
+    });
   }
 
   logout() {
     localStorage.removeItem('token_almacen');
+    localStorage.removeItem('rol_almacen');
     this.usuariosServices.changeLogin(false);
+    this.usuariosServices.changeRol(0);
     this.router.navigate(['/login']);
   }
 

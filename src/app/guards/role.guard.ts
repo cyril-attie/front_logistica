@@ -13,8 +13,7 @@ export class RoleGuard implements CanActivate {
   constructor(private router : Router) {}
   
   canActivate(route: ActivatedRouteSnapshot) : boolean {
-    var getRole : string |any = localStorage.getItem('token_almacen');
-      this.router.navigate(['/home']);
+    var getRole : string |any = localStorage.getItem('rol_almacen');
     if (route.data.role && 
         route.data.role.length > 0 &&
         route.data.role.find(
