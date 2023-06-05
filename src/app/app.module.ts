@@ -1,6 +1,5 @@
 // Librerías 
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -51,29 +50,10 @@ import { SubHeaderComponent } from './components/sub-header/sub-header.component
   ],
   imports: [
     BrowserModule,
-<<<<<<< develop
-<<<<<<< develop
     AppRoutingModule, 
-<<<<<<< HEAD
-    HttpClientModule
-=======
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
->>>>>>> Detalle Pedido Form
-=======
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
->>>>>>> develop
-=======
-    AppRoutingModule,
-    HttpClientModule,
-    AppRoutingModule,
-    FormsModule,
     ReactiveFormsModule,
-
->>>>>>> Pedidos Component
   ],
   providers: [],
   bootstrap: [AppComponent]
