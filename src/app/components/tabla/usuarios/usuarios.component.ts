@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { PropiedadesTabla } from 'src/app/interfaces/propiedades-tabla';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.service';
+import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -17,11 +18,12 @@ export class UsuariosComponent implements OnInit{
     columnas: [],
     claves: []
   };
+  notificacionesService = inject(NotificacionesService)
 
-  constructor(private userService: UsuariosServiceService){}
+  constructor(private userService: UsuariosServiceService) {}
 
   async ngOnInit(): Promise<void> {
-
+    
     try{
       let response = await this.userService.getAll();
 
@@ -34,6 +36,5 @@ export class UsuariosComponent implements OnInit{
       console.log(error)
     }
   }
-
 
 }
