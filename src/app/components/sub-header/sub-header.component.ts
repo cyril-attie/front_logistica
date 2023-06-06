@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
 import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.service';
+import * as myGlobals from '../../general/globals';
 
 @Component({
   selector: 'app-sub-header',
@@ -13,9 +14,9 @@ export class SubHeaderComponent implements OnInit {
   usuario: string = "";
 
   rolesMap = new Map<Number, string>([
-    [2, 'Jefe de equipo'],
-    [3, 'Encargado'],
-    [4, 'Operario']
+    [myGlobals.rolJefeDeEquipo, 'Jefe de equipo'],
+    [myGlobals.rolEncargado, 'Encargado'],
+    [myGlobals.rolOperario, 'Operario']
   ]);
 
   constructor(
