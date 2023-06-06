@@ -3,6 +3,7 @@ import { Route, Router } from '@angular/router';
 import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.service';
 import * as myGlobals from '../../general/globals';
 
+
 @Component({
   selector: 'app-sub-header',
   templateUrl: './sub-header.component.html',

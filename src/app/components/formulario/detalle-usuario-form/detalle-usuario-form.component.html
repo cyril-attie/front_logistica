@@ -3,34 +3,40 @@
 
 
 <section class="template form">
-    <h2>{{ title }} usuario </h2>
+    <h2 class="mb-5">{{ title }} usuario </h2>
     <form [formGroup]="usuarioForm" (ngSubmit)="datosUsuarios()"></form>
 
 
 
         <div class="container-1">
 
-                <div class="wp-img">
+                <div class="row wp-img">
                     <label for="imagen" class="textImagen"></label>
                     <input type="text" formControlName="imagen" placeholder="Añadir imagen" class="inputImagen">
                 </div>
 
-            <div class="wp-text"> 
-                <div>
-                    <label for="nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" formControlName="nombre">
+            <div class="row"> 
+                <div class="wp-text-1 gap-5">
+                  
+                    <div>
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" formControlName="nombre">
+                     </div>
+                     <div>
+                         <label for="apellido" class="form-label">Apellido</label>
+                         <input type="text" class="form-control" formControlName="apellido">
+                     </div>
                 </div>
-                <div>
-                    <label for="apellido" class="form-label">Apellido</label>
-                    <input type="text" class="form-control" formControlName="apellido">
-                </div>
-                <div>
-                    <label for="email" class="form-label">Email</label>
-                    <input type="text" class="form-control" formControlName="email">
-                </div>
-                <div>
-                    <label for="contrasena" class="form-label">Contraseña</label>
-                    <input type="text" class="form-control" formControlName="contrasena">
+
+                <div class="wp-text-2 gap-5">
+                    <div>
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" class="form-control" formControlName="email">
+                    </div>
+                    <div>
+                        <label for="contrasena" class="form-label">Contraseña</label>
+                        <input type="text" class="form-control" formControlName="contrasena">
+                    </div>
                 </div>
             </div>
         </div>
@@ -40,32 +46,61 @@
 
 
             <div class="container-2">
-                <div>
-                    <label for="pais" class="form-label">País</label>
-                    <input type="text" class="form-control" formControlName="pais">
-                </div>
-                <div>
-                    <label for="ciudad" class="form-label">Ciudad</label>
-                    <input type="text" class="form-control" formControlName="ciudad">
-                </div>
-                <div>
-                    <label for="codigo_postal" class="form-label">Código postal</label>
-                    <input type="number" class="form-control" formControlName="codigo_postal">
-                </div>
-                <div>
-                    <label for="edad" class="form-label">Edad</label>
-                    <input type="number" class="form-control" formControlName="edad">
-                </div>
-                <div>
-                    <label for="rol" class="form-label">Rol</label>
-                    <input type="text" class="form-control" formControlName="Rol">
-                </div>
-                <div>
-                    <label for="estado" class="form-label">Estado</label>
-                    <input type="text" class="form-control" formControlName="estado">
-                </div>
-            </div>
+                <div class="row">
 
-    <input type="submit" value="Crear nuevo usuario" class="btn btn-dark mt-3">
+                    <div class="wp-text-3 gap-5">
+                        <div>
+                            <label for="pais" class="form-label">País</label>
+                            <input type="text" class="form-control" formControlName="pais">
+                        </div>
+                        <div>
+                            <label for="ciudad" class="form-label">Ciudad</label>
+                            <input type="text" class="form-control" formControlName="ciudad">
+                        </div>
+                        <div>
+                            <label for="codigo_postal" class="form-label">Código postal</label>
+                            <input type="number" class="form-control" formControlName="codigo_postal">
+                        </div>
+                    </div>
+    
+                    <div class="wp-text-4 gap-5">
+                        <div>
+                            <label for="edad" class="form-label">Edad</label>
+                            <input type="number" class="form-control" formControlName="edad">
+                        </div>
+                        <div>
+                            <label for="rol" class="form-label">Rol</label>
+                            <input type="text" class="form-control" formControlName="Rol">
+                        </div>
+                        <div>
+                            <label for="estado" class="form-label">Estado</label>
+                            <input type="text" class="form-control" formControlName="estado">
+                        </div>
+                    </div>
+                </div>
+            </div> 
 
+</section>
+
+<section>
+
+
+    <div class="input mt-4 d-flex justify-content-end">
+        <button class="btn-edit">Editar usuario</button>
+        <button class="btn-new">Crear nuevo usuario</button>
+        <button class="btn btn-cancel" (click)="cancelar()">Cancelar</button>
+        <button class="btn btn-cancel" (click)="eliminar()">Eliminar</button>
+    </div>
+    <!--Si el usuario existe, botones Editar/Elimiar. Si no existe, botones Crear/Cancelar-->
+     <!--
+        TENGO QUE REVISAR ESTO (igual con ngIf template Else)
+
+
+          <div class="input mt-4 d-flex justify-content-end">
+        <button *ngIf="id > 0" class="btn-edit">Editar usuario</button>
+        <button *ngIf="id === 0" class="btn-new">Crear nuevo usuario</button>
+        <button class="btn btn-cancel" (click)="cancelar()">{{button}}</button>
+    </div>
+    -->
+   
 </section>
