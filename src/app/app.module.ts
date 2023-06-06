@@ -25,6 +25,7 @@ import { DetalleMaterialFormComponent } from './components/formulario/detalle-ma
 import { DetalleCamionFormComponent } from './components/formulario/detalle-camion-form/detalle-camion-form.component';
 import { SubHeaderComponent } from './components/sub-header/sub-header.component';
 import { TablaComponent } from './components/utils/tabla/tabla.component';
+import { NotificacionesComponent } from './components/utils/notificaciones/notificaciones.component';
 
 
 
@@ -49,6 +50,7 @@ import { TablaComponent } from './components/utils/tabla/tabla.component';
     DetalleCamionFormComponent,
     SubHeaderComponent,
     TablaComponent,
+    NotificacionesComponent,
   ],
   imports: [
     BrowserModule,
