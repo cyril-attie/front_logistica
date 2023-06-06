@@ -20,6 +20,7 @@ export class UsuariosServiceService {
     this._isLogged = new BehaviorSubject(
                       localStorage.getItem('token_almacen') ? true : false);
     let rol_almacen : Number | any = 0;
+    
     if (localStorage.getItem('rol_almacen')) {
       const getRole : any = localStorage.getItem('rol_almacen');
       rol_almacen = parseInt(getRole);
