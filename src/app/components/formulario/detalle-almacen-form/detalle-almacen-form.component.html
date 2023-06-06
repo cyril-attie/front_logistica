@@ -1,1 +1,65 @@
-<p>detalle-almacen-form works!</p>
+<nav>
+    <ul class="menu">
+        <li><a class="menu-item" href="usuarios">Usuarios</a></li>
+        <li><a class="menu-item" href="almacenes">Almacenes</a></li>
+        <li><a class="menu-item" href="camiones">Camiones</a></li>
+        <li><a class="menu-item" href="detalleUsuario">Perfil</a></li>
+    </ul>
+</nav>
+
+<div class="wp">
+    <a href="#" class="new">Crear nuevo almacén</a>
+</div>
+
+<hr>
+
+<form [formGroup]="detalleAlmacen" (ngSubmit)="recogerDatosForm()" class="formulario-global">
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <label for="nombre_almacen" class="form-label">Nombre Almacén</label>
+                <input class="form-control" type="text" id="nombre_almacen" formControlName="nombre_almacen">
+            </div>
+            <div class="col">
+                <label for="calle" class="form-label">Calle</label>
+                <input class="form-control" type="text" id="calle" formControlName="calle">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="localidad" class="form-label">Localidad</label>
+                <input class="form-control" type="text" id="localidad" formControlName="localidad">
+            </div>
+            <div class="col">
+                <label for="pais" class="form-label">País</label>
+                <input class="form-control" type="text" id="pais" formControlName="pais">
+            </div>
+            <div class="col">
+                <label for="codigo_postal" class="form-label">Código Postal</label>
+                <input class="form-control" type="text" id="codigo_postal" formControlName="codigo_postal">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="latitud" class="form-label">Latitud</label>
+                <input class="form-control" type="number" id="latitud" formControlName="latitud">
+            </div>
+            <div class="col">
+                <label for="longitud" class="form-label">Longitud</label>
+                <input class="form-control" type="number" id="longitud" formControlName="longitud">
+            </div>
+            <div class="col">
+                <label for="capacidad" class="form-label">Capacidad</label>
+                <input class="form-control" type="number" id="capacidad" formControlName="capacidad">
+            </div>
+        </div>
+    </div>
+
+    <div class="botones">
+        <div class="btn-crear">
+            <input type="edit" value="Editar almacén" class="btn btn-warning mt-3">
+        </div>
+        <div>
+            <input type="delete" value="Eliminar" class="btn btn-danger mt-3">
+        </div>
