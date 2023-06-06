@@ -1,8 +1,10 @@
 // Librerías 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 // Componentes
 import { AppRoutingModule } from './app-routing.module';
@@ -25,7 +27,6 @@ import { DetalleMaterialFormComponent } from './components/formulario/detalle-ma
 import { DetalleCamionFormComponent } from './components/formulario/detalle-camion-form/detalle-camion-form.component';
 import { SubHeaderComponent } from './components/sub-header/sub-header.component';
 import { TablaComponent } from './components/utils/tabla/tabla.component';
-import { NotificacionesComponent } from './components/utils/notificaciones/notificaciones.component';
 
 
 
@@ -50,14 +51,15 @@ import { NotificacionesComponent } from './components/utils/notificaciones/notif
     DetalleCamionFormComponent,
     SubHeaderComponent,
     TablaComponent,
-    NotificacionesComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule, 
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
