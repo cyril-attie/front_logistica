@@ -27,6 +27,7 @@ export class TablaComponent {
   ngDoCheck(): void {
     if (this.tablaColumnas.length <= 0) {
 
+      console.log(this.propiedadesTabla);
       //Informamos columnas de la tabla y las claves(estas no se utilizan en el html)
       this.tablaColumnas = this.propiedadesTabla.columnas;
       this.tablaClaves = this.propiedadesTabla.claves;
@@ -40,7 +41,6 @@ export class TablaComponent {
         return nuevoObjeto;
       });
 
-      
       //Una vez filtrada procedemos a ordenar las propiedades segun el orden de las claves que hemos establecido
       //de esta forma labels, valores y claves seran array y todos en el mismo orden -APSP
       this.tablaValores = responseFiltrada.map((objeto) => {
