@@ -41,6 +41,7 @@ export class TablaComponent {
         return nuevoObjeto;
       });
 
+      
       //Una vez filtrada procedemos a ordenar las propiedades segun el orden de las claves que hemos establecido
       //de esta forma labels, valores y claves seran array y todos en el mismo orden -APSP
       this.tablaValores = responseFiltrada.map((objeto) => {
