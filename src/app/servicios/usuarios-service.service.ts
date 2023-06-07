@@ -3,6 +3,7 @@ import { Usuario } from '../interfaces/usuario';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, firstValueFrom, lastValueFrom } from 'rxjs';
 import { Login } from '../interfaces/login.interface';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class UsuariosServiceService {
   constructor(private httpClient: HttpClient) {
 
     // De momento estoy usando esta URL cómo prueba de usuarios
-    this.baseUrl = 'http://34.65.131.41:3000/api/usuarios';
+    //this.baseUrl = 'http://34.65.131.41:3000/api/usuarios';
+    this.baseUrl = environment.apiUrl + '/api/usuarios';
     
     this._isLogged = new BehaviorSubject(
                       localStorage.getItem('token_almacen') ? true : false);

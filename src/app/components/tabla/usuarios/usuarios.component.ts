@@ -16,8 +16,15 @@ export class UsuariosComponent implements OnInit{
   propiedadesTabla: PropiedadesTabla = {
     response: [],
     columnas: [],
-    claves: []
+    claves: [],
+    botones: {
+      ver : false,
+      editar : false,
+      borrar: false,
+    },
+    url_param: ""
   };
+
   notificacionesService = inject(NotificacionesService)
 
   constructor(private userService: UsuariosServiceService) {}
@@ -26,12 +33,14 @@ export class UsuariosComponent implements OnInit{
     
     try{
       let response = await this.userService.getAll();
-
       //Almacenamos los valores a a propiedad de la tabla
       this.propiedadesTabla.response = response;
-      this.propiedadesTabla.columnas = ["Nombre","Email","Edad","Ciudad","Estado",];
-      this.propiedadesTabla.claves = ["nombre","email","edad","ciudad","pais"];
-
+      this.propiedadesTabla.columnas = ["ID","Nombre","Email","Edad","Ciudad","Estado",];
+      this.propiedadesTabla.claves = ["usuarios_id","nombre","email","edad","ciudad","pais"];
+      this.propiedadesTabla.botones.ver = true;
+      this.propiedadesTabla.botones.editar = true;
+      this.propiedadesTabla.botones.borrar = true;
+      this.propiedadesTabla.url_param = "usuario";
     } catch(error){
       console.log(error)
     }

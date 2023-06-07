@@ -16,7 +16,13 @@ export class TablaComponent {
   @Input() propiedadesTabla : PropiedadesTabla = {
     columnas: [],
     response: [],
-    claves: []
+    claves: [],
+    botones: {
+      ver : false,
+      editar : false,
+      borrar: false,
+    },
+    url_param: ""
   };
 
   constructor(private userService: UsuariosServiceService){}
@@ -27,7 +33,6 @@ export class TablaComponent {
   ngDoCheck(): void {
     if (this.tablaColumnas.length <= 0) {
 
-      console.log(this.propiedadesTabla);
       //Informamos columnas de la tabla y las claves(estas no se utilizan en el html)
       this.tablaColumnas = this.propiedadesTabla.columnas;
       this.tablaClaves = this.propiedadesTabla.claves;
