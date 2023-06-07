@@ -79,12 +79,12 @@ const routes: Routes = [
     canActivate: [LoginGuard,RoleGuard],
     data: {role : [myGlobals.rolSuperusuario,myGlobals.rolJefeDeEquipo]}
   },
-  { path: 'comion/nuevo',
+  { path: 'camion/nuevo',
     component: DetalleCamionFormComponent,
     canActivate: [LoginGuard,RoleGuard],
     data: {role : [myGlobals.rolSuperusuario,myGlobals.rolJefeDeEquipo]}
   },
-  { path: 'comion/:id',
+  { path: 'camion/:id',
     component: DetalleCamionFormComponent,
     canActivate: [LoginGuard,RoleGuard],
     data: {role : [myGlobals.rolSuperusuario,myGlobals.rolJefeDeEquipo]}
