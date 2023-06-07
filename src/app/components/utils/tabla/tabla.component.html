@@ -1,7 +1,5 @@
 <div class="wp">
-    <a href="#" class="new">Ver</a>
-    <a href="#" class="new">Editar</a>
-    <a href="#" class="new">Crear nuevo</a>
+    <a [routerLink]="['/',propiedadesTabla.url_param,'nuevo']" class="btn btn-warning">Crear nuevo</a>
     <a href="#" class="new">(Filtros)</a>
 </div>
 
@@ -13,13 +11,17 @@
             <th *ngFor="let columna of tablaColumnas">
                 <span>{{columna}}</span>
             </th> 
+            <th *ngIf="propiedadesTabla.botones.ver"><span>Ver</span></th>
+            <th *ngIf="propiedadesTabla.botones.editar"><span>Editar</span></th>
+            <th *ngIf="propiedadesTabla.botones.borrar"><span>Borrar</span></th>
+
         </tr> 
     </thead> 
     <tbody> 
-        <tr  *ngFor="let row of tablaValores"> 
-            <td *ngFor="let column of row">
-                {{column}}
-            </td>
-        </tr> 
+        
+        <ng-container *ngFor="let row of tablaValores;">
+            <!-- Esta forma es un selector nuevo para abrir un componente, se ha hecho asi ya que sino renderiza mal el DOM por culpa de la etiqueta HTML del componente "appItemTabla" - APSP -->
+            <tr appItemTabla [rowValue]="row" [botones]="propiedadesTabla.botones" [url_param]="propiedadesTabla.url_param"></tr>
+          </ng-container>
     </tbody> 
 </table>
