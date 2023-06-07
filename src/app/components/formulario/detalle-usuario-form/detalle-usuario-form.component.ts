@@ -18,7 +18,7 @@ export class DetalleUsuarioFormComponent implements OnInit{
 
   constructor(
     private usuarioService: UsuariosServiceService,
-    private activdateRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router)
       {
 
@@ -108,7 +108,7 @@ export class DetalleUsuarioFormComponent implements OnInit{
 
 
   ngOnInit(): void {
-    this.activdateRoute.params.subscribe(async (params:any)=> {
+    this.activatedRoute.params.subscribe(async (params:any)=> {
 
       this.id = (params.id); 
       if (this.id) {

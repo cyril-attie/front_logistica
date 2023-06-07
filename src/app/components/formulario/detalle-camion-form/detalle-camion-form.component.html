@@ -1,1 +1,43 @@
-<p>detalle-camion-form works!</p>
+
+
+
+<form [formGroup]="camionForm" (ngSubmit)="datosCamion()" >
+
+    <section class="template form">
+        <h2 class="mb-5">{{ title }} camión </h2>
+            <div class="wp-text gap-5">
+                <div>
+                    <label for="matricula" class="form-label">Matrícula</label>
+                    <input type="text" class="form-control" formControlName="matricula">
+                </div>
+                <div>
+                    <label for="capacidad" class="form-label">Capacidad</label>
+                    <input type="number" class="form-control" formControlName="capacidad">
+                </div>
+                <div>
+                    <label for="estado" class="form-label">Estado</label>
+                    <input type="text" class="form-control" formControlName="estado">
+                </div>
+            </div>
+    </section>
+    
+     <section>
+            <div class="input d-flex justify-content-end">
+                <ng-container *ngIf="camionExiste; else crearCamion">
+                    <button class="btn-edit" (click)="actualizar()">Editar camión</button>
+                    <button class="btn-red" (click)="cancelar()">Cancelar</button>
+                </ng-container>
+                <ng-template #crearCamion>
+                    <button class="btn-new" (click)="datosCamion()">Crear nuevo camión</button>
+                    <button class="btn-red" (click)="eliminar()">Eliminar</button>
+                </ng-template>
+            </div>
+     </section>
+
+
+
+
+
+    
+
+    

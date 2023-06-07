@@ -17,7 +17,7 @@ export class UsuariosServiceService {
 
   constructor(private httpClient: HttpClient) {
 
-    // De momento estoy usando esta URL cómo prueba
+    // De momento estoy usando esta URL cómo prueba de usuarios
     this.baseUrl = 'http://34.65.131.41:3000/api/usuarios';
     
     this._isLogged = new BehaviorSubject(
@@ -72,7 +72,7 @@ export class UsuariosServiceService {
   }
 
   // Eliminar un usuario
-  delete(pId: string): Promise<any>{
+  delete(pId: number): Promise<any>{
     return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}${pId}`))
    
   }
