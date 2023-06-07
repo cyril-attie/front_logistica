@@ -10,5 +10,17 @@
             </ul>
         </nav>
     </div>
+<<<<<<< HEAD
     <app-sub-header></app-sub-header>
 </header>
+=======
+    <nav>
+        <ul class="menu">
+            <li *ngIf="!isLogged"><a class="menu-item" [routerLink]="['/login']">Log In</a></li>
+            <li *ngIf="isLogged"><a  class="menu-item" (click)="logout()">Log Out</a></li>
+        </ul>
+        
+    </nav>
+</header>
+<app-sub-header></app-sub-header>
+>>>>>>> camionesComponent
