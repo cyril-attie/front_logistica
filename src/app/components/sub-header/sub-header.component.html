@@ -1,18 +1,22 @@
-<nav>
-    <ul id="navigation" *ngIf="rolesMap.get(rol) === 'Operario'">
-        <li class="section"><a class="nav-item" [routerLink]="['/pedidos']">Pedidos</a></li>
-        <li class="section"><a class="nav-item" [routerLink]="['/perfil']">Perfil</a></li>
-    </ul>
-    <ul id="navigation" *ngIf="rolesMap.get(rol) === 'Encargado'">
-        <li class="section"><a class="nav-item" [routerLink]="['/pedidos']">Pedidos</a></li>
-        <li class="section"><a class="nav-item" [routerLink]="['/materiales']">Materiales</a></li>
-        <li class="section"><a class="nav-item" [routerLink]="['/perfil']">Perfil</a></li>
-       
-    </ul>
-    <ul id="navigation" *ngIf="rolesMap.get(rol) === 'Jefe de equipo'">
-        <li class="section"><a class="nav-item" [routerLink]="['/usuarios']">Usuarios</a></li>
-        <li class="section"><a class="nav-item" [routerLink]="['/almacenes']">Almacenes</a></li>
-        <li class="section"><a class="nav-item" [routerLink]="['/camiones']">Camiones</a></li>
-        <li class="section"><a class="nav-item" [routerLink]="['/perfil']">Perfil</a></li>
-    </ul>
-</nav>
+
+<div class="div-nav">
+
+    <nav class="d-flex justify-content-start">
+        <ul class="navigation" *ngIf="rolesMap.get(rol) === 'Operario'">
+            <li><a class="nav-item" [routerLink]="['/pedidos']">Pedidos</a></li>
+            <li><a class="nav-item" [routerLink]="['/perfil']">Perfil</a></li>
+        </ul>
+        <ul class="navigation" *ngIf="rolesMap.get(rol) === 'Encargado'">
+            <li><a class="nav-item" [routerLink]="['/pedidos']">Pedidos</a></li>
+            <li><a class="nav-item" [routerLink]="['/materiales']">Materiales</a></li>
+            <li><a class="nav-item" [routerLink]="['/perfil']">Perfil</a></li>
+        
+        </ul>
+        <ul class="navigation" *ngIf="rolesMap.get(rol) === 'Jefe de equipo'">
+            <li><a class="nav-item" [routerLink]="['/usuarios']">Usuarios</a></li>
+            <li><a class="nav-item" [routerLink]="['/almacenes']">Almacenes</a></li>
+            <li><a class="nav-item" [routerLink]="['/camiones']">Camiones</a></li>
+            <li><a class="nav-item" [routerLink]="['/perfil']">Perfil</a></li>
+        </ul>
+    </nav>
+</div>
