@@ -1,49 +1,42 @@
 
 
-
+<form [formGroup]="usuarioForm" (ngSubmit)="datosUsuario()">
 
 <section class="template form">
     <h2 class="mb-5">{{ title }} usuario </h2>
-    <form [formGroup]="usuarioForm" (ngSubmit)="datosUsuarios()"></form>
+  
+            <div class="container-1">
 
-
-
-        <div class="container-1">
-
-                <div class="row wp-img">
-                    <label for="imagen" class="textImagen"></label>
-                    <input type="text" formControlName="imagen" placeholder="Añadir imagen" class="inputImagen">
-                </div>
-
-            <div class="row"> 
-                <div class="wp-text-1 gap-5">
-                  
-                    <div>
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" formControlName="nombre">
-                     </div>
-                     <div>
-                         <label for="apellido" class="form-label">Apellido</label>
-                         <input type="text" class="form-control" formControlName="apellido">
-                     </div>
-                </div>
-
-                <div class="wp-text-2 gap-5">
-                    <div>
-                        <label for="email" class="form-label">Email</label>
-                        <input type="text" class="form-control" formControlName="email">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <label for="imagen" class="textImagen"></label>
+                        <input type="text" formControlName="imagen" placeholder="Añadir imagen" class="inputImagen">
                     </div>
-                    <div>
-                        <label for="contrasena" class="form-label">Contraseña</label>
-                        <input type="text" class="form-control" formControlName="contrasena">
+
+                <div class="row"> 
+                    <div class="wp-text-1 gap-5">
+                    
+                        <div>
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" formControlName="nombre">
+                        </div>
+                        <div>
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" class="form-control" formControlName="apellido">
+                        </div>
+                    </div>
+
+                    <div class="wp-text-2 gap-5">
+                        <div>
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" class="form-control" formControlName="email">
+                        </div>
+                        <div>
+                            <label for="contrasena" class="form-label">Contraseña</label>
+                            <input type="text" class="form-control" formControlName="contrasena">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-
-
-
 
             <div class="container-2">
                 <div class="row">
@@ -80,27 +73,23 @@
                 </div>
             </div> 
 
-</section>
+        </section>
 
-<section>
+        <section>
+            <div class="input d-flex justify-content-end">
 
-
-    <div class="input mt-4 d-flex justify-content-end">
-        <button class="btn-edit">Editar usuario</button>
-        <button class="btn-new">Crear nuevo usuario</button>
-        <button class="btn btn-cancel" (click)="cancelar()">Cancelar</button>
-        <button class="btn btn-cancel" (click)="eliminar()">Eliminar</button>
-    </div>
-    <!--Si el usuario existe, botones Editar/Elimiar. Si no existe, botones Crear/Cancelar-->
-     <!--
-        TENGO QUE REVISAR ESTO (igual con ngIf template Else)
+                <ng-container *ngIf="usuarioExiste; else crearUsuario">
+                    <button class="btn-edit" (click)="actualizar()">Editar usuario</button>
+                    <button class="btn-red" (click)="cancelar()">Cancelar</button>
+                </ng-container>
 
 
-          <div class="input mt-4 d-flex justify-content-end">
-        <button *ngIf="id > 0" class="btn-edit">Editar usuario</button>
-        <button *ngIf="id === 0" class="btn-new">Crear nuevo usuario</button>
-        <button class="btn btn-cancel" (click)="cancelar()">{{button}}</button>
-    </div>
-    -->
-   
-</section>
+                <ng-template #crearUsuario>
+                    <button class="btn-new" (click)="datosUsuario()">Crear nuevo usuario</button>
+                    <button class="btn-red" (click)="eliminar()">Eliminar</button>
+
+                </ng-template>
+            </div>
+        
+        </section>
+</form>

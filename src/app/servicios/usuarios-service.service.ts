@@ -16,7 +16,10 @@ export class UsuariosServiceService {
   arrUsuarios: Usuario[] = [];
 
   constructor(private httpClient: HttpClient) {
+
+    // De momento estoy usando esta URL cómo prueba
     this.baseUrl = 'http://34.65.131.41:3000/api/usuarios';
+    
     this._isLogged = new BehaviorSubject(
                       localStorage.getItem('token_almacen') ? true : false);
     let rol_almacen : Number | any = 0;

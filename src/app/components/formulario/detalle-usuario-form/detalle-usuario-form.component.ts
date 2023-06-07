@@ -12,15 +12,24 @@ import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.servi
 export class DetalleUsuarioFormComponent implements OnInit{
 
   title: string = "Registrar";
-  button: string = "Cancelar";
   id: number = 0;
   usuarioForm: FormGroup;
+  usuarioExiste: boolean = false; 
 
   constructor(
     private usuarioService: UsuariosServiceService,
     private activdateRoute: ActivatedRoute,
     private router: Router)
       {
+
+      /**
+       ** EL USUARIO NO EXISTE --> CAMPOS CREAR USUARIO 
+       **/  
+
+      // Se verán los botones 'Crear nuevo usuario' y 'Cancelar'
+      this.usuarioExiste = false; 
+
+      // El formulario aparecerá vacío
       this.usuarioForm = new FormGroup({
         imagen: new FormControl('', [Validators.required]),
         nombre: new FormControl('', [Validators.required]),
@@ -42,10 +51,60 @@ export class DetalleUsuarioFormComponent implements OnInit{
       }, []);
   };
 
+  // Botón "Crear un nuevo usuario"
+  async datosUsuario(){
+    try { 
+      const usuario =  this.usuarioForm.value;
+      const response = await this.usuarioService.create(usuario);
+      console.log("Has creado un nuevo usuario", response);
 
-  datosUsuarios(){
-    this.usuarioForm.value
+    } catch (error) {
+      console.log(error);
+      return alert('No has introducido los datos correctamente')
+     
+    }
+   
   };
+
+  // Botón "Editar usuario"
+  async actualizar(){
+    try{
+      const usuario =  this.usuarioForm.value;
+      const response = await this.usuarioService.update(usuario);
+
+    }catch(error){
+      console.log(error);
+      return alert('No has actualizado los datos correctamente');
+    }
+  }
+
+  // Botón "Cancelar"
+  cancelar(){
+    this.router.navigate(['/usuarios']);
+  }
+
+
+  // Botón "Eliminar"
+  async eliminar(){
+    try{
+      const usuario =  this.usuarioForm.value;
+      const response = await this.usuarioService.delete(usuario);
+      alert("Has eliminado este usuario");
+      this.router.navigate(['/usuarios']);
+
+    }catch(error){
+      console.log(error);
+      return alert('No has eliminado el usuario, mira en la consola qué error ha surgido');
+    }
+  
+  }
+
+
+
+  /**
+  ** EL USUARIO SÍ EXISTE --> CAMPOS RELLENADOS
+  **/  
+
 
 
   ngOnInit(): void {
@@ -53,12 +112,16 @@ export class DetalleUsuarioFormComponent implements OnInit{
 
       this.id = (params.id); 
       if (this.id) {
+
+        //El título cambia a 'Actualizar'
         this.title = 'Actualizar';
-        this.button = 'Eliminar';
+
+        // Activa los botones 'Editar usuario' y 'Eliminar' 
+        this.usuarioExiste = true; 
         let response: any = await this.usuarioService.getById(this.id);
         const usuario: Usuario = response; 
 
-
+        // Los campos del formulario aparecen rellenados
         this.usuarioForm = new FormGroup({
           imagen: new FormControl(usuario.imagen, [Validators.required]),
           nombre: new FormControl(usuario.nombre, [Validators.required]),
@@ -80,24 +143,6 @@ export class DetalleUsuarioFormComponent implements OnInit{
           estado: new FormControl(usuario.estado, [Validators.required]),
         }, []);
       }
-
-
-
     }) 
   };
-
-
-  cancelar(){
-    this.router.navigate(['/usuarios']);
-  }
-
-  eliminar(){
-    localStorage.removeItem('token_almacen');
-    localStorage.removeItem('rol_almacen');
-    this.usuarioService.changeLogin(false);
-    this.usuarioService.changeRol(0);
-    this.router.navigate(['/usuarios']);
-  }
-
-  
 }
