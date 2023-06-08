@@ -28,6 +28,7 @@ import { DetalleCamionFormComponent } from './components/formulario/detalle-cami
 import { SubHeaderComponent } from './components/sub-header/sub-header.component';
 import { TablaComponent } from './components/utils/tabla/tabla.component';
 import { ItemTablaComponent } from './components/utils/item-tabla/item-tabla.component';
+import { DeleteButtonComponent } from './components/utils/delete-button/delete-button.component';
 
 
 
@@ -53,6 +54,7 @@ import { ItemTablaComponent } from './components/utils/item-tabla/item-tabla.com
     SubHeaderComponent,
     TablaComponent,
     ItemTablaComponent,
+    DeleteButtonComponent,
   ],
   imports: [
     BrowserModule,

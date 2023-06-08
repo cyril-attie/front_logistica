@@ -63,7 +63,7 @@
                         </div>
                         <div>
                             <label for="rol" class="form-label">Rol</label>
-                            <input type="text" class="form-control" formControlName="Rol">
+                            <input type="text" class="form-control" formControlName="rol">
                         </div>
                         <div>
                             <label for="estado" class="form-label">Estado</label>
@@ -79,8 +79,9 @@
             <div class="input d-flex justify-content-end">
 
                 <ng-container *ngIf="usuarioExiste; else crearUsuario">
-                    <button class="btn-edit" (click)="actualizar()">Editar usuario</button>
-                    <button class="btn-red" (click)="eliminar()">Eliminar</button>
+                    <button class="btn-edit" (click)="actualizar()">Actualizar</button>
+                    <app-delete-button [url_param]="'usuario'" [id]="id"></app-delete-button>
+                    <!--<button class="btn-red" (click)="eliminar()">Eliminar</button>-->
                 </ng-container>
 
                 <ng-template #crearUsuario>
