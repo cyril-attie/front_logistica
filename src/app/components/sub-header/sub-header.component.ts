@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Route, Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.service';
 import * as myGlobals from '../../general/globals';
+import { Usuario } from 'src/app/interfaces/usuario';
 
 
 @Component({
@@ -21,19 +22,23 @@ export class SubHeaderComponent implements OnInit {
   ]);
 
   constructor(
-    private usuariosService: UsuariosServiceService,
-    private router: Router
+    private usuarioService: UsuariosServiceService,
+    private router: Router, 
+    private activatedRoute: ActivatedRoute
   ){
 
     this.rol = 0;
 
   }
 
-  ngOnInit(){
+  ngOnInit(): void {
 
-     this.usuariosService.rol.subscribe(value => {
+
+      // roles
+     this.usuarioService.rol.subscribe(value => {
       this.rol = value;
       this.usuario = this.rolesMap.get(value) || "";});
+
 
       // OPCIÓN MANUAL 
       /*
@@ -49,3 +54,4 @@ export class SubHeaderComponent implements OnInit {
 
   }
 }
+
