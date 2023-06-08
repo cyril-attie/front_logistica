@@ -19,7 +19,7 @@ export class UsuariosServiceService {
   constructor(private httpClient: HttpClient) {
 
     // De momento estoy usando esta URL cómo prueba de usuarios
-    //this.baseUrl = 'http://34.65.131.41:3000/api/usuarios';
+    //this.baseUrl = 'http://34.65.131.41:3000/api/usuarios/';
     this.baseUrl = environment.apiUrl + '/api/usuarios';
     
     this._isLogged = new BehaviorSubject(
@@ -59,25 +59,27 @@ export class UsuariosServiceService {
     return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}`)) 
   }
   //Obtener mediante el ID
-  getById(pId: number) : Promise<any> {
-    return lastValueFrom(this.httpClient.get<Usuario>(`${this.baseUrl}${pId}`))
+  getById(id: number) : Promise<any> {
+    return lastValueFrom(this.httpClient.get<Usuario>(`${this.baseUrl}${id}`))
   }
 
   // Crear un nuevo usuario
-  create(pUser: Usuario): Promise <Usuario>{
-    return lastValueFrom(this.httpClient.post<Usuario>(this.baseUrl, pUser))
+  create(usuario: Usuario): Promise <Usuario>{
+    return lastValueFrom(this.httpClient.post<Usuario>(this.baseUrl, usuario))
   }
 
   // Actualizar un nuevo usuario
-  update(pUser: Usuario): Promise<Usuario>{
-    return lastValueFrom(this.httpClient.put<Usuario>(`${this.baseUrl}${pUser.id}`, pUser))
+  update(usuario: Usuario): Promise<Usuario>{
+    return lastValueFrom(this.httpClient.put<Usuario>(`${this.baseUrl}${usuario.id}`, usuario))
   }
 
   // Eliminar un usuario
-  delete(pId: number): Promise<any>{
-    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}${pId}`))
+  delete(id: number): Promise<any>{
+    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}${id}`))
    
   }
+
+
 
 } 
 
