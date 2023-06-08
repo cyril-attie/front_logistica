@@ -7,6 +7,6 @@
         <button [routerLink]="['/',url_param,rowValue[0]]" class="btn btn-warning">Editar</button>
     </td>
     <td *ngIf="last && botones.borrar">
-        <button class="btn btn-danger">Borrar</button >
+        <app-delete-button [url_param]="url_param" [id]="rowValue[0]"></app-delete-button>
     </td>
 </ng-container>

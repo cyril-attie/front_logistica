@@ -60,7 +60,7 @@ export class UsuariosServiceService {
   }
   //Obtener mediante el ID
   getById(id: number) : Promise<any> {
-    return lastValueFrom(this.httpClient.get<Usuario>(`${this.baseUrl}${id}`))
+    return lastValueFrom(this.httpClient.get<Usuario>(`${this.baseUrl}/${id}`))
   }
 
   // Crear un nuevo usuario
@@ -70,12 +70,12 @@ export class UsuariosServiceService {
 
   // Actualizar un nuevo usuario
   update(usuario: Usuario): Promise<Usuario>{
-    return lastValueFrom(this.httpClient.put<Usuario>(`${this.baseUrl}${usuario.id}`, usuario))
+    return lastValueFrom(this.httpClient.put<Usuario>(`${this.baseUrl}/${usuario.id}`, usuario))
   }
 
   // Eliminar un usuario
   delete(id: number): Promise<any>{
-    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}${id}`))
+    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}/${id}`))
    
   }
 

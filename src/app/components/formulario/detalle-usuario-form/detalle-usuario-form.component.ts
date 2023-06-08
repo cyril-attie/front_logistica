@@ -83,7 +83,7 @@ export class DetalleUsuarioFormComponent implements OnInit{
     this.router.navigate(['/usuarios']);
   }
 
-
+  /*
   // Botón "Eliminar"
   async eliminar(){
     try{
@@ -97,7 +97,7 @@ export class DetalleUsuarioFormComponent implements OnInit{
       return alert('No has eliminado el usuario, mira en la consola qué error ha surgido');
     }
   
-  }
+  }*/
 
 
 
@@ -108,7 +108,7 @@ export class DetalleUsuarioFormComponent implements OnInit{
 
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe(async (params:any)=> {
+    this.activatedRoute.params.subscribe(async (params:any) : Promise<void>=> {
 
       this.id = (params.id); 
       if (this.id) {
@@ -119,7 +119,7 @@ export class DetalleUsuarioFormComponent implements OnInit{
         // Activa los botones 'Editar usuario' y 'Eliminar' 
         this.usuarioExiste = true; 
         let response: any = await this.usuarioService.getById(this.id);
-        const usuario: Usuario = response; 
+        const usuario: Usuario = response[0]; 
 
         // Los campos del formulario aparecen rellenados
         this.usuarioForm = new FormGroup({
