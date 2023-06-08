@@ -62,17 +62,17 @@ const routes: Routes = [
   { path: 'almacenes', 
     component: AlmacenesComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : [myGlobals.rolEncargado]}
+    data: {role : [myGlobals.rolJefeDeEquipo]}
   },
   { path: 'almacen/nuevo',
     component: DetalleAlmacenFormComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : [myGlobals.rolEncargado]}
+    data: {role : [myGlobals.rolJefeDeEquipo]}
   },
   { path: 'almacen/:id',
     component: DetalleAlmacenFormComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : [myGlobals.rolEncargado]}
+    data: {role : [myGlobals.rolJefeDeEquipo]}
   },
   { path: 'camiones',
     component: CamionesComponent,
