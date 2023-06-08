@@ -43,7 +43,7 @@ export class LoginFormComponent {
     //Obtenemos rol
     const tokenDecode = 
         jwtDecode<{ roles_id: string, 
-                    user_id: number, 
+                    usuarios_id: string, 
                     iat: number, 
                     exp: number 
                   }>(response.token!);
@@ -56,7 +56,7 @@ export class LoginFormComponent {
     //Guardamos en variables del navegador
     localStorage.setItem('token_almacen', response.token);
     localStorage.setItem('rol_almacen', tokenDecode.roles_id);
-    localStorage.setItem('usuario_id', tokenDecode.user_id.toString())
+    localStorage.setItem('usuarios_id', response.usuarios_id);
     console.log("Te has logedo correctamente - " + response.token + " - " + tokenDecode.roles_id );
   
     //Actualizamos variable de login

@@ -18,6 +18,8 @@ export class DetallePerfilFormComponent implements OnInit {
   estado: number = 0;
   rol: number = 0;
    
+  id:string|null="";
+
   constructor(
     private userService: UsuariosServiceService,
     ){
@@ -26,13 +28,15 @@ export class DetallePerfilFormComponent implements OnInit {
   
 
   ngOnInit(): void {
-    let id = localStorage.getItem('usuario_id');
-    console.log('id', id)
-    console.log(JSON.stringify(localStorage))
-}};
+    debugger;
+    this.id = localStorage.getItem('usuarios_id');
+    
+}
 
+};
 
-  /*
+/*
+  
   ngOnInit(): void{
     const pantallaLogin = this.activatedRoute.data.subscribe.pantallaLogin;
     let id = localStorage.getItem('usuario_id');
@@ -47,7 +51,7 @@ export class DetallePerfilFormComponent implements OnInit {
      
     }
   }
-  */
+*/
   
 
   // Estado -> en la bbdd es activo 1, inactivo 0
