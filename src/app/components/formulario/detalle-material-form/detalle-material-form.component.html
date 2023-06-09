@@ -1,1 +1,60 @@
-<p>detalle-material-form works!</p>
+<nav>
+    <ul class="menu">
+        <li><a class="menu-item" href="pedidos">Pedidos</a></li>
+        <li><a class="menu-item" href="materiales">Materiales</a></li>
+        <li><a class="menu-item" href="perfil">Perfil</a></li>
+    </ul>
+</nav>
+
+<div class="wp">
+    <a href="#" class="new">Crear nuevo material</a>
+</div>
+
+<hr>
+
+<form [formGroup]="detalleMaterial" (ngSubmit)="recogerDatosForm()" class="formulario-global">
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <label for="n_material" class="form-label">NºMaterial</label>
+                <input class="form-control" type="number" id="n_material" formControlName="n_material">
+            </div>
+            <div class="col">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input class="form-control" type="text" id="nombre" formControlName="nombre">
+            </div>
+            <div class="col">
+                <label for="estado" class="form-label">Estado</label>
+                <input class="form-control" type="text" id="estado" formControlName="estado">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="categoria" class="form-label">Categoría</label>
+                <input class="form-control" type="text" id="categoria" formControlName="categoria">
+            </div>
+            <div class="col">
+                <label for="peso" class="form-label">Peso</label>
+                <input class="form-control" type="number" id="peso" formControlName="peso">
+            </div>
+            <div class="col">
+                <label for="stock" class="form-label">Stock</label>
+                <input class="form-control" type="number" id="stock" formControlName="stock">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <input class="form-control" type="text" id="descripcion" formControlName="descripcion">
+            </div>
+        </div>
+    </div>
+
+    <div class="botones">
+        <div class="btn-crear">
+            <input type="new" value="Crear material" class="btn btn-success mt-3">
+        </div>
+        <div>
+            <input type="delete" value="Eliminar" class="btn btn-danger mt-3">
+        </div>
