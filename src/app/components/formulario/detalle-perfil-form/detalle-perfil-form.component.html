@@ -1,26 +1,41 @@
+
 <section>
-    <div class="wp">
-        <img [src]="imagen" alt="ImagenPerfil" class="img">
-        <h2>{{nombre}} {{apellido}}</h2>
-        <p>{{mail}}</p>
-        <p>{{edad}}</p>
-        <p>{{ciudad}} y {{pais}}</p>
-        <div class="info">
-            <div class="estado">
-                <h3>Estado</h3>
-                <p>{{estado}}</p>
-            </div>
-            <!-- borrar -->
-            <div class="estado">
-                <h3>Id</h3>
-                <p>{{id}}</p>
-            </div>
-            <!-- borrar -->
-            <div class="rol">
-                <h3>Rol</h3>
-                <p>{{rol}}</p>
-            </div>
+    <div class="wp-global">
+      <img [src]="imagen" alt="ImagenPerfil" class="img"/>
+
+      <div class="wp-info">
+
+        <div class="info-1">
+          <h2>{{nombre}} {{apellido}}</h2>
+          <p>{{mail}}</p>
+          <p>{{edad}}</p>
+          <p>{{ciudad}} y {{pais}}</p>
         </div>
 
+        <div class="info2">
+          <div class="wp-estado">
+            <h3>Estado</h3>
+            <div class="info-estado">
+                <!--Configurar este ngClass en el ts -->
+              <div [ngClass]="{ activo: estado, inactivo: !estado }" class="circle-estado">
+                  <!--Configurar en el ts con toString el número de estado a texto -->  
+                <p class="estado">{{estado}}</p>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="wp-rol">
+            <h3>Rol</h3>
+            <div class="info-rol">
+                <!--Configurar este ngClass en el ts -->              
+                <div [ngClass]="{ jefe: rol === 2, encargado: rol === 3, operario: rol === 4 }"class="circle-rol">
+                 <!--Configurar en el ts con toString el número de rol a texto -->  
+                <p class="rol">{{rol}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</section>
+  </section>
