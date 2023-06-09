@@ -39,6 +39,7 @@ export class DetallePerfilFormComponent implements OnInit {
   ngOnInit(): void {
     debugger;
     this.id = localStorage.getItem('usuarios_id');
+    console.log('id', this.id) // null
 
 
     // Asignarle un numero al rol para que en el ngClass del html se pinte un color u otro según su rol

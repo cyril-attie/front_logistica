@@ -56,7 +56,7 @@ export class LoginFormComponent {
     //Guardamos en variables del navegador
     localStorage.setItem('token_almacen', response.token);
     localStorage.setItem('rol_almacen', tokenDecode.roles_id);
-    localStorage.setItem('usuario_id', tokenDecode.user_id.toString())
+    //localStorage.setItem('usuario_id', tokenDecode.user_id) --> NO FUNCIONA 
     console.log("Te has logedo correctamente - " + response.token + " - " + tokenDecode.roles_id );
   
     debugger;
