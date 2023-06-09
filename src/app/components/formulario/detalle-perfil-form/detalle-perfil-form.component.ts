@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.service';
+import * as myGlobals from '../../../general/globals';
 
 @Component({
   selector: 'app-detalle-perfil-form',
@@ -8,7 +9,7 @@ import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.servi
   styleUrls: ['./detalle-perfil-form.component.sass']
 })
 export class DetallePerfilFormComponent implements OnInit {
-  imagen: string = '';
+  imagen: string = 'https://cdn-images.livecareer.es/pages/foto_cv_lc_es_3.jpg';
   nombre: string = '';
   apellido: string = '';
   mail: string = '';
@@ -16,12 +17,20 @@ export class DetallePerfilFormComponent implements OnInit {
   ciudad: string = '';
   pais: string = '';
   estado: number = 0;
-  rol: number = 0;
+  rol: Number = 0;
    
   id:string|null="";
 
+  usuario: string = "";
+
+  rolesMap = new Map<Number, string>([
+    [myGlobals.rolJefeDeEquipo, 'Jefe de equipo'],
+    [myGlobals.rolEncargado, 'Encargado'],
+    [myGlobals.rolOperario, 'Operario']
+  ]);
+
   constructor(
-    private userService: UsuariosServiceService,
+    private usuarioService: UsuariosServiceService,
     ){
 
   }
@@ -30,39 +39,28 @@ export class DetallePerfilFormComponent implements OnInit {
   ngOnInit(): void {
     debugger;
     this.id = localStorage.getItem('usuarios_id');
+
+
+    // Asignarle un numero al rol para que en el ngClass del html se pinte un color u otro según su rol
+
+    this.usuarioService.rol.subscribe(value => {
+      this.rol = value;
+      this.usuario = this.rolesMap.get(value) || "";});
+
+
+      // let response = this.usuarioService.getById(id);
+      // this.estado = response[0] --> buscar el valor del estado activo/inactivo y parsear
+
+
+
+
+
+
     
+  };
 }
 
-};
 
-/*
-  
-  ngOnInit(): void{
-    const pantallaLogin = this.activatedRoute.data.subscribe.pantallaLogin;
-    let id = localStorage.getItem('usuario_id');
-    //Quiero coger aquí el id del localStorage
-   
-      //let id: number = parseInt(localStorage.getItem('usuario_id') || '0');
-      // let id: number = (params.id)
-
-      // Aquí lo quiero sacar por consola
-      console.log('id', id)
-
-     
-    }
-  }
-*/
-  
-
-  // Estado -> en la bbdd es activo 1, inactivo 0
-  // Rol --> en la bbdd es roles_id: 
-
-  /*
-  Superusuario : 1
-  JefeDeEquipo : 2
-  Encargado : 3
-  Operario : 4  
-  */
 
 
 
