@@ -35,8 +35,8 @@ export class UsuariosComponent implements OnInit{
       let response = await this.userService.getAll();
       //Almacenamos los valores a a propiedad de la tabla
       this.propiedadesTabla.response = response;
-      this.propiedadesTabla.columnas = ["ID","Nombre","Email","Edad","Ciudad","Estado",];
-      this.propiedadesTabla.claves = ["usuarios_id","nombre","email","edad","ciudad","pais"];
+      this.propiedadesTabla.columnas = ["ID","Nombre","Email","Edad","Ciudad","Estado","Rol"];
+      this.propiedadesTabla.claves = ["usuarios_id","nombre","email","edad","ciudad","pais","descripcion_rol"];
       this.propiedadesTabla.botones.ver = true;
       this.propiedadesTabla.botones.editar = true;
       this.propiedadesTabla.botones.borrar = true;

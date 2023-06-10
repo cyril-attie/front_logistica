@@ -6,10 +6,10 @@
       <div class="wp-info">
 
         <div class="info-1">
-          <h2>NOMBRE Y APELLIDO {{nombre}} {{apellido}}</h2>
-          <p>MAIL {{mail}}</p>
-          <p>EDAD{{edad}}</p>
-          <p>CIUDAD, PAÍS {{ciudad}} {{pais}}</p>
+          <h2>NOMBRE Y APELLIDO {{usuario.nombre}} {{usuario.apellido}}</h2>
+          <p>MAIL {{usuario.email}}</p>
+          <p>EDAD{{usuario.edad}}</p>
+          <p>CIUDAD, PAÍS {{usuario.ciudad}} {{usuario.pais}}</p>
         </div>
 
         <div class="info2">
@@ -17,9 +17,9 @@
             <h3>Estado</h3>
             <div class="info-estado">
                 <!--Configurar este ngClass en el ts -->
-              <div [ngClass]="{ activo: estado, inactivo: !estado }" class="circle-estado">
+              <div [ngClass]="{ activo: usuario.estado, inactivo: !usuario.estado }" class="circle-estado">
                   <!--Configurar en el ts con toString el número de estado a texto -->  
-                <p class="estado">ESTO ES EL ESTADO {{estado}}</p>
+                <p class="estado">ESTO ES EL ESTADO {{usuario.estado}}</p>
               </div>
             </div>
           </div>
@@ -29,13 +29,12 @@
             <h3>Rol</h3>
             <div class="info-rol">
                 <!--Comprobar que esta bien configurado en el ts -->              
-                <div [ngClass]="{ jefe: rolesMap.get(rol) === 'Jefe de equipo', encargado: rolesMap.get(rol) === 'Encargado', operario: rolesMap.get(rol) === 'Operario' }"class="circle-rol">
+                <!--<div [ngClass]="{ jefe: rolesMap.get(usuario.rol) === 'Jefe de equipo', encargado: rolesMap.get(rol) === 'Encargado', operario: rolesMap.get(rol) === 'Operario' }"class="circle-rol">-->
                  <!--Configurar en el ts con toString el número de rol a texto -->  
-                <p class="rol">ESTO ES EL ROL{{rol}}</p>
+                <p class="rol">{{usuario.descripcion_rol}}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
   </section>
