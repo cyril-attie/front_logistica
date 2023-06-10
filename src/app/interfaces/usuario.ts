@@ -1,6 +1,6 @@
 export interface Usuario {
     id?: number;
-    imagen: string,
+    //imagen: string,
     nombre: string;
     apellido: string;
     email: string;
@@ -9,7 +9,5 @@ export interface Usuario {
     ciudad: string;
     codigo_postal: number; 
     edad: number; 
-    rol: string;
-    estado: boolean;
-
+    roles_id: string;
 }
