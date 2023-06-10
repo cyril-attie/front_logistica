@@ -6,6 +6,7 @@ import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.servi
 import Swal from 'sweetalert2';
 import { PedidosService } from 'src/app/servicios/pedidos.service';
 import { AlmacenService } from 'src/app/servicios/almacen.service';
+import { TablaRefreshService } from 'src/app/servicios/tabla-refresh.service';
 
 @Component({
   selector: 'app-delete-button',
@@ -23,6 +24,8 @@ export class DeleteButtonComponent {
   alamacenService = inject(AlmacenService);
   
   notificacionesService = inject(NotificacionesService);
+  tablaRefreshService = inject(TablaRefreshService);
+
   location = inject(Location);
   activatedRoute= inject(ActivatedRoute);
 
@@ -70,8 +73,6 @@ export class DeleteButtonComponent {
           this.notificacionesService.showError("no esta bien programado error con el parametro url_param");
       }
 
-      //Si va mal devolvemos error
-      console.log(response);
       if (!response) {
         this.notificacionesService.showError("no esta bien programado error con el parametro url_param");
         return;
@@ -92,8 +93,11 @@ export class DeleteButtonComponent {
       this.activatedRoute.params.subscribe( async (params: any) : Promise<void> => {
         if (params.id) {
           this.location.back();
-        } 
-        //APSP -> FALTA HACER EL CASO QUE ACTUALIZE LAS TABLAS
+        } else {
+          //Actualizamos la tabla ya que no lo hace de por si solo
+          console.log("componente boton delete");
+          this.tablaRefreshService.refreshTabla();
+        }
       });
 
     } catch (err) {
