@@ -37,7 +37,7 @@ export class DetallePerfilFormComponent implements OnInit {
   
 
   ngOnInit(): void {
-    debugger;
+    //debugger;
     this.id = localStorage.getItem('usuarios_id');
     console.log('id', this.id) // null
 
