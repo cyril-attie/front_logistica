@@ -24,14 +24,21 @@ export class TablaComponent {
     },
     url_param: ""
   };
+  //Campo para refrescar la tabla
+  @Input() isUpdated : boolean = false;
+  oldIsUpdated : boolean = false;
 
-  constructor(private userService: UsuariosServiceService){}
-  
+  constructor(private userService: UsuariosServiceService){}     
 
   //Esta definido el ngDoCheck porque en el ngOnInit la propiedad Input
   //aún no se habia informado - APSP
   ngDoCheck(): void {
-    if (this.tablaColumnas.length <= 0) {
+
+    //Cuando el campo del padre isUpdate se actualize por el suscribe, entrara en el código
+    if (this.isUpdated != this.oldIsUpdated) {
+
+      //Actualizamos campo oldIsUpdated para terminar el flujo
+      this.oldIsUpdated = this.isUpdated;
 
       //Informamos columnas de la tabla y las claves(estas no se utilizan en el html)
       this.tablaColumnas = this.propiedadesTabla.columnas;
