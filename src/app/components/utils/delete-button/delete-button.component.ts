@@ -4,6 +4,8 @@ import { Component, Input, inject } from '@angular/core';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
 import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.service';
 import Swal from 'sweetalert2';
+import { PedidosService } from 'src/app/servicios/pedidos.service';
+import { AlmacenService } from 'src/app/servicios/almacen.service';
 
 @Component({
   selector: 'app-delete-button',
@@ -17,6 +19,9 @@ export class DeleteButtonComponent {
   @Input() id : number | undefined;
 
   userService = inject(UsuariosServiceService);
+  pedidoService= inject(PedidosService);
+  alamacenService = inject(AlmacenService);
+  
   notificacionesService = inject(NotificacionesService);
   location = inject(Location);
   activatedRoute= inject(ActivatedRoute);
@@ -52,8 +57,10 @@ export class DeleteButtonComponent {
           response = await this.userService.delete(id);
           break;
         case 'pedido':
+          response = await this.pedidoService.delete(id);
           break;
         case 'almacen':
+          response = await this.pedidoService.delete(id);
           break;
         case 'camion':
           break;

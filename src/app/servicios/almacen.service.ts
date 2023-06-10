@@ -1,9 +1,41 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { Almacen } from '../interfaces/almacen';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlmacenService {
+  baseUrl : string = "";
 
-  constructor() { }
+  constructor(private httpClient : HttpClient) { 
+    this.baseUrl = environment.apiUrl + "/api/almacenes";
+  }
+
+  //Obtención de todos los almacenes
+  getAll() : Promise<any> {
+    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}`)) 
+  }
+  //Obtener mediante el ID
+  getById(id: number) : Promise<any> {
+    return lastValueFrom(this.httpClient.get<Almacen>(`${this.baseUrl}/${id}`))
+  }
+
+  // Crear un nuevo usuario
+  create(almacen: Almacen): Promise <Almacen>{
+    return lastValueFrom(this.httpClient.post<Almacen>(this.baseUrl, almacen))
+  }
+
+  // Actualizar un nuevo almacen
+  update(almacen: Almacen): Promise<Almacen>{
+    return lastValueFrom(this.httpClient.put<Almacen>(`${this.baseUrl}/${almacen.almacenes_id}`, almacen))
+  }
+
+  // Eliminar un almacen
+  delete(id: number): Promise<any>{
+    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}/${id}`))
+   
+  }
 }
