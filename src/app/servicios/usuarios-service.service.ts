@@ -65,11 +65,13 @@ export class UsuariosServiceService {
 
   // Crear un nuevo usuario
   create(usuario: Usuario): Promise <Usuario>{
+    console.log(usuario);
     return lastValueFrom(this.httpClient.post<Usuario>(this.baseUrl, usuario))
   }
 
   // Actualizar un nuevo usuario
   update(usuario: Usuario): Promise<Usuario>{
+    console.log(usuario);
     return lastValueFrom(this.httpClient.put<Usuario>(`${this.baseUrl}/${usuario.id}`, usuario))
   }
 
