@@ -1,5 +1,5 @@
 export interface Almacen {
-    almacenes_id: number;
+    almacenes_id?: number;
     nombre_almacen: string;
     calle: string;
     codigo_postal: string;
