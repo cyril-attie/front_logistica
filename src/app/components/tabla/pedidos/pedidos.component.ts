@@ -1,24 +1,60 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { PropiedadesTabla } from 'src/app/interfaces/propiedades-tabla';
 import { Pedido } from 'src/app/interfaces/pedido';
 import { PedidosService } from 'src/app/servicios/pedidos.service';
+import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
+import { TablaRefreshService } from 'src/app/servicios/tabla-refresh.service';
 
 @Component({
   selector: 'app-pedidos',
   templateUrl: './pedidos.component.html',
   styleUrls: ['./pedidos.component.sass']
 })
-export class PedidosComponent implements OnInit {
+export class PedidosComponent {
 
-  misPedidos: Pedido[] = []
-  constructor(private pedidosService: PedidosService) { }
+  //Definimos estas propiedades ya que les pasaremos al componente tabla en el
+  //html
+  propiedadesTabla: PropiedadesTabla = {
+    response: [],
+    columnas: [],
+    claves: [],
+    botones: {
+      ver : false,
+      editar : false,
+      borrar: false,
+    },
+    url_param: ""
+  };
+  //Definimos este campo para actualizar la tabla en el componente hijo
+  isUpdated : boolean = false;
 
-  async ngOnInit(): Promise<void> {
-    try {
-      let response = await this.pedidosService.getAll()
-      //this.arrPedidos = response;
+  notificacionesService = inject(NotificacionesService)
 
-    } catch (error) {
+  constructor(private pedidoService: PedidosService, 
+              private tablaRefreshService: TablaRefreshService)
+  {
+    //Esta suscrito al obserbale refreshTablaSubject, cuando carga este componente detecta un cambio y lanza la acción pintarTabla()
+    this.tablaRefreshService.refreshTablaSubject.subscribe(value => {
+        this.pintarTabla()
+    });
+  }
+
+  async pintarTabla() :Promise<void> {
+    try{
+      let response = await this.pedidoService.getAll();
+      //Almacenamos los valores a a propiedad de la tabla
+      this.propiedadesTabla.response = response;
+      this.propiedadesTabla.columnas = ["Nºpedido","Estado","Fecha de salida","Usuario asignado","Estado"];
+      this.propiedadesTabla.claves = ["pedidos_id","estado_pedido","fecha_salida","usuario_id_creador","estado_pedido"];
+      this.propiedadesTabla.botones.ver = true;
+      this.propiedadesTabla.botones.editar = true;
+      this.propiedadesTabla.botones.borrar = true;
+      this.propiedadesTabla.url_param = "pedido";
+      this.isUpdated = !this.isUpdated;
+    } catch(error){
+      this.notificacionesService.showError("Algo ha ido mal al cargar la tabla");
       console.log(error)
     }
   }
+
 }
