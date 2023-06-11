@@ -38,7 +38,7 @@ export class AlmacenesComponent {
       this.propiedadesTabla.botones.ver = true;
       this.propiedadesTabla.botones.editar = true;
       this.propiedadesTabla.botones.borrar = true;
-      this.propiedadesTabla.url_param = "usuario";
+      this.propiedadesTabla.url_param = "almacen";
     } catch(error){
       console.log(error)
     }
