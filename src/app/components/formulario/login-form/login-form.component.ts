@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.service';
 import jwtDecode from "jwt-decode";
 import * as myGlobals from './../../../general/globals';
+import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
 
 @Component({
   selector: 'app-login-form',
@@ -13,7 +14,8 @@ import * as myGlobals from './../../../general/globals';
 
 export class LoginFormComponent {
   formModel : FormGroup;
-  
+  notificacionesService = inject(NotificacionesService);
+
   constructor(
     private usuariosService : UsuariosServiceService,
     private router : Router
@@ -34,10 +36,10 @@ export class LoginFormComponent {
   async onSubmitLogin() : Promise<void> {
     const response = await this.usuariosService.login(
                       this.formModel.value);
-    
+    console.log(response);
     //Mensaje de error si no va bien
     if (!response.token) {
-      return alert("No ha ido bien");
+      this.notificacionesService.showError("No se ha recuperado el token");
     } 
     
     //Obtenemos rol
@@ -50,7 +52,7 @@ export class LoginFormComponent {
 
     //Mensaje de error si no se obtiene el rol
     if (!tokenDecode){
-      return alert("No ha ido bien por el rol");
+      this.notificacionesService.showError("No ha ido bien por el rol");
     }
 
     //Guardamos en variables del navegador
@@ -58,8 +60,6 @@ export class LoginFormComponent {
     localStorage.setItem('rol_almacen', tokenDecode.roles_id);
     //localStorage.setItem('usuario_id', tokenDecode.user_id) --> NO FUNCIONA 
     console.log("Te has logedo correctamente - " + response.token + " - " + tokenDecode.roles_id );
-  
-    debugger;
     console.log("Te has logedo correctamente - " + response.token + " - " + tokenDecode.roles_id);
   
     //Actualizamos variable de login

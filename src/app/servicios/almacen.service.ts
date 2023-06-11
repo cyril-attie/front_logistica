@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -16,7 +16,12 @@ export class AlmacenService {
 
   //Obtención de todos los almacenes
   getAll() : Promise<any> {
-    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}`)) 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}`,httpOptions)) 
   }
   //Obtener mediante el ID
   getById(id: number) : Promise<any> {
