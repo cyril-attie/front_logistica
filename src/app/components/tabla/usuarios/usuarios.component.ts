@@ -34,12 +34,14 @@ export class UsuariosComponent {
               private tablaRefreshService: TablaRefreshService)
   {
     //Esta suscrito al obserbale refreshTablaSubject, cuando carga este componente detecta un cambio y lanza la acción pintarTabla()
+    
     this.tablaRefreshService.refreshTablaSubject.subscribe(value => {
         this.pintarTabla()
     });
   }
 
   async pintarTabla() :Promise<void> {
+
     try{
       let response = await this.userService.getAll();
       //Almacenamos los valores a a propiedad de la tabla
@@ -52,6 +54,7 @@ export class UsuariosComponent {
       this.propiedadesTabla.url_param = "usuario";
       this.isUpdated = !this.isUpdated;
     } catch(error){
+
       this.notificacionesService.showError("Algo ha ido mal al cargar la tabla");
       console.log(error)
     }

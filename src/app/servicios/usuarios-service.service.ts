@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Usuario } from '../interfaces/usuario';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, firstValueFrom, lastValueFrom } from 'rxjs';
 import { Login } from '../interfaces/login.interface';
 import { environment } from '../../environments/environment';
@@ -50,14 +50,20 @@ export class UsuariosServiceService {
   //Método para el login - APSP
   login(values: Login | any) : Promise<any> {
     return firstValueFrom(
-      this.httpClient.post<any>(`${this.baseUrl}/login`, values)
+      this.httpClient.post<any>(`${environment.apiUrl}/api/auth/login`, values)
     )
   }
 
   //Obtención de todos los usuarios
   getAll() : Promise<any> {
-    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}`)) 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}`,httpOptions)) 
   }
+
   //Obtener mediante el ID
   getById(id: number) : Promise<any> {
     return lastValueFrom(this.httpClient.get<Usuario>(`${this.baseUrl}/${id}`))
