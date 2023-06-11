@@ -1,5 +1,5 @@
 export interface Material {
-    n_material: number;
+    id?: number;
     nombre: string;
     estado: string;
     categoria: string;
