@@ -44,8 +44,8 @@ export class StockComponent {
       let response = await this.stockService.getAll();
       //Almacenamos los valores a a propiedad de la tabla
       this.propiedadesTabla.response = response;
-      this.propiedadesTabla.columnas = ["ID","",""];
-      this.propiedadesTabla.claves = ["material_id","",""];
+      this.propiedadesTabla.columnas = ["ID","Unidades","Material", "Almacén"];
+      this.propiedadesTabla.claves = ["stock_id","unidades","materiales_id", "almacenes_id"];
       this.propiedadesTabla.botones.ver = true;
       this.propiedadesTabla.botones.editar = true;
       this.propiedadesTabla.botones.borrar = true;
