@@ -56,38 +56,37 @@ export class UsuariosServiceService {
 
   //Obtención de todos los usuarios
   getAll() : Promise<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization': localStorage.getItem('token_almacen')!
-      })
-    }
-    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}`,httpOptions)) 
+    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}`, this.getAuthorization())) 
   }
 
   //Obtener mediante el ID
   getById(id: number) : Promise<any> {
-    return lastValueFrom(this.httpClient.get<Usuario>(`${this.baseUrl}/${id}`))
+    return lastValueFrom(this.httpClient.get<Usuario>(`${this.baseUrl}/${id}`, this.getAuthorization()))
   }
 
   // Crear un nuevo usuario
   create(usuario: Usuario): Promise <Usuario>{
-    console.log(usuario);
     return lastValueFrom(this.httpClient.post<Usuario>(this.baseUrl, usuario))
   }
 
   // Actualizar un nuevo usuario
   update(usuario: Usuario): Promise<Usuario>{
-    console.log(usuario);
-    return lastValueFrom(this.httpClient.put<Usuario>(`${this.baseUrl}/${usuario.id}`, usuario))
+    return lastValueFrom(this.httpClient.put<Usuario>(`${this.baseUrl}/${usuario.usuarios_id}`, usuario, this.getAuthorization()))
   }
 
   // Eliminar un usuario
   delete(id: number): Promise<any>{
-    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}/${id}`))
-   
+    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}/${id}`,this.getAuthorization()))
   }
 
-
+  //Método interno del servicio
+  private getAuthorization() {
+    return {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    };
+  }
 
 } 
 
