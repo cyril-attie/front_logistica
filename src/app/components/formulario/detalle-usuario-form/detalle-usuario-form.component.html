@@ -3,13 +3,20 @@
 <form [formGroup]="usuarioForm" (ngSubmit)="submitUsuario()">
 
 <section class="template form">
-    <h2 class="mb-5">{{ title }} usuario </h2>
+    <h2 class="mb-5 container">{{ title }} usuario </h2>
   
             <div class="wp-1">
 
-                <div class="d-flex justify-content-center align-items-center">
+                <div class="row d-flex flex-column border-ra">
+                    <figure class="my-2">
+                        <img [src]="imageProfile" class="rounded-circle" alt="imagen">
+                        <!-- https://picsum.photos/id/237/200/300 -->
+                    </figure>
                     <label for="imagen" class="textImagen"></label>
-                    <input type="text" placeholder="Añadir imagen" class="inputImagen">
+                    <label for="image" class="form-label">Imagen perfil URL</label>
+                    <input (input)="updateImage($event)" formControlName="imagen" type="text" class="form-control"  id="imagen" />
+                    <p class="error" *ngIf="controlError('image', 'pattern')">No es una url correcta, porfavor valida la dirección</p>
+                    
                 </div>
                 <div class="row"> 
                     <div class="wp-text-1 gap-5">
@@ -60,6 +67,10 @@
                             <label for="edad" class="form-label">Edad</label>
                             <input type="number" class="form-control" formControlName="edad">
                         </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="estado" formControlName="estado">
+                            <label class="form-check-label" for="estado">Estado</label>
+                          </div>
                         <div>
                             <label for="rol" class="form-label">Rol</label>
                             <input type="text" class="form-control" formControlName="roles_id">

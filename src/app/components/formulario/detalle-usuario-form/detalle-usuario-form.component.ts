@@ -18,6 +18,7 @@ export class DetalleUsuarioFormComponent implements OnInit{
 
   isUpdate : boolean = false;
   buttonName : string = "";
+  imageProfile : string = "";
   
   notificacionesService = inject(NotificacionesService);
 
@@ -41,11 +42,12 @@ export class DetalleUsuarioFormComponent implements OnInit{
           Validators.required,
           Validators.minLength(3)]),
         pais: new FormControl('', [Validators.required]),
-        ciudad: new FormControl('', [Validators.required]),
+        ciudad: new FormControl(''),
         codigo_postal: new FormControl('', [
-          Validators.required, 
           Validators.pattern('^(0[1-9]|[1-4]\\d|5[0-2])\\d{3}$')]),
-        edad: new FormControl('', [Validators.required]),
+        edad: new FormControl(''),
+        estado: new FormControl(false, [Validators.required]),
+        imagen: new FormControl(''),
         roles_id: new FormControl('', [Validators.required]),
       }, []);
   };
@@ -91,7 +93,7 @@ export class DetalleUsuarioFormComponent implements OnInit{
 
     this.activatedRoute.params.subscribe(async (params:any) : Promise<void>=> {
       this.id = (params.id); 
-
+      
       //Si esta crendo un nuevo usuario entrara aqui
       if (!this.id) {
         this.isUpdate = false;
@@ -105,8 +107,10 @@ export class DetalleUsuarioFormComponent implements OnInit{
       // Activa los botones 'Editar usuario' y 'Eliminar' 
       try {
         let response: any = await this.usuarioService.getById(this.id);
+        console.log(response);
         this.rellenarCamposForm(response);
       } catch(err) {
+        console.log(err);
         this.notificacionesService.showError("No ha cargado correctamente el usuario");
       }
     }) 
@@ -117,6 +121,7 @@ export class DetalleUsuarioFormComponent implements OnInit{
   rellenarCamposForm(response : any) {
     
     const usuario: Usuario = response[0]; 
+    this.imageProfile = response[0].imagen;
     this.usuarioForm = new FormGroup({
       //imagen: new FormControl(usuario.imagen, [Validators.required]),
       nombre: new FormControl(usuario.nombre, [Validators.required]),
@@ -128,13 +133,31 @@ export class DetalleUsuarioFormComponent implements OnInit{
         Validators.required,
         Validators.minLength(3)
       ]),
-      pais: new FormControl(usuario.pais, [Validators.required]),
-      ciudad: new FormControl(usuario.ciudad, [Validators.required]),
+      pais: new FormControl(usuario.pais),
+      ciudad: new FormControl(usuario.ciudad),
       codigo_postal: new FormControl(usuario.codigo_postal, [
         Validators.required, 
         Validators.pattern('^(0[1-9]|[1-4]\\d|5[0-2])\\d{3}$')]),
-      edad: new FormControl(usuario.edad, [Validators.required]),
+      edad: new FormControl(usuario.edad),
+      estado: new FormControl(usuario.estado),
+      imagen: new FormControl(usuario.estado),
       roles_id: new FormControl(usuario.roles_id, [Validators.required])
     }, []);
+  }
+
+  //Métodos para la imágen
+  updateImage($event: any): void {
+    let valorImagen = $event.target.value;
+    this.imageProfile = valorImagen;
+  }
+
+  //Control de errores del form
+  controlError(nombreCampo: string, tipoError: string): boolean {
+    if (this.usuarioForm.get(nombreCampo)?.hasError(tipoError) && 
+        this.usuarioForm.get(nombreCampo)?.touched) 
+    {
+      return true
+    }
+    return false
   }
 }
