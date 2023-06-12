@@ -1,1 +1,3 @@
-<button (click)="modalDelete(url_param,id)" class="btn-red" type="button">Borrar</button >
+
+<button *ngIf="!isIcon" (click)="modalDelete(url_param,id)" class="btn-red" type="button">Borrar</button >
+<i *ngIf="isIcon" (click)="modalDelete(url_param,id)" class="fa fa-sharp fa-solid fa-trash fa-2xl color-red"></i>

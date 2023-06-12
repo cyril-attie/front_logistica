@@ -18,6 +18,8 @@ export class DeleteButtonComponent {
 
   @Input() url_param : string = "";
   @Input() id : number | undefined;
+  @Input() isIcon : boolean = false;
+
 
   userService = inject(UsuariosServiceService);
   pedidoService= inject(PedidosService);
