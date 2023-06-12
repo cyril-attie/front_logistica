@@ -6,7 +6,7 @@
         <nav>
             <ul class="menu">
                 <li *ngIf="!isLogged"><a class="menu-item" [routerLink]="['/login']">Log In</a></li>
-                <li *ngIf="isLogged"><i class="fa fa-sign-out fa-2xl text-white" (click)="logout()" aria-hidden="true"></i></li>
+                <li *ngIf="isLogged"><i class="fa fa-sign-out fa-2xl text-white pointer-marcar" (click)="logout()" aria-hidden="true"></i></li>
             </ul>
         </nav>
     </div>
