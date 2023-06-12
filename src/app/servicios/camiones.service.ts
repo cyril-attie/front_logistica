@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Camion } from '../interfaces/camion';
 import { lastValueFrom } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +14,20 @@ export class CamionesService {
   constructor(private httpClient: HttpClient) { 
 
      // De momento estoy usando esta URL cómo prueba de usuarios - NO EXISTE AUN ESTA URL
-     this.baseUrl = 'http://34.65.131.41:3000/api/camiones';
+     this.baseUrl = environment.apiUrl + '/api/camiones';
   }
 
 
   //Obtención de todos los camiones
   getAll() : Promise<any> {
-    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}`)) 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}`,httpOptions)) 
   }
+
   //Obtener mediante el ID
   getById(pId: number) : Promise<any> {
     return lastValueFrom(this.httpClient.get<Camion>(`${this.baseUrl}${pId}`))

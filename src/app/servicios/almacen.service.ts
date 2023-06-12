@@ -23,6 +23,8 @@ export class AlmacenService {
     }
     return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}`,httpOptions)) 
   }
+
+
   //Obtener mediante el ID
   getById(id: number) : Promise<any> {
     return lastValueFrom(this.httpClient.get<Almacen>(`${this.baseUrl}/${id}`))
@@ -42,5 +44,17 @@ export class AlmacenService {
   delete(id: number): Promise<any>{
     return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}/${id}`))
    
+  }
+
+  //prueba de coger el stock por almacen 
+  obtenerStocksPorAlmacen(almacen: string): Promise<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    };
+  
+    const url = `http://localhost:3000/api/stock?almacen=${almacen}`;
+    return lastValueFrom(this.httpClient.get<any>(url, httpOptions));
   }
 }

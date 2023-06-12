@@ -44,8 +44,10 @@ export class UsuariosComponent {
 
     try{
       let response = await this.userService.getAll();
+      console.log(response); 
       //Almacenamos los valores a a propiedad de la tabla
       this.propiedadesTabla.response = response;
+    
       this.propiedadesTabla.columnas = ["ID","Nombre","Email","Edad","Ciudad","Estado","Rol"];
       this.propiedadesTabla.claves = ["usuarios_id","nombre","email","edad","ciudad","pais","descripcion_rol"];
       this.propiedadesTabla.botones.ver = true;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { Stock } from '../interfaces/stock';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -27,5 +27,17 @@ export class StockService {
   // Actualizar stock
   update(stock: Stock): Promise<Stock>{
     return lastValueFrom(this.httpClient.put<Stock>(`${this.baseUrl}/${stock.n_material}`, stock))
+  }
+
+  //prueba de coger el stock por almacen 
+  obtenerStocksPorAlmacen(almacen: string): Promise<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    };
+  
+    const url = `${this.baseUrl}?almacen=${almacen}`;
+    return lastValueFrom(this.httpClient.get<any>(url, httpOptions));
   }
 }

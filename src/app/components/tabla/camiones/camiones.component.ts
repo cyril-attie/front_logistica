@@ -42,6 +42,7 @@ export class CamionesComponent {
     async pintarTabla() :Promise<void> {
       try{
          let response = await this.camionesService.getAll();
+         console.log(response);
         //Almacenamos los valores a a propiedad de la tabla
         this.propiedadesTabla.response = response;
         this.propiedadesTabla.columnas = ["ID","Matrícula","Capacidad", "Estado"];
