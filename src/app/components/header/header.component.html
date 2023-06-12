@@ -1,12 +1,12 @@
 <header>
     <div class="header">
         <div>
-            <a href="home"><img class="logotipo" src="/assets/logo.png" alt="logo"></a>
+            <a href="home"><img class="logotipo" src="/assets/logo tfm.png" alt="logo"></a>
         </div>
         <nav>
             <ul class="menu">
                 <li *ngIf="!isLogged"><a class="menu-item" [routerLink]="['/login']">Log In</a></li>
-                <li *ngIf="isLogged"><a  class="menu-item" (click)="logout()">Log Out</a></li>
+                <li *ngIf="isLogged"><i class="fa fa-sign-out fa-2xl text-white" (click)="logout()" aria-hidden="true"></i></li>
             </ul>
         </nav>
     </div>
