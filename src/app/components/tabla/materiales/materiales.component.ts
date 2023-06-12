@@ -43,6 +43,7 @@ export class MaterialesComponent {
     async pintarTabla() :Promise<void> {
       try{
         let response = await this.materialesService.getAll();
+        console.log(response);
         //Almacenamos los valores a a propiedad de la tabla
         this.propiedadesTabla.response = response;
         this.propiedadesTabla.columnas = ["ID","Nombre","Estado","Categoría","Peso","Stock","Descripción"];

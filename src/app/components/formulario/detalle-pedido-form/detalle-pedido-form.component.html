@@ -1,15 +1,15 @@
 <!--<h1>{{}} usuario</h1>
 <app-notifications [msg]="msg" [type]="type"></app-notifications>-->
 
-<nav>
+<!-- <nav>
     <ul class="menu">
         <li><a class="menu-item" href="detallePedido">Pedidos</a></li>
         <li><a class="menu-item" href="detalleUsuario">Perfil</a></li>
     </ul>
-</nav>
+</nav> -->
 
 <hr>
-<form [formGroup]="nuevoPedido" (ngSubmit)=" recogerDatosForm()" class="formulario-global">
+<form [formGroup]="pedidoForm" (ngSubmit)=" recogerDatosForm()" class="formulario-global">
 
     <div class="container">
         <div class="row">
@@ -19,7 +19,16 @@
             </div>
             <div class="col">
                 <label for="estado" class="form-label">Estado</label>
-                <input class="form-control" type="text" id="estado" formControlName="estado">
+
+                <select class="form-control" id="estado" formControlName="estado">
+                    <option value="revision">En revisión</option>
+                    <option value="preparacion">En preparación</option>
+                    <option value="transito">En tránsito</option>
+                    <option value="entregado">Entregado</option>
+                    <option value="cancelado">Cancelado</option>
+
+                </select>
+               
             </div>
             <div class="col">
                 <label for="operario_asignado" class="form-label">Operario asignado</label>
@@ -57,17 +66,25 @@
         <div class="row">
             <div class="col">
                 <label for="almacen_origen" class="form-label">Almacén de origen</label>
-                <input class="form-control" type="text" id="almacen_origen" formControlName="almacen_origen">
+                <select class="form-control" id="almacen_origen" formControlName="almacen_origen" (change)="obtenerStocks()">
+                    <option *ngFor="let nombreAlmacen of nombresAlmacenes" [value]="nombresAlmacenes.nombre_almacen">{{ nombreAlmacen }}</option>
+                  </select>
+      
             </div>
+
+           
+
             <div class="col">
                 <label for="almacen_destino" class="form-label">Almacén de destino</label>
-                <input class="form-control" type="text" id="almacen_destino" formControlName="almacen_destino">
+                <select class="form-control" id="almacen_destino" formControlName="almacen_destino">
+                    <option *ngFor="let nombreAlmacen of nombresAlmacenes" [value]="nombresAlmacenes.nombre_almacen">{{ nombreAlmacen }}</option>
+                  </select>
             </div>
         </div>
         <div class="row">
             <div class="col">
                 <label for="observaciones" class="form-label">Observaciones</label>
-                <input class="form-control" type="text" id="observaciones" formControlName="observaciones">
+                <input class="form-control" type="" id="observaciones" formControlName="observaciones">
             </div>
         </div>
     </div>
@@ -87,8 +104,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <th scope="row"><input class="form-control" type="number" id="n_material"
-                            formControlName="n_material"></th>
+                    <th scope="row"><input class="form-control" type="number" id="n_material" formControlName="n_material"></th>
                     <td><input class="form-control" type="text" id="nombre_material" formControlName="nombre_material">
                     </td>
                     <td><input class="form-control" type="text" id="categoria" formControlName="categoria">

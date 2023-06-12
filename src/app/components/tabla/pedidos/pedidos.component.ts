@@ -42,6 +42,7 @@ export class PedidosComponent {
   async pintarTabla() :Promise<void> {
     try{
       let response = await this.pedidoService.getAll();
+      console.log(response)
       //Almacenamos los valores a a propiedad de la tabla
       this.propiedadesTabla.response = response;
       this.propiedadesTabla.columnas = ["Nºpedido","Estado","Fecha de salida","Usuario asignado","Estado"];
@@ -49,7 +50,7 @@ export class PedidosComponent {
       this.propiedadesTabla.botones.ver = true;
       this.propiedadesTabla.botones.editar = true;
       this.propiedadesTabla.botones.borrar = true;
-      this.propiedadesTabla.url_param = "pedido";
+      this.propiedadesTabla.url_param = "pedidos";
       this.isUpdated = !this.isUpdated;
     } catch(error){
       this.notificacionesService.showError("Algo ha ido mal al cargar la tabla");

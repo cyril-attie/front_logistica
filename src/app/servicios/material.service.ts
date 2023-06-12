@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { Material } from '../interfaces/material';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +13,21 @@ export class MaterialService {
 
   constructor(private httpClient: HttpClient) { 
 
-     // this.baseUrl = ''; --> INICIALIZAR CON URL
+    this.baseUrl = environment.apiUrl + '/api/materiales';
   }
 
 
-  
+
+
   getAll() : Promise<any> {
-    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}`)) 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}`,httpOptions)) 
   }
+
   
   getById(id: number) : Promise<any> {
     return lastValueFrom(this.httpClient.get<Material>(`${this.baseUrl}${id}`))
