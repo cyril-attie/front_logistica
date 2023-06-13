@@ -4,13 +4,9 @@
     font-family: sans-serif
 
 /* Color Theme Swatches in RGBA */
-$azul-muyoscuro: rgba(9, 54, 87,1)
-$azul-oscuro: rgba(16,93,148, 1)
-$azul-claro: rgba(79,182,255, 1)
-$azul-normal: rgba(48,151,225, 1)
-$marron: rgba(172, 104, 2,1)
-$naranja: rgba(224,153,47, 1)
 
+.azul-muyoscuro 
+  color: rgba(9, 54, 87,1)
 
 .azul-oscuro 
   color: rgba(16, 93, 148, 1)
@@ -30,3 +26,81 @@ $naranja: rgba(224,153,47, 1)
 
 .naranja 
   color: rgba(224, 153, 47, 1)
+
+.background-azul-muyoscuro 
+  background-color: rgba(9, 54, 87, 1)
+
+
+.background-azul-oscuro 
+  background-color: rgba(16, 93, 148, 1)
+
+
+.background-azul-claro 
+  background-color: rgba(79, 182, 255, 1)
+
+
+.background-azul-normal 
+  background-color: rgba(48, 151, 225, 1)
+
+
+.background-marron 
+  background-color: rgba(148, 89, 1, 1)
+
+
+.background-naranja 
+  background-color: rgba(224, 153, 47, 1)
+
+
+
+
+/** Botón editar (disponible forms) *************/
+.btn-edit
+    text-decoration: none
+    color: black
+    background-color: rgba(224,153,47, 1)
+    border: none
+    font-size: medium
+    padding: 10px 30px
+    border-radius: 15px
+    cursor: poniter
+    color: white
+    
+.btn-edit:hover
+    background-color:  rgba(172, 104, 2,1)
+
+.btn-edit[disabled]
+    opacity: .6
+
+.btn-edit[disabled]:hover
+    background-color: rgba(224,153,47, 1)
+
+/** Botón cacnelar *************/
+.btn-cancel
+    text-decoration: none
+    color: black
+    background-color: #acacac
+    border: 1px solid #acacac
+    font-size: medium
+    padding: 10px 30px
+    border-radius: 15px
+    cursor: pointer
+
+.btn-cancel:hover
+    background-color: white
+    color: black
+    border: 1px solid white
+
+
+/** Color rojo ***************/
+.btn-red
+  text-decoration: none
+  color: white
+  background-color: #F24822
+  border: none
+  font-size: medium
+  padding: 10px 30px
+  border-radius: 15px
+  cursor: pointer
+
+.btn-red:hover
+  background-color: #a63218

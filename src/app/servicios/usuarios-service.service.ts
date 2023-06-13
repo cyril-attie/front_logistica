@@ -61,17 +61,18 @@ export class UsuariosServiceService {
 
   //Obtener mediante el ID
   getById(id: number) : Promise<any> {
-    return lastValueFrom(this.httpClient.get<Usuario>(`${this.baseUrl}/${id}`, this.getAuthorization()))
+    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}/${id}`, this.getAuthorization()))
   }
 
   // Crear un nuevo usuario
-  create(usuario: Usuario): Promise <Usuario>{
-    return lastValueFrom(this.httpClient.post<Usuario>(this.baseUrl, usuario))
+  create(usuario: any): Promise <Usuario | any>{
+    return lastValueFrom(this.httpClient.post<any>(`${this.baseUrl}/nuevo`, usuario,this.getAuthorization()))
   }
 
   // Actualizar un nuevo usuario
-  update(usuario: Usuario): Promise<Usuario>{
-    return lastValueFrom(this.httpClient.put<Usuario>(`${this.baseUrl}/${usuario.usuarios_id}`, usuario, this.getAuthorization()))
+  update(usuario: any,id : number): Promise<Usuario | any>{
+    console.log(usuario,`${this.baseUrl}/${id}`,this.getAuthorization() );
+    return lastValueFrom(this.httpClient.put<Usuario>(`${this.baseUrl}/${id}`, usuario, this.getAuthorization()))
   }
 
   // Eliminar un usuario
