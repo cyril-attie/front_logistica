@@ -50,7 +50,7 @@ export class PedidosComponent {
       this.propiedadesTabla.botones.ver = true;
       this.propiedadesTabla.botones.editar = true;
       this.propiedadesTabla.botones.borrar = true;
-      this.propiedadesTabla.url_param = "pedidos";
+      this.propiedadesTabla.url_param = "pedido";
       this.isUpdated = !this.isUpdated;
     } catch(error){
       this.notificacionesService.showError("Algo ha ido mal al cargar la tabla");

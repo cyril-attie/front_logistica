@@ -1,5 +1,5 @@
 export interface Pedido {
-    pedidos_id: number;
+    pedidos_id?: number;
     fecha_salida: Date | null;
     fecha_llegada: Date | null;
     estado_pedido: 'En revisión' | 'En preparación' | 'En tránsito' | 'Entregado' | 'Cancelado' | 'Aprobado' | 'Rechazado';
@@ -11,4 +11,5 @@ export interface Pedido {
     almacenes_id_destion: number;
     camiones_id: number;
     usuario_id_aprobador: number;
+    observaciones?: string;
   }

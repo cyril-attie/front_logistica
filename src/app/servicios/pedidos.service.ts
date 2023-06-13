@@ -27,6 +27,11 @@ export class PedidosService {
   }
   //Obtener mediante el ID
   getById(id: number) : Promise<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
     return lastValueFrom(this.httpClient.get<Pedido>(`${this.baseUrl}/${id}`))
   }
 
