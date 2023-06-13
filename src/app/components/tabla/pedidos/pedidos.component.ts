@@ -45,8 +45,8 @@ export class PedidosComponent {
       console.log(response)
       //Almacenamos los valores a a propiedad de la tabla
       this.propiedadesTabla.response = response;
-      this.propiedadesTabla.columnas = ["Nºpedido","Estado","Fecha de salida","Usuario asignado","Estado"];
-      this.propiedadesTabla.claves = ["pedidos_id","estado_pedido","fecha_salida","usuario_id_creador","estado_pedido"];
+      this.propiedadesTabla.columnas = ["Nºpedido","Estado","Fecha de salida", "Fecha de llegada", "Usuario asignado"];
+      this.propiedadesTabla.claves = ["pedidos_id","estado_pedido","fecha_salida", "fecha_llegada","usuarios_id_creador"];
       this.propiedadesTabla.botones.ver = true;
       this.propiedadesTabla.botones.editar = true;
       this.propiedadesTabla.botones.borrar = true;

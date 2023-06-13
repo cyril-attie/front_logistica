@@ -32,7 +32,7 @@ export class PedidosService {
         'Authorization': localStorage.getItem('token_almacen')!
       })
     }
-    return lastValueFrom(this.httpClient.get<Pedido>(`${this.baseUrl}/${id}`))
+    return lastValueFrom(this.httpClient.get<Pedido>(`${this.baseUrl}/${id}`, httpOptions))
   }
 
   // Crear un nuevo usuario

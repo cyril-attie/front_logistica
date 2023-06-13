@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { Almacen } from 'src/app/interfaces/almacen';
+import { Camion } from 'src/app/interfaces/camion';
 import { Pedido } from 'src/app/interfaces/pedido';
 import { AlmacenService } from 'src/app/servicios/almacen.service';
+import { CamionesService } from 'src/app/servicios/camiones.service';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
 import { PedidosService } from 'src/app/servicios/pedidos.service';
 import { StockService } from 'src/app/servicios/stock.service';
@@ -17,7 +19,9 @@ export class DetallePedidoFormComponent implements OnInit {
 
 
   almacenes: Almacen | any = [];
+  camiones: Camion | any = [];
   nombresAlmacenes:  Almacen | any = [];
+  matriculaCamiones: Camion | any = [];
   pedidoForm: FormGroup;
   stocks: number = 0;
   id: number = 0;
@@ -29,6 +33,7 @@ export class DetallePedidoFormComponent implements OnInit {
   
   constructor(
     private almacenesService: AlmacenService, 
+    private camionesService: CamionesService,
     private notificacionesService: NotificacionesService, 
     private pedidosService: PedidosService,
     private activatedRoute: ActivatedRoute,
@@ -63,26 +68,35 @@ export class DetallePedidoFormComponent implements OnInit {
    // Creación de un nuevo pedido
    async recogerDatosForm() {
      
-    try { 
-      const pedido =  this.pedidoForm.value;
-      const response = await this.pedidosService.create(pedido);
-      this.notificacionesService.showInfo("Se ha creado correctamente el usuario");
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-      this.notificacionesService.showError("No se ha creado correctamente el usuario.");
-      
+
+    if (!this.isUpdate){
+      try { 
+        const pedido =  this.pedidoForm.value;
+        const response = await this.pedidosService.create(pedido);
+        this.notificacionesService.showInfo("Se ha creado correctamente el usuario");
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+        this.notificacionesService.showError("No se ha creado correctamente el usuario.");
+        
+      }
+      return;
     }
-    return;
+    try{
+      const pedido =  this.pedidoForm.value;
+      const response = await this.pedidosService.update(pedido);
+      this.notificacionesService.showInfo("Se ha actualizado correctamente el usuario");
+      console.log(response);
+    }catch(error){
+      console.log(error);
+      return alert('No se ha actualizado correctamente el pedido.');
+    }
   }
 
 
+
   ngOnInit(): void {
-    this.obtenerAlmacenes();
-
-
-
-
+  
       this.activatedRoute.params.subscribe(async (params:any) : Promise<void>=> {
         this.id = (params.id); 
         
@@ -106,6 +120,9 @@ export class DetallePedidoFormComponent implements OnInit {
           this.notificacionesService.showError("No ha cargado correctamente el pedido");
         }
       }) 
+
+      this.obtenerAlmacenes();
+      this.obtenerCamiones();
   
   }
 
@@ -114,6 +131,7 @@ export class DetallePedidoFormComponent implements OnInit {
   rellenarCamposForm(response : any) {
   
     const pedido: Pedido = response[0]; 
+    console.log(pedido)
     this.pedidoForm = new FormGroup({
       //imagen: new FormControl(usuario.imagen, [Validators.required]),
       fecha_creacion: new FormControl(pedido.fecha_creacion, [Validators.required]),
@@ -152,6 +170,26 @@ export class DetallePedidoFormComponent implements OnInit {
       
     }catch(error){
       this.notificacionesService.showError("Algo ha ido mal al cargar la tabla");
+      console.log(error)
+    }
+  }
+
+  async obtenerCamiones() : Promise<void>  {
+
+    try {
+      let response = await this.camionesService.getAll();
+      console.log(response); 
+      this.camiones = response;
+      this.matriculaCamiones = this.camiones.map((camion: any) => camion.matricula);
+
+      this.matriculaCamiones = this.matriculaCamiones.filter(
+        (nombre : any, index: any) => this.matriculaCamiones.indexOf(nombre) === index
+      );
+      // console.log(this.nombresAlmacenes)
+      // this.almacenes = this.nombresAlmacenes; 
+      
+    }catch(error){
+      this.notificacionesService.showError("Algo ha ido mal, mira el error en consola");
       console.log(error)
     }
   }
