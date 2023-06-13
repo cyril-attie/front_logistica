@@ -14,9 +14,23 @@
       width: 100%
       height: 100%
       object-fit: cover
-    
-    
-    
+
+
+/*Esto lo he copiado tal cual*/
+input.ng-invalid.ng-touched
+    border-bottom: 3px solid tomato
+
+
+input.ng-valid.ng-touched
+    border-bottom: 3px solid lightgreen
+
+
+.error
+    color: tomato
+    font-size: 10px
+
+
+
 .template 
     max-width: 1300px
     margin: 0 auto
@@ -25,91 +39,16 @@
     border-radius: 10px
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px
 
-.inputImagen
-    width: 225px
-    height: 225px
-    border-radius: 150px
-    text-align: center
 
 
-    
-
-.wp-1
-    justify-content: center
-    display: grid
-    grid-template-columns: 35% 65%
-    
-
-.wp-text-1,
-.wp-text-2
-    align-items: center
-    display: grid
-    grid-template-columns: 46% 46%
- 
-    
-
-.wp-2
-    justify-content: center
-    
-
-.wp-text-3, 
-.wp-text-4
-    display: flex
-    align-item: center
-    display: grid
-    grid-template-columns: 30% 30% 30%
 
 
-  
-.input 
-    max-width: 1000px
-    margin: 0 auto
-    padding: 2rem
-    border-radius: 15px
-    gap: 1.5rem
 
+label[required]::after 
+  content: "*"
+  color: red
+  margin-left: 5px
 
-.btn-edit
-    text-decoration: none
-    color: black
-    background-color: #FFCD29
-    border: none
-    font-size: medium
-    padding: 10px 30px
-    border-radius: 15px
-
-.btn-edit:hover
-    background-color: white
-    border: 2px solid #FFCD29
-    color: black
-    
-.btn-cancel
-    text-decoration: none
-    color: black
-    background-color: #acacac
-    border: none
-    font-size: medium
-    padding: 10px 30px
-    border-radius: 15px
-
-.btn-cancel:hover
-    background-color: white
-    border: 2px solid #cbcac9
-    color: black
-
-.btn-new
-    text-decoration: none
-    color: white
-    background-color: #14AE5C
-    border: none
-    font-size: medium
-    padding: 10px 30px
-    border-radius: 15px
-
-.btn-new:hover
-    background-color: white
-    border: 2px solid #14AE5C
-    color: black
 
 
 

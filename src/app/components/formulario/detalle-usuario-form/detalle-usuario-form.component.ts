@@ -32,52 +32,81 @@ export class DetalleUsuarioFormComponent implements OnInit{
 
       // El formulario aparecerá vacío
       this.usuarioForm = new FormGroup({
-        //imagen: new FormControl('', [Validators.required]),
-        nombre: new FormControl('', [Validators.required]),
-        apellido: new FormControl('', [Validators.required]),
+        usuarios_id: new FormControl('',[]),
+        nombre: new FormControl('', [
+          Validators.required
+        ]),
+        usuarios_id_lider: new FormControl('', [
+          Validators.required
+        ]),
+        apellido: new FormControl('',[
+          Validators.required
+        ]),
         email: new FormControl('', [
           Validators.required,
-          Validators.pattern(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)]),
+          Validators.pattern(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)
+        ]),
         contrasena: new FormControl('', [
           Validators.required,
-          Validators.minLength(3)]),
-        pais: new FormControl('', [Validators.required]),
+          Validators.minLength(3)
+        ]),
+        pais: new FormControl('',[
+          Validators.required
+        ]),
         ciudad: new FormControl(''),
-        codigo_postal: new FormControl('', [
-          Validators.pattern('^(0[1-9]|[1-4]\\d|5[0-2])\\d{3}$')]),
+        codigo_postal: new FormControl('',[
+          Validators.minLength(3)
+        ]),
         edad: new FormControl(''),
-        estado: new FormControl(false, [Validators.required]),
+        activo: new FormControl(false),
         imagen: new FormControl(''),
-        roles_id: new FormControl('', [Validators.required]),
+        roles_id: new FormControl('', [
+          Validators.required
+        ])
       }, []);
   };
 
 
   /** Acción que se lanza al hacer submit */
   async submitUsuario(){
+
+    const usuario =  this.usuarioForm.value;
+    //Quitamos el id ya que no queremos que se envíe en el body
+    delete usuario["usuarios_id"];
+    
     //Crear
     if (!this.isUpdate) {
       try { 
-        const usuario =  this.usuarioForm.value;
         const response = await this.usuarioService.create(usuario);
-        this.notificacionesService.showInfo("Se ha creado correctamente el usuario");
         console.log(response);
+        if (response.fatal) {
+          return this.notificacionesService.showError(response.fatal);
+        }
+        this.isUpdate = true;
+        this.notificacionesService.showInfo("Se ha creado correctamente el usuario");
       } catch (error) {
         console.log(error);
         this.notificacionesService.showError("No se ha creado correctamente el usuario.");
-        
       }
-      return;
-    }
-    //Actualizar
-    try{
-      const usuario =  this.usuarioForm.value;
-      const response = await this.usuarioService.update(usuario);
-      this.notificacionesService.showInfo("Se ha actualizado correctamente el usuario");
-      console.log(response);
-    }catch(error){
-      console.log(error);
-      return alert('No se ha actualizado correctamente el usuario.');
+    } else {
+
+      //Actualizar
+      try{
+        //Al actualizar no podemos actualizar a los roles 1 y 2 ni el usarios_id_lider
+        delete usuario["usuarios_id_lider"];
+        if (usuario.roles_id == 1 || usuario.roles_id == 2) {
+          delete usuario["roles_id"];
+        }
+
+        const response = await this.usuarioService.update(usuario, this.id);
+        if (response.fatal) {
+          return this.notificacionesService.showError(response.fatal);
+        }
+        this.notificacionesService.showInfo("Se ha actualizado correctamente el usuario");
+      }catch(error){
+        console.log(error);
+        this.notificacionesService.showError('No se ha actualizado correctamente el usuario.');
+      }
     }
   };
 
@@ -107,7 +136,6 @@ export class DetalleUsuarioFormComponent implements OnInit{
       // Activa los botones 'Editar usuario' y 'Eliminar' 
       try {
         let response: any = await this.usuarioService.getById(this.id);
-        console.log(response);
         this.rellenarCamposForm(response);
       } catch(err) {
         console.log(err);
@@ -121,27 +149,42 @@ export class DetalleUsuarioFormComponent implements OnInit{
   rellenarCamposForm(response : any) {
     
     const usuario: Usuario = response[0]; 
+
     this.imageProfile = response[0].imagen;
     this.usuarioForm = new FormGroup({
-      //imagen: new FormControl(usuario.imagen, [Validators.required]),
-      nombre: new FormControl(usuario.nombre, [Validators.required]),
-      apellido: new FormControl(usuario.apellido, [Validators.required]),
+      usuarios_id: new FormControl(usuario.usuarios_id, [  
+        Validators.required
+      ]),
+      usuarios_id_lider: new FormControl(usuario.usuarios_id_lider, [
+        Validators.required
+      ]),
+      nombre: new FormControl(usuario.nombre, [
+        Validators.required
+      ]),
+      apellido: new FormControl(usuario.apellido,[
+        Validators.required
+      ]),
       email: new FormControl(usuario.email, [
         Validators.required,
-        Validators.pattern(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)]),
+        Validators.pattern(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)
+      ]),
       contrasena: new FormControl(usuario.contrasena, [
         Validators.required,
         Validators.minLength(3)
       ]),
-      pais: new FormControl(usuario.pais),
+      pais: new FormControl(usuario.pais,[
+        Validators.required
+      ]),
       ciudad: new FormControl(usuario.ciudad),
-      codigo_postal: new FormControl(usuario.codigo_postal, [
-        Validators.required, 
-        Validators.pattern('^(0[1-9]|[1-4]\\d|5[0-2])\\d{3}$')]),
+      codigo_postal: new FormControl('',[
+        Validators.minLength(3)
+      ]),
       edad: new FormControl(usuario.edad),
-      estado: new FormControl(usuario.estado),
-      imagen: new FormControl(usuario.estado),
-      roles_id: new FormControl(usuario.roles_id, [Validators.required])
+      activo: new FormControl(usuario.activo),
+      imagen: new FormControl(usuario.imagen),
+      roles_id: new FormControl(usuario.roles_id, [
+        Validators.required
+      ])
     }, []);
   }
 
