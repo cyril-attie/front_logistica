@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray } from '@angular/forms'
+import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms'
+import { ActivatedRoute, Router } from '@angular/router';
 import { Almacen } from 'src/app/interfaces/almacen';
+import { Pedido } from 'src/app/interfaces/pedido';
 import { AlmacenService } from 'src/app/servicios/almacen.service';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
 import { PedidosService } from 'src/app/servicios/pedidos.service';
@@ -18,13 +20,20 @@ export class DetallePedidoFormComponent implements OnInit {
   nombresAlmacenes:  Almacen | any = [];
   pedidoForm: FormGroup;
   stocks: number = 0;
+  id: number = 0;
+  title: string = "Registrar";
+  isUpdate : boolean = false;
+  buttonName : string = "";
+
   
   
   constructor(
     private almacenesService: AlmacenService, 
     private notificacionesService: NotificacionesService, 
     private pedidosService: PedidosService,
-    private stockService: StockService
+    private activatedRoute: ActivatedRoute,
+    private stockService: StockService,
+    private router: Router
   ) 
   
   {
@@ -70,7 +79,61 @@ export class DetallePedidoFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerAlmacenes();
+
+
+
+
+      this.activatedRoute.params.subscribe(async (params:any) : Promise<void>=> {
+        this.id = (params.id); 
+        
+        //Si esta creando un pedido entrara aqui
+        if (!this.id) {
+          this.isUpdate = false;
+          this.buttonName = "Crear";
+          return;
+        }
+        //Si esta editando un pedido entrara aqui
+        this.isUpdate = true;
+        this.buttonName = "Actualizar";
+  
+        // Activa los botones 'Editar' y 'Eliminar' 
+        try {
+          let response: any = await this.pedidosService.getById(this.id);
+          console.log(response);
+          this.rellenarCamposForm(response);
+        } catch(err) {
+          console.log(err);
+          this.notificacionesService.showError("No ha cargado correctamente el pedido");
+        }
+      }) 
+  
   }
+
+  /* Acción que rellena los campos del formulario */
+  
+  rellenarCamposForm(response : any) {
+  
+    const pedido: Pedido = response[0]; 
+    this.pedidoForm = new FormGroup({
+      //imagen: new FormControl(usuario.imagen, [Validators.required]),
+      fecha_creacion: new FormControl(pedido.fecha_creacion, [Validators.required]),
+      estado: new FormControl(pedido.estado_pedido, [Validators.required]),
+      operario_asignado: new FormControl(pedido.usuarios_id_creador, [Validators.required]),
+      fecha_salida: new FormControl(pedido.fecha_salida, [Validators.required]),
+      fecha_llegada: new FormControl(pedido.fecha_llegada, [Validators.required]),
+      camion_asignado: new FormControl(pedido.camiones_id, [Validators.required]),
+      medida: new FormControl(pedido.medida, [Validators.required]),
+      usuario_creador: new FormControl(pedido.usuarios_id_creador, [Validators.required]),
+      almacen_origen: new FormControl(pedido.almacenes_id_origen, [Validators.required]),
+      almacen_destino: new FormControl(pedido.almacenes_id_destion, [Validators.required]),
+      observaciones: new FormControl(pedido.observaciones, [Validators.required]),
+      
+      
+    }, []);
+  }
+
+
+
 
   // Obtención de los nombres de los almacenes para pintarlos en el html (almacen de origen / destino)
   async obtenerAlmacenes() : Promise<void>  {
@@ -96,6 +159,10 @@ export class DetallePedidoFormComponent implements OnInit {
 
   obtenerStocks(){
     
+  }
+
+  cancelar(){
+    this.router.navigate(['/pedidos']);
   }
  
   // obtenerStocks() {
