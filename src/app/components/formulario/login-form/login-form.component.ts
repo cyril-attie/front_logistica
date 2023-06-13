@@ -38,13 +38,15 @@ export class LoginFormComponent {
                       this.formModel.value);
 
     console.log(response);
-
-                      console.log(response)
     
+    //Mensaje de error si no va bien
+    if (response.fatal) {
+      return this.notificacionesService.showError(response.fatal);
+    } 
 
     //Mensaje de error si no va bien
     if (!response.token) {
-      this.notificacionesService.showError("No se ha recuperado el token");
+      return this.notificacionesService.showError("No se ha recuperado el token");
     } 
     
     //Obtenemos rol
