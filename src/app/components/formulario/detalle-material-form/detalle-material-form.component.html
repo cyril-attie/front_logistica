@@ -1,4 +1,4 @@
-{{materialForm.valid}}
+
 
 <h3 class="mb-1" *ngIf="!isUpdate">Crear nuevo material</h3>
 <h3 class="mb-1" *ngIf="isUpdate">Editar material</h3>
@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col">
                 <label for="materiales_id" class="form-label">NºMaterial</label>
-                <input class="form-control" type="number" id="materiales_id" formControlName="materiales_id">
+                <input class="form-control form-control-plaintext" type="number" id="materiales_id" formControlName="materiales_id">
             </div>
             <div class="col">
                 <label for="nombre" class="form-label">Nombre</label>

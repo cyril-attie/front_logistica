@@ -17,6 +17,7 @@ import { CamionesComponent } from './components/tabla/camiones/camiones.componen
 import { MaterialesComponent } from './components/tabla/materiales/materiales.component';
 import { PedidosComponent } from './components/tabla/pedidos/pedidos.component';
 import { StockComponent } from './components/tabla/stock/stock.component';
+import { CategoriasComponent } from './components/tabla/categorias/categorias.component';
 import { LoginFormComponent } from './components/formulario/login-form/login-form.component';
 import { DetallePedidoFormComponent } from './components/formulario/detalle-pedido-form/detalle-pedido-form.component';
 import { DetallePerfilFormComponent } from './components/formulario/detalle-perfil-form/detalle-perfil-form.component';
@@ -24,10 +25,13 @@ import { DetalleUsuarioFormComponent } from './components/formulario/detalle-usu
 import { DetalleAlmacenFormComponent } from './components/formulario/detalle-almacen-form/detalle-almacen-form.component';
 import { DetalleMaterialFormComponent } from './components/formulario/detalle-material-form/detalle-material-form.component';
 import { DetalleCamionFormComponent } from './components/formulario/detalle-camion-form/detalle-camion-form.component';
+import { DetalleCategoriasFormComponent } from './components/formulario/detalle-categorias-form/detalle-categorias-form.component';
 import { SubHeaderComponent } from './components/sub-header/sub-header.component';
 import { TablaComponent } from './components/utils/tabla/tabla.component';
 import { ItemTablaComponent } from './components/utils/item-tabla/item-tabla.component';
 import { DeleteButtonComponent } from './components/utils/delete-button/delete-button.component';
+
+
 
 
 
@@ -42,6 +46,7 @@ import { DeleteButtonComponent } from './components/utils/delete-button/delete-b
     MaterialesComponent,
     PedidosComponent,
     StockComponent,
+    CategoriasComponent,
     LoginFormComponent,
     DetallePedidoFormComponent,
     DetallePerfilFormComponent,
@@ -49,10 +54,12 @@ import { DeleteButtonComponent } from './components/utils/delete-button/delete-b
     DetalleAlmacenFormComponent,
     DetalleMaterialFormComponent,
     DetalleCamionFormComponent,
+    DetalleCategoriasFormComponent,
     SubHeaderComponent,
     TablaComponent,
     ItemTablaComponent,
     DeleteButtonComponent,
+   
   ],
   imports: [
     BrowserModule,

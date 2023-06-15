@@ -6,6 +6,7 @@
     <ul class="navigation" *ngIf="rolesMap.get(rol) === 'Encargado'">
       <li class="navigation-li" [routerLink]="['/pedidos']" routerLinkActive="router-link-active"><a class="nav-item">Pedidos</a></li>
       <li class="navigation-li" [routerLink]="['/materiales']" routerLinkActive="router-link-active"><a class="nav-item">Materiales</a></li>
+      <li class="navigation-li" [routerLink]="['/categorias']" routerLinkActive="router-link-active"><a class="nav-item">Categorías de materiales</a></li>
       <li class="navigation-li" [routerLink]="['/perfil']" routerLinkActive="router-link-active"><a class="nav-item">Perfil</a></li>
     </ul>
     <ul class="navigation" *ngIf="rolesMap.get(rol) === 'Jefe de equipo'">

@@ -30,7 +30,7 @@ export class CamionesService {
 
   //Obtener mediante el ID
   getById(pId: number) : Promise<any> {
-    return lastValueFrom(this.httpClient.get<Camion>(`${this.baseUrl}${pId}`))
+    return lastValueFrom(this.httpClient.get<Camion>(`${this.baseUrl}/${pId}`))
   }
 
   // Crear un nuevo camión
