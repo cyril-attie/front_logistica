@@ -11,7 +11,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { BodyComponent } from './components/body/body.component';
 import { UsuariosComponent } from './components/tabla/usuarios/usuarios.component';
 import { AlmacenesComponent } from './components/tabla/almacenes/almacenes.component';
 import { CamionesComponent } from './components/tabla/camiones/camiones.component';
@@ -37,7 +36,6 @@ import { DeleteButtonComponent } from './components/utils/delete-button/delete-b
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    BodyComponent,
     UsuariosComponent,
     AlmacenesComponent,
     CamionesComponent,
@@ -59,7 +57,7 @@ import { DeleteButtonComponent } from './components/utils/delete-button/delete-b
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    AppRoutingModule, 
+    AppRoutingModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
