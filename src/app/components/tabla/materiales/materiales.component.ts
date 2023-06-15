@@ -46,8 +46,8 @@ export class MaterialesComponent {
         console.log(response);
         //Almacenamos los valores a a propiedad de la tabla
         this.propiedadesTabla.response = response;
-        this.propiedadesTabla.columnas = ["ID","Nombre","Estado","Categoría","Peso","Stock","Descripción"];
-        this.propiedadesTabla.claves = ["materiales_id","nombre","estado","categoria","peso","stock","descripcion_rol"];
+        this.propiedadesTabla.columnas = ["ID","Nombre", "Estado","Categoría","Peso","Descripción"];
+        this.propiedadesTabla.claves = ["materiales_id","nombre", "estado","categorias_materiales_id","peso","descripcion_material"];
         this.propiedadesTabla.botones.ver = true;
         this.propiedadesTabla.botones.editar = true;
         this.propiedadesTabla.botones.borrar = true;

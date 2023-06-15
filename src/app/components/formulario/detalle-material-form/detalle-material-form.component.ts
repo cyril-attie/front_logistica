@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Material } from 'src/app/interfaces/material';
+import { MaterialService } from 'src/app/servicios/material.service';
+import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
 
 @Component({
   selector: 'app-detalle-material-form',
@@ -8,22 +12,114 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class DetalleMaterialFormComponent implements OnInit {
 
-  detalleMaterial: FormGroup
-  constructor() {
-    this.detalleMaterial = new FormGroup({
-      n_material: new FormControl('', []),
-      nombre: new FormControl('', []),
-      estado: new FormControl('', []),
-      categoria: new FormControl('', []),
-      peso: new FormControl('', []),
-      stock: new FormControl('', []),
-      descripcion: new FormControl('', []),
+  materialForm: FormGroup;
+  isUpdate : boolean = false;
+  id: number = 0;
+  buttonName: string = '';
+
+  
+
+
+
+  constructor(
+    private materialesServices: MaterialService,
+    private activatedRoute: ActivatedRoute,
+    private notificacionesService: NotificacionesService,
+    private router: Router
+    ) {
+    this.materialForm = new FormGroup({
+      materiales_id: new FormControl('', []), // Se rellena solo en cuanto se quiere crear un nuevo material 
+      nombre: new FormControl('', [Validators.required]),
+      estado: new FormControl('', [Validators.required]),
+      categorias_materiales_id: new FormControl('', [Validators.required]),
+      peso: new FormControl('', [Validators.required]),
+      stock: new FormControl('', [Validators.required]),
+      descripcion_material: new FormControl('', [Validators.required]),
     }, []);
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+  
+    this.activatedRoute.params.subscribe(async (params:any) : Promise<void>=> {
+      this.id = (params.id); 
+      console.log(this.id)
+      
+      //Si esta creando un nuevo material entrara aqui
+      if (!this.id) {
+        this.isUpdate = false;
+        this.buttonName = "Crear";
+        return;
+      }
+      //Si esta editando un pedido entrara aqui
+      this.isUpdate = true;
+      this.buttonName = "Actualizar";
+   
+      // Activa los botones 'Editar' y 'Eliminar' 
+      try {
+        let response: any = await this.materialesServices.getById(this.id);
+        if (response.fatal) {
+          return this.notificacionesService.showError(response.fatal);
+        }
+        this.rellenarCamposForm(response);
+      } catch(err) {
+        console.log(err);
+        this.notificacionesService.showError("No ha cargado correctamente el material");
+      }
+    })
+}
 
-  recogerDatosForm() {
-    console.log(this.detalleMaterial.value)
+rellenarCamposForm(response : any) {
+  
+  const material: Material = response[0]; 
+  console.log(material);
+  this.materialForm = new FormGroup({
+  materiales_id: new FormControl(material.materiales_id,[Validators.required]),
+  nombre: new FormControl(material.nombre,[Validators.required]),
+  estado: new FormControl(material.estado,[Validators.required]),
+  categorias_materiales_id: new FormControl(material.categorias_materiales_id,[Validators.required]),
+  peso: new FormControl(material.peso,[Validators.required]),
+  descripcion_material: new FormControl(material.descripcion_material,[Validators.required]),
+  
+  
+ 
+  }, []);
+}
+
+async submitMaterial() {
+    
+  //Crear
+  if (!this.isUpdate){
+    try { 
+      const material =  this.materialForm.value;
+      const response = await this.materialesServices.create(material);
+      // if (response) {
+      //   return this.notificacionesService.showError(response.fatal);
+      // }
+      this.notificacionesService.showInfo("Se ha creado correctamente el usuario");
+    } catch (error) {
+      console.log(error);
+      this.notificacionesService.showError("No se ha creado correctamente el usuario.");
+    }
+    return;
+  }
+
+  //Actualziar
+  try{
+    const material =  this.materialForm.value;
+    const response = await this.materialesServices.update(material);
+    // if (response.fatal) {
+    //   return this.notificacionesService.showError(response.fatal);
+    // }
+    this.notificacionesService.showInfo("Se ha actualizado correctamente el usuario");
+  }catch(error){
+    console.log(error);
+    this.notificacionesService.showError("No se ha actualizado correctamente el pedido.");
+  }
+}
+
+
+
+  cancelar(){
+    this.router.navigate(['/materiales']);
   }
 }

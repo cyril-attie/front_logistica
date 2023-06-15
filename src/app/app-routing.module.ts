@@ -77,7 +77,7 @@ const routes: Routes = [
   { path: 'camiones',
     component: CamionesComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : [myGlobals.rolSuperusuario,myGlobals.rolJefeDeEquipo]}
+    data: {role : [myGlobals.rolSuperusuario,myGlobals.rolJefeDeEquipo, ]}
   },
   { path: 'camion/nuevo',
     component: DetalleCamionFormComponent,
