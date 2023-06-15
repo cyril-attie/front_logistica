@@ -42,7 +42,6 @@ export class PedidosComponent {
   async pintarTabla() :Promise<void> {
     try{
       let response = await this.pedidoService.getAll();
-      console.log(response)
       //Almacenamos los valores a a propiedad de la tabla
       this.propiedadesTabla.response = response;
       this.propiedadesTabla.columnas = ["Nºpedido","Estado","Fecha de salida", "Fecha de llegada", "Usuario asignado"];

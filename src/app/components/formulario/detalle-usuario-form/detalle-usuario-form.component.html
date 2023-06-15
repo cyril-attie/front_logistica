@@ -1,9 +1,10 @@
 <h3 class="mb-1" *ngIf="!isUpdate">Crear nuevo usuario</h3>
 <h3 class="mb-1" *ngIf="isUpdate">Editar usuario</h3>
 <hr class="mb-5">
+
 <form class="template" [formGroup]="usuarioForm" (ngSubmit)="submitUsuario()">
   
-    <div class="row">
+  <div class="row">
 
     <div class="col-md-4 mb-3">
       <div class="image-section">
