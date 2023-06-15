@@ -3,22 +3,24 @@
     <a href="#" class="new">(Filtros)</a>
 </div>
 <hr class="mb-2">
-<table class="table table-striped table-container" > 
-    <thead> 
-        <tr class="thead"> 
-            <th *ngFor="let columna of tablaColumnas">
-                <span>{{columna}}</span>
-            </th> 
-            <th *ngIf="propiedadesTabla.botones.ver"><span>Ver</span></th>
-            <th *ngIf="propiedadesTabla.botones.editar"><span>Editar</span></th>
-            <th *ngIf="propiedadesTabla.botones.borrar"><span>Borrar</span></th>
-        </tr> 
-    </thead> 
-    <tbody> 
-        
-        <ng-container *ngFor="let row of tablaValores;">
-            <!-- Esta forma es un selector nuevo para abrir un componente, se ha hecho asi ya que sino renderiza mal el DOM por culpa de la etiqueta HTML del componente "appItemTabla" - APSP -->
-            <tr appItemTabla [rowValue]="row" [botones]="propiedadesTabla.botones" [url_param]="propiedadesTabla.url_param"></tr>
-          </ng-container>
-    </tbody> 
-</table>
+<div class="table-responsive-sm">
+    <table class="table table-striped table-container" > 
+        <thead> 
+            <tr class="thead"> 
+                <th *ngFor="let columna of tablaColumnas">
+                    <span>{{columna}}</span>
+                </th> 
+                <th *ngIf="propiedadesTabla.botones.ver"><span>Ver</span></th>
+                <th *ngIf="propiedadesTabla.botones.editar"><span>Editar</span></th>
+                <th *ngIf="propiedadesTabla.botones.borrar"><span>Borrar</span></th>
+            </tr> 
+        </thead> 
+        <tbody> 
+            
+            <ng-container *ngFor="let row of tablaValores;">
+                <!-- Esta forma es un selector nuevo para abrir un componente, se ha hecho asi ya que sino renderiza mal el DOM por culpa de la etiqueta HTML del componente "appItemTabla" - APSP -->
+                <tr appItemTabla [rowValue]="row" [botones]="propiedadesTabla.botones" [url_param]="propiedadesTabla.url_param"></tr>
+            </ng-container>
+        </tbody> 
+    </table>
+</div>

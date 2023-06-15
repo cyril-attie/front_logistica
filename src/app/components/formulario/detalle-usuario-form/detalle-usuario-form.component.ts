@@ -55,7 +55,8 @@ export class DetalleUsuarioFormComponent implements OnInit{
         ]),
         ciudad: new FormControl(''),
         codigo_postal: new FormControl('',[
-          Validators.minLength(3)
+          Validators.minLength(3),
+          Validators.required
         ]),
         edad: new FormControl(''),
         activo: new FormControl(false),
@@ -83,31 +84,31 @@ export class DetalleUsuarioFormComponent implements OnInit{
           return this.notificacionesService.showError(response.fatal);
         }
         this.isUpdate = true;
-        this.notificacionesService.showInfo("Se ha creado correctamente el usuario");
+        return this.notificacionesService.showInfo("Se ha creado correctamente el usuario");
       } catch (error) {
         console.log(error);
-        this.notificacionesService.showError("No se ha creado correctamente el usuario.");
+        return this.notificacionesService.showError("No se ha creado correctamente el usuario.");
       }
-    } else {
+    } 
 
-      //Actualizar
-      try{
-        //Al actualizar no podemos actualizar a los roles 1 y 2 ni el usarios_id_lider
-        delete usuario["usuarios_id_lider"];
-        if (usuario.roles_id == 1 || usuario.roles_id == 2) {
-          delete usuario["roles_id"];
-        }
-
-        const response = await this.usuarioService.update(usuario, this.id);
-        if (response.fatal) {
-          return this.notificacionesService.showError(response.fatal);
-        }
-        this.notificacionesService.showInfo("Se ha actualizado correctamente el usuario");
-      }catch(error){
-        console.log(error);
-        this.notificacionesService.showError('No se ha actualizado correctamente el usuario.');
+    //Actualizar
+    try{
+      //Al actualizar no podemos actualizar a los roles 1 y 2 ni el usarios_id_lider
+      delete usuario["usuarios_id_lider"];
+      if (usuario.roles_id == 1 || usuario.roles_id == 2) {
+        delete usuario["roles_id"];
       }
+
+      const response = await this.usuarioService.update(usuario, this.id);
+      if (response.fatal) {
+        return this.notificacionesService.showError(response.fatal);
+      }
+      this.notificacionesService.showInfo("Se ha actualizado correctamente el usuario");
+    }catch(error){
+      console.log(error);
+      this.notificacionesService.showError('No se ha actualizado correctamente el usuario.');
     }
+   
   };
 
 
@@ -136,6 +137,9 @@ export class DetalleUsuarioFormComponent implements OnInit{
       // Activa los botones 'Editar usuario' y 'Eliminar' 
       try {
         let response: any = await this.usuarioService.getById(this.id);
+        if (response.fatal) {
+          return this.notificacionesService.showError(response.fatal);
+        }
         this.rellenarCamposForm(response);
       } catch(err) {
         console.log(err);
@@ -177,7 +181,8 @@ export class DetalleUsuarioFormComponent implements OnInit{
       ]),
       ciudad: new FormControl(usuario.ciudad),
       codigo_postal: new FormControl('',[
-        Validators.minLength(3)
+        Validators.minLength(3),
+        Validators.required
       ]),
       edad: new FormControl(usuario.edad),
       activo: new FormControl(usuario.activo),

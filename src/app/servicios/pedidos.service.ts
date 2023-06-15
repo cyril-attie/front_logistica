@@ -36,12 +36,12 @@ export class PedidosService {
   }
 
   // Crear un nuevo usuario
-  create(pedido: Pedido): Promise <Pedido>{
+  create(pedido: Pedido): Promise <Pedido | any>{
     return lastValueFrom(this.httpClient.post<Pedido>(this.baseUrl, pedido))
   }
 
   // Actualizar un nuevo pedido
-  update(pedido: Pedido): Promise<Pedido>{
+  update(pedido: Pedido): Promise<Pedido | any>{
     return lastValueFrom(this.httpClient.put<Pedido>(`${this.baseUrl}/${pedido.pedidos_id}`, pedido))
   }
 

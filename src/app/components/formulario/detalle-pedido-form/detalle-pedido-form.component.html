@@ -1,137 +1,144 @@
 
-<hr>
-<form [formGroup]="pedidoForm" (ngSubmit)=" recogerDatosForm()" class="formulario-global">
+<h3 class="mb-1" *ngIf="!isUpdate">Crear nuevo pedido</h3>
+<h3 class="mb-1" *ngIf="isUpdate">Editar pedido</h3>
+<hr class="mb-5">
 
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <label for="fecha_creacion" class="form-label">Fecha de creación</label>
-                <input class="form-control" type="date" id="fecha_creacion" formControlName="fecha_creacion">
-            </div>
-            <div class="col">
-                <label for="estado" class="form-label">Estado</label>
+<form class="template" [formGroup]="pedidoForm" (ngSubmit)=" submitPedido()" >
 
-                <select class="form-control" id="estado" formControlName="estado">
-                    <option value="revision">En revisión</option>
-                    <option value="preparacion">En preparación</option>
-                    <option value="transito">En tránsito</option>
-                    <option value="entregado">Entregado</option>
-                    <option value="cancelado">Cancelado</option>
-
-                </select>
-               
-            </div>
-            <div class="col">
-                <label for="operario_asignado" class="form-label">Operario asignado</label>
-                <input class="form-control" type="text" id="operario_asignado" formControlName="operario_asignado">
-            </div>
+    <!-- Fecha creación, select estados y operario aignado -->
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label for="fecha_creacion" class="form-label">Fecha de creación</label>
+            <input readonly class="form-control form-control-plaintext" type="date" id="fecha_creacion" formControlName="fecha_creacion">
         </div>
-        <div class="row">
-            <div class="col">
-                <label for="fecha_salida" class="form-label">Fecha de salida</label>
-                <input class="form-control" type="date" id="fecha_salida" formControlName="fecha_salida">
-            </div>
-            <div class="col">
-                <label for="fecha_llegada" class="form-label">Fecha de llegada</label>
-                <input class="form-control" type="date" id="fecha_llegada" formControlName="fecha_llegada">
-            </div>
-            <div class="col">
-                <label for="camion_asignado" class="form-label">Camión asignado</label>
-    
-                <select class="form-control" id="camion_asignado" formControlName="camion_asignado">
-                    <option *ngFor="let matricula of matriculaCamiones" [value]="matriculaCamiones.matricula">{{ matricula }}</option>
-                  </select>
-            </div>
-        </div>
-        <div class="row">
-        
-            <div class="col">
-                <label for="medida" class="form-label">Medida</label>
-                <input class="form-control" type="text" id="medida" formControlName="medida">
-            </div>
-            <div class="col">
-                <label for="usuario_creador" class="form-label">Usuario creador</label>
-                <input class="form-control" type="text" id="usuario_creador" formControlName="usuario_creador">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <label for="almacen_origen" class="form-label">Almacén de origen</label>
-                <select class="form-control" id="almacen_origen" formControlName="almacen_origen" (change)="obtenerStocks()">
-                    <option *ngFor="let nombreAlmacen of nombresAlmacenes" [value]="nombresAlmacenes.nombre_almacen">{{ nombreAlmacen }}</option>
-                  </select>
-      
-            </div>
+        <div class="col-md-4 mb-3">
+            <label required for="estado_pedido" class="form-label">Estado</label>
 
-           
-
-            <div class="col">
-                <label for="almacen_destino" class="form-label">Almacén de destino</label>
-                <select class="form-control" id="almacen_destino" formControlName="almacen_destino">
-                    <option *ngFor="let nombreAlmacen of nombresAlmacenes" [value]="nombresAlmacenes.nombre_almacen">{{ nombreAlmacen }}</option>
-                  </select>
-            </div>
+            <select class="form-control" id="estado_pedido" formControlName="estado_pedido">
+                <option value="revision">En revisión</option>
+                <option value="preparacion">En preparación</option>
+                <option value="transito">En tránsito</option>
+                <option value="entregado">Entregado</option>
+                <option value="entregado">Aprobado</option><!---->
+                <option value="cancelado">Cancelado</option>
+            </select>
+            <p class="error" *ngIf="controlError('estado_pedido', 'required')">El campo es obligatorio</p>
         </div>
-        <div class="row">
-            <div class="col">
-                <label for="observaciones" class="form-label">Observaciones</label>
-                <input class="form-control" type="" id="observaciones" formControlName="observaciones">
-            </div>
+        <div class="col-md-4 mb-3">
+            <label for="usuarios_id_creador" class="form-label">Operario asignado</label>
+            <input readonly class="form-control form-control-plaintext" type="text" id="usuarios_id_creador" formControlName="usuarios_id_creador">
         </div>
     </div>
+
+    <!-- Fecha de salida, fecha de llegada y select de camiones -->
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label required for="fecha_salida" class="form-label">Fecha de salida</label>
+            <input class="form-control" type="date" id="fecha_salida" formControlName="fecha_salida">
+            <p class="error" *ngIf="controlError('fecha_salida', 'required')">El campo es obligatorio</p>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label required for="fecha_llegada" class="form-label">Fecha de llegada</label>
+            <input class="form-control" type="date" id="fecha_llegada" formControlName="fecha_llegada">
+            <p class="error" *ngIf="controlError('fecha_llegada', 'required')">El campo es obligatorio</p>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label required for="camiones_id" class="form-label">Camión asignado</label>
+            <select class="form-control" id="camiones_id" formControlName="camiones_id">
+                <option *ngFor="let matricula of matriculaCamiones" [value]="matriculaCamiones.matricula">{{ matricula }}</option>
+            </select>
+            <p class="error" *ngIf="controlError('camiones_id', 'required')">El campo es obligatorio</p>
+        </div>
+    </div>
+
+    <!-- Selects de Almacenes -->
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label required for="almacenes_id_origen" class="form-label">Almacén de origen</label>
+            <select class="form-control" id="almacenes_id_origen" formControlName="almacenes_id_origen" (change)="obtenerStocks()">
+                <option *ngFor="let nombreAlmacen of nombresAlmacenes" [value]="nombresAlmacenes.nombre_almacen">{{ nombreAlmacen }}</option>
+            </select>
+            <p class="error" *ngIf="controlError('almacenes_id_origen', 'required')">El campo es obligatorio</p>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label required for="almacenes_id_destion" class="form-label">Almacén de destino</label>
+            <select class="form-control" id="almacenes_id_destion" formControlName="almacenes_id_destion">
+                <option *ngFor="let nombreAlmacen of nombresAlmacenes" [value]="nombresAlmacenes.nombre_almacen">{{ nombreAlmacen }}</option>
+            </select>
+            <p class="error" *ngIf="controlError('almacenes_id_destion', 'required')">El campo es obligatorio</p>
+        </div>
+    </div>
+
+    <!-- Medida y encargado a revisar y encargado a aprovar-->
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label required for="medida" class="form-label">Medida</label>
+            <input class="form-control" type="text" id="medida" formControlName="medida">
+            <p class="error" *ngIf="controlError('medida', 'required')">El campo es obligatorio</p>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label for="usuarios_id_revisador" class="form-label">Encargado a revisar</label>
+            <input readonly class="form-control form-control-plaintext" type="text" id="usuarios_id_revisador" formControlName="usuarios_id_revisador">
+        </div>
+        <div class="col-md-4 mb-3">
+            <label for="usuario_id_aprobador" class="form-label">Encargado a aprobar</label>
+            <input readonly class="form-control form-control-plaintext" type="text" id="usuario_id_aprobador" formControlName="usuario_id_aprobador">
+        </div>
+    </div>
+
+    <!-- Observaciones -->
+    <div class="col-md-12 mb-3">
+        <label for="observaciones" class="form-label">Observaciones</label>
+        <input class="form-control" type="" id="observaciones" formControlName="observaciones">
+    </div>
+
+    <!-- Tabla para informar la tabla de la base de datos "pedidos_have_stocks" -->
+    <button (click)="anadirFila()" class="btn-edit mt-3" type="button">Añadir fila</button>
+    
     <div class="table-responsive-sm">
-        <caption>Añadir material</caption>
         <hr>
-        <table class="table">
+        <table class="table table-striped table-container">
             <thead>
-                <tr>
+                <tr class="thead">
+                    <th scope="col">Posición</th>
                     <th scope="col">Nºmaterial</th>
                     <th scope="col">Nombre material</th>
-                    <th scope="col">Categoría</th>
-                    <th scope="col">Stock</th>
-                    <th scope="col">Total stock</th>
-                    <th scope="col">Acción</th>
+                    <th scope="col">Descripción Categoría</th>
+                    <th scope="col">Unidades</th>
+                    <th scope="col">Unidades disponibles</th>
+                    <th scope="col"></th>
+
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row"><input class="form-control" type="number" id="n_material" formControlName="n_material"></th>
-                    <td><input class="form-control" type="text" id="nombre_material" formControlName="nombre_material">
+                <tr *ngFor="let fila of filasStock">
+                    <td scope="row">{{fila.posicion}}
                     </td>
-                    <td><input class="form-control" type="text" id="categoria" formControlName="categoria">
+                    <td>
+                        <input [ngModelOptions]="{standalone: true}" [(ngModel)]="fila.stocks_id" (keydown)="noAction($event)"class="form-control" type="number"/>
                     </td>
-                    <td><input class="form-control" type="number" id="stock" formControlName="stock"></td>
-                    <td><input class="form-control" type="number" id="stock_total" formControlName="stock_total"></td>
-
-                    <td><button class="material-symbols-outlined icon">delete</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>200</td>
-                    <td><button class="material-symbols-outlined icon">delete</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                    <td>300</td>
-                    <td><button class="material-symbols-outlined icon">delete</button></td>
-                </tr>
+                    <td>{{ fila.descripcion_material }}</td>
+                    <td>{{ fila.descripcion_categoria }}</td>
+                    <td>
+                        <input [ngModelOptions]="{standalone: true}" [(ngModel)]="fila.unidades_utilizadas" (keydown)="noAction($event)" class="form-control" type="number"/>
+                    </td>
+                    <td>{{ fila.unidades }}</td>
+                    <td>
+                        <i (click)="eliminarFila(fila)" class="fa fa-sharp fa-solid fa-trash fa-2xl color-red"></i>
+                    </td>
+                  </tr>
             </tbody>
         </table>
     </div>
 
     <section col-md-12 mb-3>
-        <div class="input d-flex justify-content-end">
-          <button type="submit" class="btn-edit">{{ buttonName }}</button>
-          <button class="btn-cancel" (click)="cancelar()">Cancelar</button>
+        <div class="input d-flex justify-content-end gap-3">
+          <button type="submit" [disabled]="!pedidoForm.valid" class="btn-edit">{{ buttonName }}</button>
+          <button class="btn-cancel" (click)="cancelar()">Atrás</button>
           <app-delete-button
             *ngIf="isUpdate"
-            [url_param]="'usuario'"
+            [url_param]="'pedido'"
             [id]="id"
           ></app-delete-button>
         </div>
