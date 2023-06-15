@@ -106,10 +106,16 @@ async submitMaterial() {
     this.notificacionesService.showError("No se ha actualizado correctamente el material.");
   }
 }
-
-
-
   cancelar(){
     this.router.navigate(['/materiales']);
+  }
+
+  controlError(nombreCampo: string, tipoError: string): boolean {
+    if (this.materialForm.get(nombreCampo)?.hasError(tipoError) && 
+        this.materialForm.get(nombreCampo)?.touched) 
+    {
+      return true
+    }
+    return false
   }
 }

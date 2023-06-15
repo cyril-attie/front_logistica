@@ -105,4 +105,13 @@ export class DetalleCategoriasFormComponent {
   cancelar(){
     this.router.navigate(['/categorias']); 
   }
+
+  controlError(nombreCampo: string, tipoError: string): boolean {
+    if (this.categoriaForm.get(nombreCampo)?.hasError(tipoError) && 
+        this.categoriaForm.get(nombreCampo)?.touched) 
+    {
+      return true
+    }
+    return false
+  }
 }
