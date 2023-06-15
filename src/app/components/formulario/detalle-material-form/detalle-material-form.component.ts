@@ -17,10 +17,6 @@ export class DetalleMaterialFormComponent implements OnInit {
   id: number = 0;
   buttonName: string = '';
 
-  
-
-
-
   constructor(
     private materialesServices: MaterialService,
     private activatedRoute: ActivatedRoute,
@@ -33,7 +29,7 @@ export class DetalleMaterialFormComponent implements OnInit {
       estado: new FormControl('', [Validators.required]),
       categorias_materiales_id: new FormControl('', [Validators.required]),
       peso: new FormControl('', [Validators.required]),
-      stock: new FormControl('', [Validators.required]),
+      // stock: new FormControl('', [Validators.required]),
       descripcion_material: new FormControl('', [Validators.required]),
     }, []);
   }
@@ -92,13 +88,10 @@ async submitMaterial() {
     try { 
       const material =  this.materialForm.value;
       const response = await this.materialesServices.create(material);
-      // if (response) {
-      //   return this.notificacionesService.showError(response.fatal);
-      // }
-      this.notificacionesService.showInfo("Se ha creado correctamente el usuario");
+      this.notificacionesService.showInfo("Se ha creado correctamente el material");
     } catch (error) {
       console.log(error);
-      this.notificacionesService.showError("No se ha creado correctamente el usuario.");
+      this.notificacionesService.showError("No se ha creado correctamente el material.");
     }
     return;
   }
@@ -107,13 +100,10 @@ async submitMaterial() {
   try{
     const material =  this.materialForm.value;
     const response = await this.materialesServices.update(material);
-    // if (response.fatal) {
-    //   return this.notificacionesService.showError(response.fatal);
-    // }
-    this.notificacionesService.showInfo("Se ha actualizado correctamente el usuario");
+    this.notificacionesService.showInfo("Se ha actualizado correctamente el material");
   }catch(error){
     console.log(error);
-    this.notificacionesService.showError("No se ha actualizado correctamente el pedido.");
+    this.notificacionesService.showError("No se ha actualizado correctamente el material.");
   }
 }
 

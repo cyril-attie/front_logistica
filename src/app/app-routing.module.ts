@@ -18,6 +18,8 @@ import { DetalleMaterialFormComponent } from './components/formulario/detalle-ma
 import { DetallePerfilFormComponent } from './components/formulario/detalle-perfil-form/detalle-perfil-form.component';
 import { LoginGuard } from './guards/login.guard';
 import { RoleGuard } from './guards/role.guard';
+import { CategoriasComponent } from './components/tabla/categorias/categorias.component';
+import { DetalleCategoriasFormComponent } from './components/formulario/detalle-categorias-form/detalle-categorias-form.component';
 
 
 
@@ -100,10 +102,25 @@ const routes: Routes = [
     data: {role : [myGlobals.rolEncargado]}
   },
   { path: 'material/:id',
-    component: DetalleMaterialFormComponent,
+  component: DetalleMaterialFormComponent,
+  canActivate: [LoginGuard,RoleGuard],
+  data: {role : [myGlobals.rolEncargado]}
+},
+  { path: 'categorias',
+    component: CategoriasComponent,
     canActivate: [LoginGuard,RoleGuard],
     data: {role : [myGlobals.rolEncargado]}
   },
+  { path: 'categoria/nuevo',
+    component: DetalleCategoriasFormComponent,
+    canActivate: [LoginGuard,RoleGuard],
+    data: {role : [myGlobals.rolEncargado]}
+  },
+  { path: 'categoria/:id',
+  component: DetalleCategoriasFormComponent,
+  canActivate: [LoginGuard,RoleGuard],
+  data: {role : [myGlobals.rolEncargado]}
+},
   { path: 'perfil',
     component: DetallePerfilFormComponent, 
     canActivate: [LoginGuard,RoleGuard],
