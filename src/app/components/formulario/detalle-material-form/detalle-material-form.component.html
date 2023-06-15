@@ -13,32 +13,33 @@
                 <input class="form-control form-control-plaintext" type="number" id="materiales_id" formControlName="materiales_id">
             </div>
             <div class="col">
-                <label for="nombre" class="form-label">Nombre</label>
+                <label for="nombre" class="form-label" required >Nombre</label>
                 <input class="form-control" type="text" id="nombre" formControlName="nombre">
+                <p class="error" *ngIf="controlError('nombre', 'required')">El campo es obligatorio</p>
             </div>
             <div class="col">
-                <label for="estado" class="form-label">Estado</label>
+                <label for="estado" class="form-label" required>Estado</label>
                 <input class="form-control" type="text" id="estado" formControlName="estado">
+                <p class="error" *ngIf="controlError('estado', 'required')">El campo es obligatorio</p>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <label for="categorias_materiales_id" class="form-label">Categoría</label>
+                <label for="categorias_materiales_id" class="form-label" required>Categoría</label>
                 <input class="form-control" type="text" id="categorias_materiales_id" formControlName="categorias_materiales_id">
+                <p class="error" *ngIf="controlError('categorias_materiales_id', 'required')">El campo es obligatorio</p>
             </div>
             <div class="col">
-                <label for="peso" class="form-label">Peso</label>
+                <label for="peso" class="form-label" required>Peso</label>
                 <input class="form-control" type="number" id="peso" formControlName="peso">
+                <p class="error" *ngIf="controlError('peso', 'required')">El campo es obligatorio</p>
             </div>
-            <!-- <div class="col">
-                <label for="stock" class="form-label">Stock</label>
-                <input class="form-control" type="number" id="stock" formControlName="stock">
-            </div> -->
         </div>
         <div class="row">
             <div class="col">
-                <label for="descripcion_material" class="form-label">Descripción</label>
+                <label for="descripcion_material" class="form-label" required>Descripción</label>
                 <input class="form-control" type="text" id="descripcion_material" formControlName="descripcion_material">
+                <p class="error" *ngIf="controlError('descripcion_material', 'required')">El campo es obligatorio</p>
             </div>
         </div>
     </div>

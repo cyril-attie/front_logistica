@@ -7,3 +7,21 @@
 
 .row
     padding-bottom: 10px
+
+label[required]::after 
+    content: "*"
+    color: red
+    margin-left: 5px
+
+
+input.ng-invalid.ng-touched
+    border-bottom: 3px solid tomato
+
+
+input.ng-valid.ng-touched
+    border-bottom: 3px solid lightgreen
+
+
+.error
+    color: tomato
+    font-size: 10px
