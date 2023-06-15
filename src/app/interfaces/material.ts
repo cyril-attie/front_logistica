@@ -1,9 +1,9 @@
 export interface Material {
-    id?: number;
+    materiales_id?: number;
     nombre: string;
     estado: string;
-    categoria: string;
+    categorias_materiales_id: number;
     peso: number;
     stock: number;
-    descripcion: string
+    descripcion_material: string
 }

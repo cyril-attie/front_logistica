@@ -27,7 +27,12 @@ export class AlmacenService {
 
   //Obtener mediante el ID
   getById(id: number) : Promise<any> {
-    return lastValueFrom(this.httpClient.get<Almacen>(`${this.baseUrl}/${id}`))
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.get<Almacen>(`${this.baseUrl}/${id}`, httpOptions))
   }
 
   // Crear un nuevo usuario

@@ -25,12 +25,17 @@ export class MaterialService {
         'Authorization': localStorage.getItem('token_almacen')!
       })
     }
-    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}`,httpOptions)) 
+    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}`, httpOptions)) 
   }
 
   
   getById(id: number) : Promise<any> {
-    return lastValueFrom(this.httpClient.get<Material>(`${this.baseUrl}${id}`))
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    } 
+    return lastValueFrom(this.httpClient.get<Material>(`${this.baseUrl}/${id}`, httpOptions))
   }
 
  
@@ -40,7 +45,7 @@ export class MaterialService {
 
 
   update(material: Material): Promise<Material>{
-    return lastValueFrom(this.httpClient.put<Material>(`${this.baseUrl}${material.id}`, material ))
+    return lastValueFrom(this.httpClient.put<Material>(`${this.baseUrl}${material.materiales_id}`, material ))
   }
 
   
