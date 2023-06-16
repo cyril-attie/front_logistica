@@ -17,17 +17,43 @@ export class StockService {
 
   //Obtención de todo el stock
   getAll() : Promise<any> {
-    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}`)) 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}`, httpOptions)) 
   }
   //Obtener mediante el ID
-  getById(id: number) : Promise<any> {
-    return lastValueFrom(this.httpClient.get<Stock>(`${this.baseUrl}/${id}`))
+  getById(id: number) : Promise<Stock> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.get<Stock>(`${this.baseUrl}/${id}`, httpOptions))
   }
 
   // Actualizar stock
   update(stock: Stock): Promise<Stock>{
-    return lastValueFrom(this.httpClient.put<Stock>(`${this.baseUrl}/${stock.n_material}`, stock))
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json', 
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.put<Stock>(`${this.baseUrl}/${stock.n_material}`, stock, httpOptions))
   }
+
+  delete(id: number): Promise<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}/${id}`, httpOptions))
+  }
+
 
   //prueba de coger el stock por almacen 
   obtenerStocksPorAlmacen(almacen: string): Promise<any> {

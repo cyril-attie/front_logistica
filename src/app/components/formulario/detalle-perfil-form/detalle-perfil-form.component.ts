@@ -39,7 +39,8 @@ export class DetallePerfilFormComponent implements OnInit {
     try {
       let response = await this.usuarioService.getById(this.id);
       console.log(response);
-      const usuario: Usuario = response[0]; 
+      const usuario: Usuario = response; //const usuario: Usuario = response[0];
+      console.log(usuario)
       this.usuario = usuario
     } catch (err) {
       this.notificacionesService.showError("error al solicitar perfil");

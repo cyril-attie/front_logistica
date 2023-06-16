@@ -26,7 +26,7 @@ export class PedidosService {
     return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}`,httpOptions)) 
   }
   //Obtener mediante el ID
-  getById(id: number) : Promise<any> {
+  getById(id: number) : Promise<Pedido> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': localStorage.getItem('token_almacen')!
@@ -35,19 +35,36 @@ export class PedidosService {
     return lastValueFrom(this.httpClient.get<Pedido>(`${this.baseUrl}/${id}`, httpOptions))
   }
 
-  // Crear un nuevo usuario
+  // Crear 
   create(pedido: Pedido): Promise <Pedido | any>{
-    return lastValueFrom(this.httpClient.post<Pedido>(`${this.baseUrl}/nuevo`, pedido))
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json', 
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.post<Pedido>(`${this.baseUrl}/nuevo`, pedido, httpOptions))
   }
 
   // Actualizar un nuevo pedido
   update(pedido: Pedido): Promise<Pedido | any>{
-    return lastValueFrom(this.httpClient.put<Pedido>(`${this.baseUrl}/${pedido.pedidos_id}`, pedido))
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json', 
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.put<Pedido>(`${this.baseUrl}/${pedido.pedidos_id}`, pedido, httpOptions))
   }
 
   // Eliminar un pedido
   delete(id: number): Promise<any>{
-    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}/${id}`))
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}/${id}`, httpOptions))
    
   }
 }

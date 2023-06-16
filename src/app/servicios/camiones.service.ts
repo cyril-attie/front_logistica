@@ -29,23 +29,45 @@ export class CamionesService {
   }
 
   //Obtener mediante el ID
-  getById(pId: number) : Promise<any> {
-    return lastValueFrom(this.httpClient.get<Camion>(`${this.baseUrl}/${pId}`))
+  getById(pId: number) : Promise<Camion> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.get<Camion>(`${this.baseUrl}/${pId}`, httpOptions))
   }
 
   // Crear un nuevo camión
   create(camion: Camion): Promise <Camion>{
-    return lastValueFrom(this.httpClient.post<Camion>(`${this.baseUrl}/nuevo`, camion))
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json', 
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.post<Camion>(`${this.baseUrl}/nuevo`, camion, httpOptions))
   }
 
   // Actualizar un nuevo camión
   update(camion: Camion): Promise<Camion>{
-    return lastValueFrom(this.httpClient.put<Camion>(`${this.baseUrl}${camion.id}`, camion))
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json', 
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.put<Camion>(`${this.baseUrl}/${camion.id}`, camion, httpOptions))
   }
 
   // Eliminar un camión
-  delete(pId: number): Promise<any>{
-    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}${pId}`))
+  delete(id: number): Promise<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}/${id}`, httpOptions))
    
   }
 }
