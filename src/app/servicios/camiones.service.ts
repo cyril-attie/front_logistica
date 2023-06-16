@@ -35,7 +35,7 @@ export class CamionesService {
 
   // Crear un nuevo camión
   create(camion: Camion): Promise <Camion>{
-    return lastValueFrom(this.httpClient.post<Camion>(this.baseUrl, camion))
+    return lastValueFrom(this.httpClient.post<Camion>(`${this.baseUrl}/nuevo`, camion))
   }
 
   // Actualizar un nuevo camión

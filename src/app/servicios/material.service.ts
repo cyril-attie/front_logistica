@@ -45,7 +45,7 @@ export class MaterialService {
         'Authorization': localStorage.getItem('token_almacen')!
       })
     };
-    return lastValueFrom(this.httpClient.post<Material>(this.baseUrl, material, httpOptions))
+    return lastValueFrom(this.httpClient.post<Material>(`${this.baseUrl}/nuevo`, material, httpOptions))
   }
 
 
