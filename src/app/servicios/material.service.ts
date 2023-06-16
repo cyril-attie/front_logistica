@@ -40,7 +40,12 @@ export class MaterialService {
 
  
   create(material: Material): Promise <Material>{
-    return lastValueFrom(this.httpClient.post<Material>(this.baseUrl, material))
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    };
+    return lastValueFrom(this.httpClient.post<Material>(this.baseUrl, material, httpOptions))
   }
 
 
