@@ -37,7 +37,7 @@ export class AlmacenService {
 
   // Crear un nuevo usuario
   create(almacen: Almacen): Promise <Almacen>{
-    return lastValueFrom(this.httpClient.post<Almacen>(this.baseUrl, almacen))
+    return lastValueFrom(this.httpClient.post<Almacen>(`${this.baseUrl}/nuevo`, almacen))
   }
 
   // Actualizar un nuevo almacen

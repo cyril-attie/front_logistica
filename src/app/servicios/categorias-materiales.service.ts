@@ -36,7 +36,7 @@ export class CategoriasMaterialesService {
 
   // Crear un nuevo camión
   create(categoria: Categoria): Promise <Categoria>{
-    return lastValueFrom(this.httpClient.post<Categoria>(this.baseUrl, categoria))
+    return lastValueFrom(this.httpClient.post<Categoria>(`${this.baseUrl}/nuevo`, categoria))
   }
 
   // Actualizar un nuevo camión
