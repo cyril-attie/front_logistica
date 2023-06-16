@@ -88,6 +88,7 @@ async submitMaterial() {
     try { 
       const material =  this.materialForm.value;
       const response = await this.materialesServices.create(material);
+      console.log(response)
       this.notificacionesService.showInfo("Se ha creado correctamente el material");
     } catch (error) {
       console.log(error);
