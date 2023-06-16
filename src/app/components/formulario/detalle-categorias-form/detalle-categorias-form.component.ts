@@ -24,7 +24,7 @@ export class DetalleCategoriasFormComponent {
     private router: Router
   ){
     this.categoriaForm = new FormGroup ({
-      categorias_materiales_id: new FormControl('', [Validators.required]), 
+      categorias_materiales_id: new FormControl('', []), 
       descripcion: new FormControl('', [Validators.required]), 
       comentario: new FormControl('', [Validators.required])
     }, []);
@@ -67,7 +67,7 @@ export class DetalleCategoriasFormComponent {
     const categoria: Categoria = response[0]; 
     console.log(categoria);
     this.categoriaForm = new FormGroup({
-      categorias_materiales_id: new FormControl(categoria.categorias_materiales_id,[Validators.required]),
+      categorias_materiales_id: new FormControl(categoria.categorias_materiales_id,[]),
       descripcion: new FormControl(categoria.descripcion,[Validators.required]),
       comentario: new FormControl(categoria.comentario,[Validators.required]),
   

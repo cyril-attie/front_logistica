@@ -29,7 +29,7 @@ export class MaterialService {
   }
 
   
-  getById(id: number) : Promise<any> {
+  getById(id: number) : Promise<Material> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': localStorage.getItem('token_almacen')!
@@ -42,20 +42,32 @@ export class MaterialService {
   create(material: Material): Promise <Material>{
     const httpOptions = {
       headers: new HttpHeaders({
+        'Content-Type': 'application/json', 
         'Authorization': localStorage.getItem('token_almacen')!
       })
-    };
+    }
     return lastValueFrom(this.httpClient.post<Material>(`${this.baseUrl}/nuevo`, material, httpOptions))
   }
 
 
   update(material: Material): Promise<Material>{
-    return lastValueFrom(this.httpClient.put<Material>(`${this.baseUrl}${material.materiales_id}`, material ))
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json', 
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.put<Material>(`${this.baseUrl}/${material.materiales_id}`, material, httpOptions ))
   }
 
   
   delete(id: number): Promise<any>{
-    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}${id}`))
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    } 
+    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}/${id}`, httpOptions))
    
   }
 }

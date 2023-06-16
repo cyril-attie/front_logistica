@@ -25,7 +25,7 @@ export class CategoriasMaterialesService {
   }
 
   //Obtener mediante el ID
-  getById(id: number) : Promise<any> {
+  getById(id: number) : Promise<Categoria> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': localStorage.getItem('token_almacen')!
@@ -36,17 +36,34 @@ export class CategoriasMaterialesService {
 
   // Crear un nuevo camión
   create(categoria: Categoria): Promise <Categoria>{
-    return lastValueFrom(this.httpClient.post<Categoria>(`${this.baseUrl}/nuevo`, categoria))
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json', 
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.post<Categoria>(`${this.baseUrl}/nuevo`, categoria, httpOptions))
   }
 
   // Actualizar un nuevo camión
   update(categoria: Categoria): Promise<Categoria>{
-    return lastValueFrom(this.httpClient.put<Categoria>(`${this.baseUrl}${categoria.categorias_materiales_id}`, categoria))
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json', 
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.put<Categoria>(`${this.baseUrl}/${categoria.categorias_materiales_id}`, categoria, httpOptions))
   }
 
   // Eliminar un camión
-  delete(pId: number): Promise<any>{
-    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}${pId}`))
+  delete(id: number): Promise<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}/${id}`, httpOptions))
    
   }
 }

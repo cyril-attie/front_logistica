@@ -26,7 +26,7 @@ export class AlmacenService {
 
 
   //Obtener mediante el ID
-  getById(id: number) : Promise<any> {
+  getById(id: number) : Promise<Almacen> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': localStorage.getItem('token_almacen')!
@@ -35,19 +35,38 @@ export class AlmacenService {
     return lastValueFrom(this.httpClient.get<Almacen>(`${this.baseUrl}/${id}`, httpOptions))
   }
 
+
+  
   // Crear un nuevo usuario
   create(almacen: Almacen): Promise <Almacen>{
-    return lastValueFrom(this.httpClient.post<Almacen>(`${this.baseUrl}/nuevo`, almacen))
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json', 
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.post<Almacen>(`${this.baseUrl}/nuevo`, almacen, httpOptions))
   }
 
   // Actualizar un nuevo almacen
   update(almacen: Almacen): Promise<Almacen>{
-    return lastValueFrom(this.httpClient.put<Almacen>(`${this.baseUrl}/${almacen.almacenes_id}`, almacen))
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json', 
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.put<Almacen>(`${this.baseUrl}/${almacen.almacenes_id}`, almacen, httpOptions))
   }
 
   // Eliminar un almacen
   delete(id: number): Promise<any>{
-    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}/${id}`))
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': localStorage.getItem('token_almacen')!
+      })
+    }
+    return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}/${id}`, httpOptions))
    
   }
 
@@ -62,4 +81,6 @@ export class AlmacenService {
     const url = `http://localhost:3000/api/stock?almacen=${almacen}`;
     return lastValueFrom(this.httpClient.get<any>(url, httpOptions));
   }
+
+
 }
