@@ -7,8 +7,7 @@ export interface Almacen {
     codigo_postal: string;
     localidad: string;
     pais: string;
-    latitud: Point;
-    longitud: Point;
+    coordenadas: Point;
     capacidad_almacen: number;
     usuarios_id_encargado: number;
     stocks:[StockAlmacen]

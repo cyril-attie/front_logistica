@@ -1,55 +1,115 @@
 
 
 
+<h3 class="mb-1" *ngIf="!isUpdate">Crear nuevo almacén</h3>
+<h3 class="mb-1" *ngIf="isUpdate">Editar almacén</h3>
+<hr class="mb-5">
 <hr>
 
-<form [formGroup]="detalleAlmacen" (ngSubmit)="recogerDatosForm()" class="formulario-global">
+<form [formGroup]="almacenForm" (ngSubmit)="submitAlmacen()" class="formulario-global">
 
     <div class="container">
         <div class="row">
-            <div class="col">
-                <label for="nombre_almacen" class="form-label">Nombre Almacén</label>
+            <div class="col mb-3">
+                <label for="nombre_almacen" class="form-label" required>Nombre Almacén</label>
                 <input class="form-control" type="text" id="nombre_almacen" formControlName="nombre_almacen">
+                <p class="error" *ngIf="controlError('nombre_almacen', 'required')">El campo es obligatorio</p>
             </div>
-            <div class="col">
-                <label for="calle" class="form-label">Calle</label>
+            <div class="col mb-3">
+                <label for="calle" class="form-label" required>Calle</label>
                 <input class="form-control" type="text" id="calle" formControlName="calle">
+                <p class="error" *ngIf="controlError('calle', 'required')">El campo es obligatorio</p>
             </div>
         </div>
         <div class="row">
-            <div class="col">
-                <label for="localidad" class="form-label">Localidad</label>
+            <div class="col mb-3">
+                <label for="localidad" class="form-label" required>Localidad</label>
                 <input class="form-control" type="text" id="localidad" formControlName="localidad">
+                <p class="error" *ngIf="controlError('localidad', 'required')">El campo es obligatorio</p>
             </div>
-            <div class="col">
-                <label for="pais" class="form-label">País</label>
+            <div class="col mb-3">
+                <label for="pais" class="form-label" required>País</label>
                 <input class="form-control" type="text" id="pais" formControlName="pais">
             </div>
-            <div class="col">
-                <label for="codigo_postal" class="form-label">Código Postal</label>
+            <div class="col mb-3">
+                <label for="codigo_postal" class="form-label" required>Código Postal</label>
                 <input class="form-control" type="text" id="codigo_postal" formControlName="codigo_postal">
+                <p class="error" *ngIf="controlError('codigo_postal', 'required')">El campo es obligatorio</p>
             </div>
         </div>
         <div class="row">
-            <div class="col">
-                <label for="latitud" class="form-label">Latitud</label>
-                <input class="form-control" type="number" id="latitud" formControlName="latitud">
+            <div class="col mb-3">
+                <label for="coordenadas" class="form-label" required>Coordenadas</label>
+                <input class="form-control" type="number" id="coordenadas" formControlName="coordenadas">
+                <p class="error" *ngIf="controlError('coordenadas', 'required')">El campo es obligatorio</p>
             </div>
-            <div class="col">
-                <label for="longitud" class="form-label">Longitud</label>
-                <input class="form-control" type="number" id="longitud" formControlName="longitud">
+            <div class="col mb-3">
+                <label for="capacidad_almacen" class="form-label" required>Capacidad</label>
+                <input class="form-control" type="number" id="capacidad_almacen" formControlName="capacidad_almacen">
+                <p class="error" *ngIf="controlError('capacidad_almacen', 'required')">El campo es obligatorio</p>
             </div>
-            <div class="col">
-                <label for="capacidad" class="form-label">Capacidad</label>
-                <input class="form-control" type="number" id="capacidad" formControlName="capacidad">
+            <div class="col mb-3">
+                <label for="usuarios_id_encargado" class="form-label" required>Encargado</label>
+                <select (change)="Encargado()" class="form-control" id="usuarios_id_encargado" formControlName="usuarios_id_encargado">
+                    <option *ngFor="let encargado of encargados" [value]="encargado">{{encargado.usuarios_id + " - " + encargado.nombre }}</option>
+                </select>
+                <!-- <input class="form-control" type="number" id="usuarios_id_encargado" formControlName="usuarios_id_encargado"> -->
+                <p class="error" *ngIf="controlError('usuarios_id_encargado', 'required')">El campo es obligatorio</p>
             </div>
         </div>
-    </div>
 
-    <div class="botones">
-        <div class="btn-crear">
-            <input type="edit" value="Editar almacén" class="btn btn-warning mt-3">
-        </div>
-        <div>
-            <input type="delete" value="Eliminar" class="btn btn-danger mt-3">
-        </div>
+        <section class="col-md-12 mb-3 mt-3" >
+            <div class="input d-flex justify-content-end gap-3">
+              <button type="submit" [disabled]="!almacenForm.valid" class="btn-edit">{{ buttonName }}</button>
+              <button class="btn-cancel" (click)="cancelar()">Atrás</button>
+              <app-delete-button
+                *ngIf="isUpdate"
+                [url_param]="'almacen'"
+                [id]="id"
+              ></app-delete-button>
+            </div>
+          </section>
+    </div>
+    </form>
+
+
+      <button (click)="anadirFila()" class="btn-edit mt-3" type="button">Añadir fila</button>
+
+      <div class="table-responsive-sm">
+        <hr>
+        <table class="table table-striped">
+            <thead>
+                <tr class="thead row">
+                    <th scope="row" class="col-lg-2 col-md-6 center d-flex justify-content-center">Posición</th>
+                    <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Nºmaterial</th>
+                    <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Nombre material</th>
+                    <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Descripción Categoría</th>
+                    <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Total Unidades</th>
+                    <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Editar</th>
+                </tr>
+            </thead>
+        
+            <tbody>
+                <tr *ngFor="let fila of filasStock" class="row text-center d-flex justify-content-center">
+                    <td class="col-lg-2 col-md-6 text-center align-items-center d-flex justify-content-center" scope="col">{{fila.posicion}}</td>
+                    <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center">
+                        <select (change)="informarFilaStock($event,fila)"  class="form-control">
+                            <option *ngIf="!fila.descripcion_categoria"></option>
+
+                            <!-- No pillo nada esta línea -->
+                            <option *ngFor="let stock of stocksOrigen" [value]="stock.stocks_id">{{stock.stocks_id}}</option>
+
+                        </select>
+                    </td>
+                    <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center" scope="col">{{ fila.descripcion_material }}</td>
+                    <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center" scope="col">{{ fila.descripcion_categoria }}</td>
+                    <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center" scope="col">{{ fila.total_unidades }}</td>
+                    <td class="col-lg-2 col-md-6 text-center align-items-center d-flex justify-content-center" scope="col">
+                        <i (click)="eliminarFila(fila)" class="fa fa-sharp fa-solid fa-trash fa-sm color-red center"></i>
+                    </td>
+                    
+                </tr>
+        
+            </tbody>
+        </table>
+    </div>

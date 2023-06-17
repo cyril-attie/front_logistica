@@ -16,6 +16,7 @@ export class DetalleCamionFormComponent {
   camionExiste: boolean = false; 
   title: string = "Registrar";
   id: number = 0;
+  
 
   constructor(
     private camionService: CamionesService,
