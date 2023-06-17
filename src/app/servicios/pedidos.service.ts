@@ -65,6 +65,5 @@ export class PedidosService {
       })
     }
     return lastValueFrom(this.httpClient.delete<any>(`${this.baseUrl}/${id}`, httpOptions))
-   
   }
 }

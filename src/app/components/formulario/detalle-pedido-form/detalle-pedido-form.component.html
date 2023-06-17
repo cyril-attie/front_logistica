@@ -3,7 +3,7 @@
 <h3 class="mb-1" *ngIf="isUpdate">Editar pedido</h3>
 <hr class="mb-5">
 
-<form class="template" [formGroup]="pedidoForm" (ngSubmit)=" submitPedido()" >
+<form class="template mb-5" [formGroup]="pedidoForm" (ngSubmit)=" submitPedido()" >
 
     <!-- Fecha creación, select estados y operario aignado -->
     <div class="row">
@@ -98,39 +98,45 @@
     
     <div class="table-responsive-sm">
         <hr>
-        <table class="table table-striped table-container">
+        <table class="table table-striped">
             <thead>
-                <tr class="thead">
-                    <th scope="col">Posición</th>
-                    <th scope="col">Nºmaterial</th>
-                    <th scope="col">Nombre material</th>
-                    <th scope="col">Descripción Categoría</th>
-                    <th scope="col">Unidades</th>
-                    <th scope="col">Unidades disponibles</th>
-                    <th scope="col"></th>
-
+                <tr class="thead row">
+                    <th scope="row" class="col-lg-2 col-md-6 center d-flex justify-content-center">Posición</th>
+                    <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Nºmaterial</th>
+                    <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Nombre material</th>
+                    <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Descripción Categoría</th>
+                    <th scope="col" class="col-lg-1 col-md-4 center d-flex justify-content-center">Unidades</th>
+                    <th scope="col" class="col-lg-2 col-md-4 center d-flex justify-content-center">Unidades disponibles</th>
+                    <th scope="col" class="col-lg-1 col-md-4 center d-flex justify-content-center">Editar</th>
                 </tr>
             </thead>
+        
             <tbody>
-                <tr *ngFor="let fila of filasStock">
-                    <td scope="row">{{fila.posicion}}
+                <tr *ngFor="let fila of filasStock" class="row text-center d-flex justify-content-center">
+                    <td class="col-lg-2 col-md-6 text-center align-items-center d-flex justify-content-center" scope="col">{{fila.posicion}}</td>
+                    <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center">
+                        <input [ngModelOptions]="{standalone: true}" [(ngModel)]="fila.stocks_id" (keydown)="noAction($event)" class="form-control text-center" scope="col" type="number" />
                     </td>
-                    <td>
-                        <input [ngModelOptions]="{standalone: true}" [(ngModel)]="fila.stocks_id" (keydown)="noAction($event)"class="form-control" type="number"/>
+                    <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center" scope="col">{{ fila.descripcion_material }}</td>
+                    <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center" scope="col">{{ fila.descripcion_categoria }}</td>
+                    <td class="col-lg-1 col-md-4 align-items-center d-flex justify-content-center" scope="col">
+                        <input [ngModelOptions]="{standalone: true}" [(ngModel)]="fila.unidades_utilizadas" (keydown)="noAction($event)" class="form-control text-center" scope="col" type="number" />
                     </td>
-                    <td>{{ fila.descripcion_material }}</td>
-                    <td>{{ fila.descripcion_categoria }}</td>
-                    <td>
-                        <input [ngModelOptions]="{standalone: true}" [(ngModel)]="fila.unidades_utilizadas" (keydown)="noAction($event)" class="form-control" type="number"/>
+                    <td class="col-lg-2 col-md-4 align-items-center d-flex justify-content-center" scope="col">{{ fila.unidades }}</td>
+                    <td class="col-lg-1 col-md-4 text-center align-items-center d-flex justify-content-center" scope="col">
+                        <i (click)="eliminarFila(fila)" class="fa fa-sharp fa-solid fa-trash fa-sm color-red center"></i>
                     </td>
-                    <td>{{ fila.unidades }}</td>
-                    <td>
-                        <i (click)="eliminarFila(fila)" class="fa fa-sharp fa-solid fa-trash fa-2xl color-red"></i>
-                    </td>
-                  </tr>
+                    
+                </tr>
+        
             </tbody>
         </table>
     </div>
+
+
+
+
+    
 
     <section col-md-12 mb-3>
         <div class="input d-flex justify-content-end gap-3">
@@ -144,3 +150,5 @@
         </div>
       </section>
 </form>
+
+<hr class="mb-5">

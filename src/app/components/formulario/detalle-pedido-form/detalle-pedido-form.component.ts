@@ -23,6 +23,7 @@ export class DetallePedidoFormComponent implements OnInit {
   almacenes: Almacen[] | any = [];
   camiones: Camion[] | any = [];
 
+
   pedidoForm: FormGroup;
 
   stocks: number = 0;
@@ -298,6 +299,7 @@ export class DetallePedidoFormComponent implements OnInit {
                         unidades: 0 
                       };
     this.filasStock.push(nuevaFila);
+    
   }
 
   // Método para eliminar una fila de la tabla
