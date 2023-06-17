@@ -9,14 +9,14 @@
     <div class="row">
         <div class="col-md-4 mb-3">
             <label for="fecha_creacion" class="form-label">Fecha de creación</label>
-            <input readonly class="form-control form-control-plaintext" type="date" id="fecha_creacion" formControlName="fecha_creacion">
+            <input readonly class="form-control form-control-plaintext" type="datetime" id="fecha_creacion" formControlName="fecha_creacion">
         </div>
         <div class="col-md-4 mb-3">
             <label required for="estado_pedido" class="form-label">Estado</label>
 
             <select class="form-control" id="estado_pedido" formControlName="estado_pedido">
                 <option value="revision">En revisión</option>
-                <option value="preparacion">En preparación</option>
+                <option [defaultSelected]="'En preparación'" value="preparacion">En preparación</option>
                 <option value="transito">En tránsito</option>
                 <option value="entregado">Entregado</option>
                 <option value="entregado">Aprobado</option><!---->
@@ -34,18 +34,18 @@
     <div class="row">
         <div class="col-md-4 mb-3">
             <label required for="fecha_salida" class="form-label">Fecha de salida</label>
-            <input class="form-control" type="date" id="fecha_salida" formControlName="fecha_salida">
+            <input class="form-control" type="datetime-local" id="fecha_salida" formControlName="fecha_salida">
             <p class="error" *ngIf="controlError('fecha_salida', 'required')">El campo es obligatorio</p>
         </div>
         <div class="col-md-4 mb-3">
             <label required for="fecha_llegada" class="form-label">Fecha de llegada</label>
-            <input class="form-control" type="date" id="fecha_llegada" formControlName="fecha_llegada">
+            <input class="form-control" type="datetime-local" id="fecha_llegada" formControlName="fecha_llegada">
             <p class="error" *ngIf="controlError('fecha_llegada', 'required')">El campo es obligatorio</p>
         </div>
         <div class="col-md-4 mb-3">
             <label required for="camiones_id" class="form-label">Camión asignado</label>
             <select class="form-control" id="camiones_id" formControlName="camiones_id">
-                <option *ngFor="let matricula of matriculaCamiones" [value]="matriculaCamiones.matricula">{{ matricula }}</option>
+                <option *ngFor="let camion of camiones" [value]="camion.camiones_id">{{camion.camiones_id + " - " + camion.matricula_camion}}</option>
             </select>
             <p class="error" *ngIf="controlError('camiones_id', 'required')">El campo es obligatorio</p>
         </div>
@@ -55,16 +55,16 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <label required for="almacenes_id_origen" class="form-label">Almacén de origen</label>
-            <select class="form-control" id="almacenes_id_origen" formControlName="almacenes_id_origen" (change)="obtenerStocks()">
-                <option *ngFor="let nombreAlmacen of nombresAlmacenes" [value]="nombresAlmacenes.nombre_almacen">{{ nombreAlmacen }}</option>
+            <select (change)="almacenOrigenChange($event)" class="form-control" id="almacenes_id_origen" formControlName="almacenes_id_origen" (change)="obtenerStocks()">
+                <option *ngFor="let almacen of almacenes" [value]="almacen.almacenes_id">{{almacen.almacenes_id + " - " + almacen.nombre_almacen }}</option>
             </select>
             <p class="error" *ngIf="controlError('almacenes_id_origen', 'required')">El campo es obligatorio</p>
         </div>
 
         <div class="col-md-6 mb-3">
             <label required for="almacenes_id_destion" class="form-label">Almacén de destino</label>
-            <select class="form-control" id="almacenes_id_destion" formControlName="almacenes_id_destion">
-                <option *ngFor="let nombreAlmacen of nombresAlmacenes" [value]="nombresAlmacenes.nombre_almacen">{{ nombreAlmacen }}</option>
+            <select (change)="almacenDestinoChange($event)" class="form-control" id="almacenes_id_destion" formControlName="almacenes_id_destion">
+                <option *ngFor="let almacen of almacenes" [value]="almacen.almacenes_id">{{almacen.almacenes_id + " - " + almacen.nombre_almacen}}</option>
             </select>
             <p class="error" *ngIf="controlError('almacenes_id_destion', 'required')">El campo es obligatorio</p>
         </div>

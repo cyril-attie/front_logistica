@@ -1,3 +1,4 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,11 +20,11 @@ import { StockService } from 'src/app/servicios/stock.service';
 export class DetallePedidoFormComponent implements OnInit {
 
 
-  almacenes: Almacen | any = [];
-  camiones: Camion | any = [];
-  nombresAlmacenes:  Almacen | any = [];
-  matriculaCamiones: Camion | any = [];
+  almacenes: Almacen[] | any = [];
+  camiones: Camion[] | any = [];
+
   pedidoForm: FormGroup;
+
   stocks: number = 0;
   id: number = 0;
   title: string = "Registrar";
@@ -43,7 +44,9 @@ export class DetallePedidoFormComponent implements OnInit {
     private stockService: StockService,
     private router: Router) 
   {
-    
+    const usuarioCreador = localStorage.getItem('user_id');
+    const actualDate = formatDate(new Date(),'yyyy-MM-dd hh:mm:ss','en');
+
     this.pedidoForm = new FormGroup({
       pedidos_id: new FormControl('',[]), //Se informa al actualizar o cuando ya se ha creado
       fecha_salida: new FormControl('', [
@@ -52,14 +55,12 @@ export class DetallePedidoFormComponent implements OnInit {
       fecha_llegada: new FormControl('', [
         Validators.required
       ]),
-      estado_pedido: new FormControl('', [
-        Validators.required
-      ]),
+      estado_pedido: new FormControl('En preparación', []),
       medida: new FormControl('', [
         Validators.required
       ]),
-      fecha_creacion: new FormControl('', []), /*APSP: Se pone automaticamente con la fecha del dia de la creación del pedido */
-      usuarios_id_creador: new FormControl('', []), /*APSP: Se pone con el usuario que crea el pedido, es decir el operario */
+      fecha_creacion: new FormControl(actualDate, []), /*APSP: Se pone automaticamente con la fecha del dia de la creación del pedido */
+      usuarios_id_creador: new FormControl(usuarioCreador, []), /*APSP: Se pone con el usuario que crea el pedido, es decir el operario */
       usuarios_id_revisador: new FormControl('', []), /*APSP: Se pone con el "usario_id_encargado" de la tabla almacenes del almacén detino*/
       almacenes_id_origen: new FormControl('', [
         Validators.required
@@ -82,6 +83,10 @@ export class DetallePedidoFormComponent implements OnInit {
     if (!this.isUpdate){
       try { 
         const pedido =  this.pedidoForm.value;
+        delete pedido["pedidos_id"];
+        pedido.stocks = this.stocksArrayToObject(this.filasStock);
+        
+        console.log(pedido);
         const response = await this.pedidosService.create(pedido);
         if (response.fatal) {
           return this.notificacionesService.showError(response.fatal);
@@ -109,6 +114,7 @@ export class DetallePedidoFormComponent implements OnInit {
     //Actualziar
     try{
       const pedido =  this.pedidoForm.value;
+      
       const response = await this.pedidosService.update(pedido);
       if (response.fatal) {
         return this.notificacionesService.showError(response.fatal);
@@ -197,9 +203,7 @@ export class DetallePedidoFormComponent implements OnInit {
       fecha_llegada: new FormControl(pedido.fecha_llegada, [
         Validators.required
       ]),
-      estado_pedido: new FormControl(pedido.estado_pedido, [
-        Validators.required
-      ]),
+      estado_pedido: new FormControl(pedido.estado_pedido, []),
       medida: new FormControl(pedido.medida, [
         Validators.required
       ]),
@@ -226,16 +230,34 @@ export class DetallePedidoFormComponent implements OnInit {
 
     try {
       let response = await this.almacenesService.getAll();
+      if (response.fatal) {
+        return this.notificacionesService.showError(response.fatal);
+      }
       this.almacenes = response;
-      this.nombresAlmacenes = this.almacenes.map((almacen: any) => almacen.nombre_almacen);
-      this.nombresAlmacenes = this.nombresAlmacenes.filter(
-        (nombre : any, index: any) => this.nombresAlmacenes.indexOf(nombre) === index
-      );
       
     }catch(error){
       this.notificacionesService.showError("Algo ha ido mal al cargar la tabla");
       console.log(error)
     }
+  }
+
+  almacenOrigenChange(event : any) {
+    const idAlmacenSelected = event.target.value;
+    const findAlmacen  = this.almacenes.find((element:Almacen) => element.almacenes_id == idAlmacenSelected);
+    const encargadoRevisar = findAlmacen.almacenes_id;
+    this.pedidoForm.patchValue({
+      usuarios_id_revisador: encargadoRevisar
+    })
+
+  }
+
+  almacenDestinoChange(event : any) {
+    const idAlmacenSelected = event.target.value;
+    const findAlmacen  = this.almacenes.find((element:Almacen) => element.almacenes_id == idAlmacenSelected);
+    const encargadoAprobar = findAlmacen.almacenes_id;
+    this.pedidoForm.patchValue({
+      usuario_id_aprobador: encargadoAprobar
+    })
   }
 
   // Obtención de los nombres de los camiones para pintarlos en el html
@@ -244,16 +266,9 @@ export class DetallePedidoFormComponent implements OnInit {
     try {
       let response = await this.camionesService.getAll();
       if (response.fatal) {
-        this.notificacionesService.showError(response.fatal);
-        console.log(response); 
-      } else {
-        this.camiones = response;
-        this.matriculaCamiones = this.camiones.map((camion: any) => camion.matricula);
-
-        this.matriculaCamiones = this.matriculaCamiones.filter(
-          (nombre : any, index: any) => this.matriculaCamiones.indexOf(nombre) === index
-        );
+        return this.notificacionesService.showError(response.fatal);
       }
+      this.camiones = response;
       
     }catch(error){
       this.notificacionesService.showError("Algo ha ido mal, mira el error en consola");
@@ -323,7 +338,19 @@ export class DetallePedidoFormComponent implements OnInit {
   }
 
 
-
+  stocksArrayToObject (arr: any[]): any {
+    const resultado: any = {};
+  
+    arr.forEach(obj => {
+      const { stocks_id, posicion, unidades_utilizadas } = obj;
+      resultado[stocks_id] = {
+        posicion,
+        unidades: unidades_utilizadas
+      };
+    });
+  
+    return resultado;
+  }
 
 
 
