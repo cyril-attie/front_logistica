@@ -1,9 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.service';
 import * as myGlobals from '../../../general/globals';
-import { Usuario } from 'src/app/interfaces/usuario';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
+import { PerfilesService } from 'src/app/servicios/perfiles.service';
+import { Perfil } from 'src/app/interfaces/perfil';
 
 @Component({
   selector: 'app-detalle-perfil-form',
@@ -13,7 +12,16 @@ import { NotificacionesService } from 'src/app/servicios/notificaciones.service'
 export class DetallePerfilFormComponent implements OnInit {
   imagen: string = 'https://cdn-images.livecareer.es/pages/foto_cv_lc_es_3.jpg';
  
-  usuario : Usuario | any = {};
+  perfil : Perfil  = {
+    nombre: '',
+    apellido: '',
+    edad: 0,
+    email: '',
+    ciudad: '',
+    pais: '',
+    estado: false,
+    roles_id: 0
+  };
   id: number = 0;
   notificacionesService = inject(NotificacionesService)
 
@@ -24,24 +32,20 @@ export class DetallePerfilFormComponent implements OnInit {
   ]);
 
   constructor(
-    private usuarioService: UsuariosServiceService,
-    ){
-
-  }
+    private perfilService: PerfilesService,
+    ){}
   
 
   async ngOnInit(): Promise<void> {
     //debugger;
-    const idString : number | any = localStorage.getItem('usuarios_id');
-    this.id = parseInt(idString);
+    const token : number | any = localStorage.getItem('token_almacen');
+    console.log(token)
 
     // Asignarle un numero al rol para que en el ngClass del html se pinte un color u otro según su rol
     try {
-      let response = await this.usuarioService.getById(this.id);
-      console.log(response);
-      const usuario: Usuario = response; //const usuario: Usuario = response[0];
-      console.log(usuario)
-      this.usuario = usuario
+      let perfil: Perfil = await this.perfilService.getPerfil();
+      console.log(perfil);
+ 
     } catch (err) {
       this.notificacionesService.showError("error al solicitar perfil");
     }
