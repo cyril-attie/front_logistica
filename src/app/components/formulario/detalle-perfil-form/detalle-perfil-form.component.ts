@@ -10,8 +10,7 @@ import { Perfil } from 'src/app/interfaces/perfil';
   styleUrls: ['./detalle-perfil-form.component.sass']
 })
 export class DetallePerfilFormComponent implements OnInit {
-  imagen: string = 'https://cdn-images.livecareer.es/pages/foto_cv_lc_es_3.jpg';
- 
+  imagen: string = 'https://www.dogalize.com/wp-content/uploads/2017/06/puppy-2298832_640.jpg';
   perfil : Perfil  = {
     nombre: '',
     apellido: '',
@@ -43,11 +42,18 @@ export class DetallePerfilFormComponent implements OnInit {
 
     // Asignarle un numero al rol para que en el ngClass del html se pinte un color u otro según su rol
     try {
-      let perfil: Perfil = await this.perfilService.getPerfil();
-      console.log(perfil);
+      let response: Perfil | any = await this.perfilService.getPerfil();
+      console.log('ESTOY PASANDO POR LA RESPONSE DE GETPERFIL()', response);
+      this.perfil = response;
+   
  
     } catch (err) {
       this.notificacionesService.showError("error al solicitar perfil");
     }
+  
+    // const token : number | any = localStorage.getItem('token_almacen');
+    // console.log(token)
+
+
   }
 }
