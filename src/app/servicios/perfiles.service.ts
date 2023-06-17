@@ -18,7 +18,7 @@ export class PerfilesService {
 
   //Obtención de todos los pedidoes
 
-  getPerfil() : Promise<Perfil> {
+  getPerfil() : Promise<Perfil | any> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': localStorage.getItem('token_almacen')!
@@ -29,7 +29,7 @@ export class PerfilesService {
 
 
   // Actualizar un nuevo pedido
-  update(perfil: Perfil): Promise<Perfil>{
+  update(perfil: Perfil): Promise<Perfil | any>{
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json', 
