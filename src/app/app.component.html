@@ -1,5 +1,5 @@
 <app-header></app-header>
-<main class="container">
+<main [ngClass]="{'container':isLogged}" >
     <router-outlet></router-outlet>
 </main>
 
