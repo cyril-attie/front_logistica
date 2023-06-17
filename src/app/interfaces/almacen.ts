@@ -1,3 +1,5 @@
+import { StockAlmacen } from "./stock-almacen";
+
 export interface Almacen {
     almacenes_id?: number;
     nombre_almacen: string;
@@ -9,6 +11,7 @@ export interface Almacen {
     longitud: Point;
     capacidad_almacen: number;
     usuarios_id_encargado: number;
+    stocks:[StockAlmacen]
   }
   
   interface Point {

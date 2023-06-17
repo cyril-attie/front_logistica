@@ -5,7 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Almacen } from 'src/app/interfaces/almacen';
 import { Camion } from 'src/app/interfaces/camion';
 import { Pedido } from 'src/app/interfaces/pedido';
-import { TablaDetallePedido } from 'src/app/interfaces/tabla-detalle-pedido';
+import { PedidosHaveStock } from 'src/app/interfaces/pedidos-have-stock';
+import { Stock } from 'src/app/interfaces/stock';
+import { StockAlmacen } from 'src/app/interfaces/stock-almacen';
 import { AlmacenService } from 'src/app/servicios/almacen.service';
 import { CamionesService } from 'src/app/servicios/camiones.service';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
@@ -22,7 +24,7 @@ export class DetallePedidoFormComponent implements OnInit {
 
   almacenes: Almacen[] | any = [];
   camiones: Camion[] | any = [];
-
+  stocksOrigen: StockAlmacen[] = [];
 
   pedidoForm: FormGroup;
 
@@ -32,8 +34,8 @@ export class DetallePedidoFormComponent implements OnInit {
   isUpdate : boolean = false;
   buttonName : string = "";
 
-  filasStock : TablaDetallePedido[] = [];
-  fila : TablaDetallePedido | any = {};
+  filasStock : PedidosHaveStock[] = [];
+  fila : PedidosHaveStock | any = {};
   
   
   constructor(
@@ -85,24 +87,15 @@ export class DetallePedidoFormComponent implements OnInit {
       try { 
         const pedido =  this.pedidoForm.value;
         delete pedido["pedidos_id"];
-        pedido.stocks = this.stocksArrayToObject(this.filasStock);
+        pedido.stocks = this.stocksFiltred(this.filasStock);
         
         console.log(pedido);
+        return;
         const response = await this.pedidosService.create(pedido);
+        console.log(response);
         if (response.fatal) {
           return this.notificacionesService.showError(response.fatal);
         }
-
-        /*APSP: Una vez se cree el pedido faltara crear los registros de 
-         la tabla "pedidos_have_stocks". Para crearla primero se debe recorrer
-         cada posición del array "this.filasStock", y para cada posición:
-            1. Buscar en la tabla stocks si las "unidades" son mayores al campo informado "this.filasStock[x].unidades_utilizadas" 
-            2. Si se cumple esto, procedemos a crear un registro de la tabla "pedidos_have_stocks" con los campos:
-                  2.1 "pedidos_have_stocks.pedidos_id" =  "[response].pedidos_id"
-                  2.2 "pedidos_have_stocks.stocks_id" =  "this.filasStock[x].stocks_id"
-                  2.3 "pedidos_have_stocks.unidades_utilizadas" =  "this.filasStock[x].unidades_utilizadas"
-
-        */
 
         this.notificacionesService.showInfo("Se ha creado correctamente el usuario");
       } catch (error) {
@@ -136,7 +129,7 @@ export class DetallePedidoFormComponent implements OnInit {
             2.2 Recorrer este array this.oldFilasStock" y:
                 2.2.1 Ir a la tabla de stocks de la base de datos y actualizar para cada stock 
                   que encontremos con el mismo id "stocks.stocks_id" =  "this.oldFilasStock[x].stocks_id",
-                  sumarle a "stocks.unidades" la cantidad del registro "this.oldFilasStock[x].unidades_utilizades",
+                  sumarle a "stocks.unidades" la cantidad del registro "this.oldFilasStock[x].unidades_utilizadas",
                   para que no perdamos el stock.
                 2.2.2 borrar los registros de la tabla "pedidos_have_stocks" de la base de datos filtrando por:
                   "pedidos_have_stocks.pedidos_id" =  "this.oldFilasStock[x].pedidos_id" y
@@ -242,20 +235,22 @@ export class DetallePedidoFormComponent implements OnInit {
     }
   }
 
+  //Moficar usuarios_id_revisador y el listado de stocks para posiciones
   almacenOrigenChange(event : any) {
     const idAlmacenSelected = event.target.value;
-    const findAlmacen  = this.almacenes.find((element:Almacen) => element.almacenes_id == idAlmacenSelected);
-    const encargadoRevisar = findAlmacen.almacenes_id;
+    const findAlmacen : Almacen  = this.almacenes.find((element:Almacen) => element.almacenes_id == idAlmacenSelected);
+    const encargadoRevisar = findAlmacen.usuarios_id_encargado;
+    this.stocksOrigen = findAlmacen.stocks;
     this.pedidoForm.patchValue({
       usuarios_id_revisador: encargadoRevisar
     })
-
   }
 
+  //Moficar usuario_id_aprobador y el listado de stocks para posiciones
   almacenDestinoChange(event : any) {
     const idAlmacenSelected = event.target.value;
-    const findAlmacen  = this.almacenes.find((element:Almacen) => element.almacenes_id == idAlmacenSelected);
-    const encargadoAprobar = findAlmacen.almacenes_id;
+    const findAlmacen : Almacen  = this.almacenes.find((element:Almacen) => element.almacenes_id == idAlmacenSelected);
+    const encargadoAprobar = findAlmacen.usuarios_id_encargado;
     this.pedidoForm.patchValue({
       usuario_id_aprobador: encargadoAprobar
     })
@@ -290,13 +285,14 @@ export class DetallePedidoFormComponent implements OnInit {
   /* APSP -> Métodos para añadir/borrar una filas  y posateriormente en la acción "submitForm" 
     añadir estas filas en la tabla de la base de datos "pedidos_have_Stocks" */ 
   anadirFila() {
-    const nuevaFila : TablaDetallePedido = { 
+    const nuevaFila : PedidosHaveStock = { 
                         posicion: this.filasStock.length + 1,
                         stocks_id: 0,
                         descripcion_material: "",
                         descripcion_categoria: "",
                         unidades_utilizadas: 0,
-                        unidades: 0 
+                        unidades: 0 ,
+                        materiales_id: 0
                       };
     this.filasStock.push(nuevaFila);
     
@@ -308,6 +304,21 @@ export class DetallePedidoFormComponent implements OnInit {
     if (indice !== -1) {
       this.filasStock.splice(indice, 1);
       this.recalcularFilas();
+    }
+  }
+  //Rellenar otros campos de la tabla filasStock
+  informarFilaStock(ev : any, fila: PedidosHaveStock) {
+    const idStock = ev.target.value;
+    const stockAlmacenRecuperado = this.stocksOrigen.find((stockBuscar : StockAlmacen) => stockBuscar.stocks_id == idStock);
+    const filaPedidosHaveStock = this.filasStock.find( (filaBuscar : PedidosHaveStock) => filaBuscar.posicion == fila.posicion);
+    
+    if (stockAlmacenRecuperado && stockAlmacenRecuperado.unidades && filaPedidosHaveStock) {
+      filaPedidosHaveStock.descripcion_material =  stockAlmacenRecuperado.nombre_material;
+      filaPedidosHaveStock.descripcion_categoria = stockAlmacenRecuperado.categorias_materiales_id + 
+                                                  " - " + 
+                                                  stockAlmacenRecuperado.descripcion_categoria;
+      filaPedidosHaveStock.unidades = stockAlmacenRecuperado.unidades;
+      filaPedidosHaveStock.materiales_id = stockAlmacenRecuperado.materiales_id;
     }
   }
   recalcularFilas() {
@@ -339,23 +350,16 @@ export class DetallePedidoFormComponent implements OnInit {
     return false
   }
 
+  stocksFiltred = (filasStocks : any[]) => {
+    filasStocks.forEach((stock) => {
+      delete stock.descripcion_material;
+      delete stock.descripcion_categoria;
+      stock.unidades = stock.unidades_utilizadas;
+      delete stock.unidades_utilizadas;
 
-  stocksArrayToObject (arr: any[]): any {
-    const resultado: any = {};
-  
-    arr.forEach(obj => {
-      const { stocks_id, posicion, unidades_utilizadas } = obj;
-      resultado[stocks_id] = {
-        posicion,
-        unidades: unidades_utilizadas
-      };
     });
-  
-    return resultado;
-  }
-
-
-
+    return filasStocks;
+  } 
 
   // obtenerStocks() {
   //   const almacenSeleccionado = this.pedidoForm.get('almacen_origen')?.value;
