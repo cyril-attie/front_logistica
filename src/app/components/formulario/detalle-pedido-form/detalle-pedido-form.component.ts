@@ -90,7 +90,6 @@ export class DetallePedidoFormComponent implements OnInit {
         pedido.stocks = this.stocksFiltred(this.filasStock);
         
         console.log(pedido);
-        return;
         const response = await this.pedidosService.create(pedido);
         console.log(response);
         if (response.fatal) {
@@ -311,7 +310,7 @@ export class DetallePedidoFormComponent implements OnInit {
     const idStock = ev.target.value;
     const stockAlmacenRecuperado = this.stocksOrigen.find((stockBuscar : StockAlmacen) => stockBuscar.stocks_id == idStock);
     const filaPedidosHaveStock = this.filasStock.find( (filaBuscar : PedidosHaveStock) => filaBuscar.posicion == fila.posicion);
-    
+    console.log(filaPedidosHaveStock);
     if (stockAlmacenRecuperado && stockAlmacenRecuperado.unidades && filaPedidosHaveStock) {
       filaPedidosHaveStock.descripcion_material =  stockAlmacenRecuperado.nombre_material;
       filaPedidosHaveStock.descripcion_categoria = stockAlmacenRecuperado.categorias_materiales_id + 
@@ -319,6 +318,8 @@ export class DetallePedidoFormComponent implements OnInit {
                                                   stockAlmacenRecuperado.descripcion_categoria;
       filaPedidosHaveStock.unidades = stockAlmacenRecuperado.unidades;
       filaPedidosHaveStock.materiales_id = stockAlmacenRecuperado.materiales_id;
+      console.log(filaPedidosHaveStock);
+
     }
   }
   recalcularFilas() {
@@ -351,14 +352,15 @@ export class DetallePedidoFormComponent implements OnInit {
   }
 
   stocksFiltred = (filasStocks : any[]) => {
-    filasStocks.forEach((stock) => {
+    let fliasStock2 = filasStocks;
+    fliasStock2.forEach((stock) => {
       delete stock.descripcion_material;
       delete stock.descripcion_categoria;
       stock.unidades = stock.unidades_utilizadas;
       delete stock.unidades_utilizadas;
 
     });
-    return filasStocks;
+    return fliasStock2;
   } 
 
   // obtenerStocks() {
