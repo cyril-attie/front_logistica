@@ -19,6 +19,7 @@ export class DetalleCamionFormComponent {
   id: number = 0;
   isUpdate : boolean = false;
   buttonName: string = '';
+
   
 
   constructor(
@@ -65,12 +66,18 @@ export class DetalleCamionFormComponent {
   rellenarCamposForm(response : any) {
     const camion: Camion = response[0]; 
     console.log(camion);
-    this.camionForm = new FormGroup({
-      camiones_id: new FormControl(camion.camiones_id,[]),
-      matricula_camion: new FormControl(camion.matricula_camion,[Validators.required]),
-      capacidad_maxima: new FormControl(camion.capacidad_maxima,[Validators.required]),
-      estado: new FormControl(camion.estado,[Validators.required]),
-    }, []);
+    this.camionForm.patchValue({
+      camiones_id: camion.camiones_id,
+      matricula_camion: camion.matricula_camion,
+      capacidad_maxima: camion.capacidad_maxima,
+      estado: camion.estado
+    });
+    // this.camionForm = new FormGroup({
+    //   camiones_id: new FormControl(camion.camiones_id,[]),
+    //   matricula_camion: new FormControl(camion.matricula_camion,[Validators.required]),
+    //   capacidad_maxima: new FormControl(camion.capacidad_maxima,[Validators.required]),
+    //   estado: new FormControl(camion.estado,[Validators.required]),
+    // }, []);
   }
 
 

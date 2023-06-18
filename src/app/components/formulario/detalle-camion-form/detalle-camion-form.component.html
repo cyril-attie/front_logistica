@@ -1,11 +1,10 @@
 
 
 <h3 class="mb-1" *ngIf="!isUpdate">Crear un nuevo camión</h3>
-<h3 class="mb-1" *ngIf="isUpdate">Editar camión</h3>
+<h3 class="mb-1" *ngIf="isUpdate">Editar camión nº{{id}}</h3>
 <hr class="mb-5">
 
 <form class="template" [formGroup]="camionForm" (ngSubmit)="submitCamion()" >
-
     <div class="container">
             <div class="d-flex justify-content-center row">
                 <div class="col">
@@ -20,12 +19,15 @@
                 </div>
                 <div class="col">
                     <label for="estado" class="form-label" required>Estado</label>
-                    <input type="text" id="estado" class="form-control" formControlName="estado">
+                    <!-- <input type="text" id="estado" class="form-control" formControlName="estado"> -->
+                    <select class="form-control" name="estado" id="estado" formControlName="estado">
+                      <option value="habilitado">Habilitado</option>
+                      <option value="inactivo">Inactivo</option>
+                      <option value="completo">Completo</option>
+                  </select> 
                     <p class="error" *ngIf="controlError('estado', 'required')">El campo es obligatorio</p>
                 </div>
             </div>
-
-           
     </div>
     <section col-md-12 mb-3>
         <div class="input d-flex justify-content-end gap-3">
