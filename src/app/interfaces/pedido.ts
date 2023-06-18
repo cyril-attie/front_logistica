@@ -8,7 +8,7 @@ export interface Pedido {
     usuarios_id_creador: number;
     usuarios_id_revisador: number;
     almacenes_id_origen: number;
-    almacenes_id_destion: number;
+    almacenes_id_destino: number;
     camiones_id: number;
     usuarios_id_aprobador: number;
     observaciones?: string;

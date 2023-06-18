@@ -53,11 +53,11 @@
         </div>
 
         <div class="col-md-6 mb-3">
-            <label required for="almacenes_id_destion" class="form-label">Almacén de destino</label>
-            <select (change)="almacenDestinoChange($event)" class="form-control" id="almacenes_id_destion" formControlName="almacenes_id_destion">
+            <label required for="almacenes_id_destino" class="form-label">Almacén de destino</label>
+            <select (change)="almacenDestinoChange($event)" class="form-control" id="almacenes_id_destino" formControlName="almacenes_id_destino">
                 <option *ngFor="let almacen of almacenes" [value]="almacen.almacenes_id">{{almacen.almacenes_id + " - " + almacen.nombre_almacen}}</option>
             </select>
-            <p class="error" *ngIf="controlError('almacenes_id_destion', 'required')">El campo es obligatorio</p>
+            <p class="error" *ngIf="controlError('almacenes_id_destino', 'required')">El campo es obligatorio</p>
         </div>
     </div>
 
