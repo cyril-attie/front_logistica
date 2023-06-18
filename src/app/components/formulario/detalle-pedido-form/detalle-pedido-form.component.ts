@@ -283,8 +283,14 @@ export class DetallePedidoFormComponent implements OnInit {
   //Moficar usuarios_id_revisador y el listado de stocks para posiciones
   almacenOrigenChange(event : any) {
     const idAlmacenSelected = event.target.value;
+    console.log(idAlmacenSelected)
+    
     const findAlmacen : Almacen  = this.almacenes.find((element:Almacen) => element.almacenes_id == idAlmacenSelected);
+    console.log(findAlmacen)
+
     const encargadoRevisar = findAlmacen.usuarios_id_encargado;
+    console.log(encargadoRevisar);
+
     this.stocksOrigen = findAlmacen.stocks;
     this.pedidoForm.patchValue({
       usuarios_id_revisador: encargadoRevisar

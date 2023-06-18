@@ -19,13 +19,17 @@
                 </div>
                 <div class="col">
                     <label for="estado" class="form-label" required>Estado</label>
-                    <!-- <input type="text" id="estado" class="form-control" formControlName="estado"> -->
                     <select class="form-control" name="estado" id="estado" formControlName="estado">
+                    <option *ngIf="isUpdate" selected>{{estado}}</option>
                       <option value="habilitado">Habilitado</option>
                       <option value="inactivo">Inactivo</option>
                       <option value="completo">Completo</option>
                   </select> 
+
+          
                     <p class="error" *ngIf="controlError('estado', 'required')">El campo es obligatorio</p>
+
+                  
                 </div>
             </div>
     </div>
@@ -40,7 +44,6 @@
           ></app-delete-button>
         </div>
       </section>
-
 </form>
 
 
