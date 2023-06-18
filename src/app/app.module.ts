@@ -35,9 +35,6 @@ import { DeleteButtonComponent } from './components/utils/delete-button/delete-b
 import { CapitalizePipe } from './pipes/capitalize.pipe';
 
 
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,7 +60,6 @@ import { CapitalizePipe } from './pipes/capitalize.pipe';
     ItemTablaComponent,
     DeleteButtonComponent,
     CapitalizePipe,
-
   ],
   imports: [
     BrowserModule,
@@ -72,7 +68,8 @@ import { CapitalizePipe } from './pipes/capitalize.pipe';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+
   ],
   providers: [],
   bootstrap: [AppComponent]

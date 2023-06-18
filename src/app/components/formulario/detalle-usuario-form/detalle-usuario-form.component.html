@@ -24,7 +24,7 @@
       </div>
       <div class="col-md-12 mb-3">
         <label required for="nombre" class="form-label">Nombre</label>
-        <input type="text" class="form-control" formControlName="nombre" /> {{nombre | capitalize}}
+        <input type="text" class="form-control" formControlName="nombre" />
         <p class="error" *ngIf="controlError('nombre', 'required')">El nombre debe de estar informado</p>
       </div>
       <div class="col-md-12 mb-3">
@@ -85,7 +85,10 @@
   <div class="row">
     <div class="col-md-4 mb-3">
       <label required for="roles_id" class="form-label">Rol</label>
-      <input type="number" class="form-control" formControlName="roles_id" />
+      <select class="form-control" id="roles_id" formControlName="roles_id">
+        <option *ngFor="let usuario of usuarios " [value]="usuario.roles_id">{{usuario.roles_id + " - " +
+          usuario.roles_id}}</option>
+      </select>
       <p class="error" *ngIf="controlError('roles_id', 'required')">El rol debe de estar informado</p>
     </div>
     <div class="col-md-4 mb-3">

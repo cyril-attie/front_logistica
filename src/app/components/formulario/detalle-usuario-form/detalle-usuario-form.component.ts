@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Usuario } from 'src/app/interfaces/usuario';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
 import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.service';
+import { Pipe } from '@angular/core';
+import { __values } from 'tslib';
 
 @Component({
   selector: 'app-detalle-usuario-form',
@@ -12,13 +14,16 @@ import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.servi
 })
 export class DetalleUsuarioFormComponent implements OnInit {
 
+  usuarios: Usuario[] = [];
+
+
   title: string = "Registrar";
   id: number = 0;
   usuarioForm: FormGroup;
-  nombre: string = "";
   isUpdate: boolean = false;
   buttonName: string = "";
   imageProfile: string = "";
+
 
   notificacionesService = inject(NotificacionesService);
 
