@@ -5,5 +5,6 @@ export interface Material {
     categorias_materiales_id: number;
     peso: number;
     stock: number;
-    descripcion_material: string
+    descripcion_material: string;
+    descripcion_categoria?: string;
 }

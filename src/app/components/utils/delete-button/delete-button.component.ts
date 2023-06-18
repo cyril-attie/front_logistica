@@ -7,6 +7,10 @@ import Swal from 'sweetalert2';
 import { PedidosService } from 'src/app/servicios/pedidos.service';
 import { AlmacenService } from 'src/app/servicios/almacen.service';
 import { TablaRefreshService } from 'src/app/servicios/tabla-refresh.service';
+import { StockService } from 'src/app/servicios/stock.service';
+import { MaterialService } from 'src/app/servicios/material.service';
+import { CamionesService } from 'src/app/servicios/camiones.service';
+import { CategoriasMaterialesService } from 'src/app/servicios/categorias-materiales.service';
 
 @Component({
   selector: 'app-delete-button',
@@ -24,6 +28,12 @@ export class DeleteButtonComponent {
   userService = inject(UsuariosServiceService);
   pedidoService= inject(PedidosService);
   alamacenService = inject(AlmacenService);
+  stockService = inject(StockService);
+  materialeService = inject(MaterialService);
+  camioneService = inject(CamionesService);
+  categoriaMaterialService = inject(CategoriasMaterialesService);
+
+
   
   notificacionesService = inject(NotificacionesService);
   tablaRefreshService = inject(TablaRefreshService);
@@ -68,8 +78,16 @@ export class DeleteButtonComponent {
           response = await this.pedidoService.delete(id);
           break;
         case 'camion':
+          response = await this.camioneService.delete(id);
           break;
         case 'material':
+          response = await this.materialeService.delete(id);
+          break;
+        case 'categoriaMaterial':
+          response = await this.categoriaMaterialService.delete(id);
+          break;
+        case 'stock':
+          response = await this.stockService.delete(id);
           break;
         default: 
           this.notificacionesService.showError("no esta bien programado error con el parametro url_param");
@@ -87,7 +105,7 @@ export class DeleteButtonComponent {
       //Lanzamos mensaje de que todo ha ido bien
       Swal.fire(
         'Borrado!',
-        'Se a borrado el usuario ' + response.username + ' correctamente.',
+        'Se a borrado el ' + url_name + ' ' + response.username + ' correctamente.',
         'success'
       )
       
