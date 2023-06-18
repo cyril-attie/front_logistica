@@ -50,14 +50,14 @@ export class CamionesService {
   }
 
   // Actualizar un nuevo camión
-  update(camion: Camion): Promise<Camion>{
+  update(camion: Camion, id : number): Promise<Camion | any>{
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json', 
         'Authorization': localStorage.getItem('token_almacen')!
       })
     }
-    return lastValueFrom(this.httpClient.put<Camion>(`${this.baseUrl}/${camion.id}`, camion, httpOptions))
+    return lastValueFrom(this.httpClient.put<Camion>(`${this.baseUrl}/${id}`, camion, httpOptions))
   }
 
   // Eliminar un camión

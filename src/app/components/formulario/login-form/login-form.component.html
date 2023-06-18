@@ -4,13 +4,13 @@
     <form  class="login" [formGroup]="formModel" (ngSubmit)="onSubmitLogin()">
         <div class="my-3">
             <label class="form-label" for="email">Email</label>
-            <input class="form-control" id="email" type="email" formControlName= "email">
+            <input class="form-control mt-1 p-1" id="email" type="email" formControlName= "email">
         </div>
         <div class="my-3">
             <label class="form-label" for="contrasena">Contraseña</label>
-            <input class="form-control" id="contrasena" type="password" formControlName= "contrasena">
+            <input class="form-control mt-1 p-1" id="contrasena" type="password" formControlName= "contrasena">
         </div>
-        <input type="submit" value="Enviar" class="btn btn-danger" [disabled]="!formModel.valid">
+        <input type="submit" value="Enviar" class="btn btn-danger p-1" [disabled]="!formModel.valid">
     </form>
 </section>
 </body>

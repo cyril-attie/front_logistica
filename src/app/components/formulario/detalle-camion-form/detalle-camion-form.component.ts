@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Camion } from 'src/app/interfaces/camion';
 import { CamionesService } from 'src/app/servicios/camiones.service';
+import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
 
 @Component({
   selector: 'app-detalle-camion-form',
@@ -14,52 +15,93 @@ export class DetalleCamionFormComponent {
  
   camionForm: FormGroup;
   camionExiste: boolean = false; 
-  title: string = "Registrar";
+  title: string = 'Registrar';
   id: number = 0;
+  isUpdate : boolean = false;
+  buttonName: string = '';
   
 
   constructor(
     private camionService: CamionesService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
-  ){
+    private activatedRoute: ActivatedRoute,
+    private notificacionesService: NotificacionesService
+    ){
+        this.camionForm = new FormGroup({
+          camiones_id: new FormControl('', []),
+          matricula_camion: new FormControl('', [Validators.required]),
+          capacidad_maxima: new FormControl('', [Validators.required]),
+          estado: new FormControl('', [Validators.required]),
+        }, []);
+      }
 
+
+
+  ngOnInit(): void {
+    this.activatedRoute.params.subscribe(async (params:any)=> {
+      this.id = (params.id); 
+      if (!this.id) {
+        this.isUpdate = false;
+        this.buttonName = "Crear";
+        return;
+      } 
+       this.isUpdate = true;
+       this.buttonName = "Actualizar";
+       try {
+        let response: any = await this.camionService.getById(this.id);
+        if (response.fatal) {
+          return this.notificacionesService.showError(response.fatal);
+        }
+        this.rellenarCamposForm(response);
+      } catch(err) {
+        console.log(err);
+        this.notificacionesService.showError("No ha cargado correctamente el camión");
+      };
+      }
+  )}
+
+
+  // Rellena los campos si quiere actualizar el camión
+  rellenarCamposForm(response : any) {
+    const camion: Camion = response[0]; 
+    console.log(camion);
     this.camionForm = new FormGroup({
-      matricula: new FormControl('', [Validators.required]),
-      capacidad: new FormControl('', [Validators.required]),
-      estado: new FormControl('', [Validators.required]),
+      camiones_id: new FormControl(camion.camiones_id,[]),
+      matricula_camion: new FormControl(camion.matricula_camion,[Validators.required]),
+      capacidad_maxima: new FormControl(camion.capacidad_maxima,[Validators.required]),
+      estado: new FormControl(camion.estado,[Validators.required]),
     }, []);
-
   }
 
 
-
-
-  // Botón "Crear un nuevo camión"
-   datosCamion(){
+  
+  async submitCamion(){
+    //Creamos un nuevo camión
+    if (!this.isUpdate){
+      try{
+        const camion = this.camionForm.value;
+        const response = this.camionService.create(camion);
+      }catch(error){
+        console.log(error);
+        return alert('No has rellenado los datos del camión correctamente')
+      }
+    }
+    // Se actualiza el camión
     try{
-      const camion = this.camionForm.value;
-      const response = this.camionService.create(camion);
-
+      const camion =  this.camionForm.value;
+      delete camion["camiones_id"];
+      console.log(camion)
+      const response = await this.camionService.update(camion, this.id);
+      console.log(response)
+    
+      this.notificacionesService.showInfo("Se ha actualizado correctamente el usuario");
     }catch(error){
       console.log(error);
-      return alert('No has rellenado los datos del camión correctamente')
+      this.notificacionesService.showError('No se ha actualizado correctamente el usuario.');
     }
-
   };
 
 
-  // Botón "Editar camión"
-   async actualizar(){
-    try{
-      const camion =  this.camionForm.value;
-      const response = await this.camionService.update(camion);
-    }catch(error){
-      console.log(error)
-      return alert('No has actualizado los datos correctamente');
-    }
-
-  }
 
   // Botón "Cancelar"
   cancelar(){
@@ -67,46 +109,14 @@ export class DetalleCamionFormComponent {
   }
 
 
-  // Botón "Eliminar"
-  eliminar(){
-    try {
-      const camion = this.camionForm.value;
-      const response = this.camionService.delete(camion);
-      alert("Has eliminado este camión");
-      this.router.navigate(['/camiones']);
 
-    }catch(error){
-      console.log(error);
-      return alert ('No has eliminado bien el camión')
+  // Control de errores en formulario
+  controlError(nombreCampo: string, tipoError: string): boolean {
+    if (this.camionForm.get(nombreCampo)?.hasError(tipoError) && 
+        this.camionForm.get(nombreCampo)?.touched) 
+    {
+      return true
     }
-
+    return false
   }
-
-
-   /**
-  ** EL CAMIÓN SÍ EXISTE --> CAMPOS RELLENADOS
-  **/  
-  ngOnInit(): void {
-
-    this.activatedRoute.params.subscribe(async (params:any)=> {
-      this.id = (params.id); 
-      if (this.id) {
-  
-        //El título cambia a 'Actualizar'
-        this.title = 'Actualizar';
-  
-        // Activa los botones 'Editar usuario' y 'Eliminar' 
-        this.camionExiste = true; 
-        let response: any = await this.camionService.getById(this.id);
-        const camion: Camion = response; 
-  
-        // Los campos del formulario aparecen rellenados
-        this.camionForm = new FormGroup({
-          matricula: new FormControl(camion.matricula, [Validators.required]),
-          capacidad: new FormControl(camion.capacidad, [Validators.required]),
-          estado: new FormControl(camion.estado, [Validators.required])
-        }, []);
-      }
-    }
-  )}
-  }
+}
