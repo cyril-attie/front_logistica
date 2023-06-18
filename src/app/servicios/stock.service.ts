@@ -12,7 +12,7 @@ export class StockService {
   baseUrl: string = '';
   
   constructor(private httpClient: HttpClient) { 
-    this.baseUrl = environment.apiUrl + '/api/stock';
+    this.baseUrl = environment.apiUrl + '/api/stocks';
   }
 
   //Obtención de todo el stock

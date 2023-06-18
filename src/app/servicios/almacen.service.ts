@@ -38,7 +38,7 @@ export class AlmacenService {
 
   
   // Crear un nuevo usuario
-  create(almacen: Almacen): Promise <Almacen>{
+  create(almacen: Almacen): Promise <Almacen | any>{
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json', 
@@ -49,14 +49,14 @@ export class AlmacenService {
   }
 
   // Actualizar un nuevo almacen
-  update(almacen: Almacen): Promise<Almacen>{
+  update(almacen: Almacen, id: number): Promise<Almacen | any>{
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json', 
         'Authorization': localStorage.getItem('token_almacen')!
       })
     }
-    return lastValueFrom(this.httpClient.put<Almacen>(`${this.baseUrl}/${almacen.almacenes_id}`, almacen, httpOptions))
+    return lastValueFrom(this.httpClient.put<Almacen>(`${this.baseUrl}/${id}`, almacen, httpOptions))
   }
 
   // Eliminar un almacen

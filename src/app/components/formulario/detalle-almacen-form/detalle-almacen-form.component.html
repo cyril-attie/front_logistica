@@ -1,58 +1,63 @@
 <h3 class="mb-1" *ngIf="!isUpdate">Crear nuevo almacén</h3>
-<h3 class="mb-1" *ngIf="isUpdate">Editar almacén nº{{id}}</h3>
+<h3 class="mb-1" *ngIf="isUpdate">Editar almacén {{id}}</h3>
 <hr class="mb-5">
 <hr>
 
-<form [formGroup]="almacenForm" (ngSubmit)="submitAlmacen()" class="formulario-global">
+<form [formGroup]="almacenForm" (ngSubmit)="submitAlmacen()" class="template mb-5">
 
     <div class="container">
         <div class="row">
-            <div class="col mb-3">
+            <div class="col-md-6 mb-3">
                 <label for="nombre_almacen" class="form-label" required>Nombre Almacén</label>
                 <input class="form-control" type="text" id="nombre_almacen" formControlName="nombre_almacen">
                 <p class="error" *ngIf="controlError('nombre_almacen', 'required')">El campo es obligatorio</p>
             </div>
-            <div class="col mb-3">
+            <div class="col-md-6 mb-3">
                 <label for="calle" class="form-label" required>Calle</label>
                 <input class="form-control" type="text" id="calle" formControlName="calle">
                 <p class="error" *ngIf="controlError('calle', 'required')">El campo es obligatorio</p>
             </div>
         </div>
         <div class="row">
-            <div class="col mb-3">
+            <div class="col-md-4 mb-3">
                 <label for="localidad" class="form-label" required>Localidad</label>
                 <input class="form-control" type="text" id="localidad" formControlName="localidad">
                 <p class="error" *ngIf="controlError('localidad', 'required')">El campo es obligatorio</p>
             </div>
-            <div class="col mb-3">
+            <div class="col-md-4 mb-3">
                 <label for="pais" class="form-label" required>País</label>
                 <input class="form-control" type="text" id="pais" formControlName="pais">
             </div>
-            <div class="col mb-3">
+            <div class="col-md-4 mb-3">
                 <label for="codigo_postal" class="form-label" required>Código Postal</label>
                 <input class="form-control" type="text" id="codigo_postal" formControlName="codigo_postal">
                 <p class="error" *ngIf="controlError('codigo_postal', 'required')">El campo es obligatorio</p>
             </div>
         </div>
         <div class="row">
-            <div class="col mb-3">
-                <label for="coordenadas" class="form-label" required>Coordenadas</label>
-                <input class="form-control" type="number" id="coordenadas" formControlName="coordenadas">
-                <p class="error" *ngIf="controlError('coordenadas', 'required')">El campo es obligatorio</p>
+            <div class="col-md-6 mb-3">
+                <label for="x" class="form-label" required>Coordenadas X</label>
+                <input class="form-control" type="number" id="x" formControlName="x">
+                <p class="error" *ngIf="controlError('x', 'required')">El campo es obligatorio</p>
             </div>
-            <div class="col mb-3">
+            <div class="col-md-6 mb-3">
+                <label for="y" class="form-label" required>Coordenadas Y</label>
+                <input class="form-control" type="number" id="y" formControlName="y">
+                <p class="error" *ngIf="controlError('y', 'required')">El campo es obligatorio</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
                 <label for="capacidad_almacen" class="form-label" required>Capacidad</label>
                 <input class="form-control" type="number" id="capacidad_almacen" formControlName="capacidad_almacen">
                 <p class="error" *ngIf="controlError('capacidad_almacen', 'required')">El campo es obligatorio</p>
             </div>
-            <div class="col mb-3">
+            <div class="col-md-6 mb-3">
                 <label for="usuarios_id_encargado" class="form-label" required>Encargado</label>
-                <select (change)="Encargado()" class="form-control" id="usuarios_id_encargado"
+                <select class="form-control" id="usuarios_id_encargado"
                     formControlName="usuarios_id_encargado">
-                    <option *ngFor="let encargado of encargados" [value]="encargado">{{encargado.usuarios_id + " - " +
-                        encargado.nombre | capitalize}}</option>
+                    <option *ngFor="let encargado of encargados" [value]="encargado.usuarios_id">{{encargado.usuarios_id + " - " + encargado.nombre}}</option>
                 </select>
-                <!-- <input class="form-control" type="number" id="usuarios_id_encargado" formControlName="usuarios_id_encargado"> -->
                 <p class="error" *ngIf="controlError('usuarios_id_encargado', 'required')">El campo es obligatorio</p>
             </div>
         </div>
@@ -65,52 +70,55 @@
             </div>
         </section>
     </div>
+
+    <button (click)="anadirFila()" class="btn-edit mt-3" type="button">Añadir fila</button>
+
+    <div class="table-responsive-sm">
+        <hr>
+        <table class="table table-striped">
+            <thead>
+                <tr class="thead row">
+                    <th scope="row" class="col-lg-2 col-md-6 center d-flex justify-content-center">Posición</th>
+                    <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Nºmaterial</th>
+                    <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Nombre material</th>
+                    <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Descripción Categoría
+                    </th>
+                    <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Total Unidades</th>
+                    <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Editar</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let fila of filasStock" class="row text-center d-flex justify-content-center">
+                    <td class="col-lg-2 col-md-6 text-center align-items-center d-flex justify-content-center" scope="col">
+                        {{fila.posicion}}</td>
+                    <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center">
+                        <select [ngModelOptions]="{standalone: true}" [(ngModel)]="fila.materiales_id" (keydown)="noAction($event)" (change)="informarFilaStock($event,fila)" class="form-control">
+                            <option *ngIf="!fila.descripcion_categoria"></option>
+
+                            <!-- No pillo nada esta línea -->
+                            <option *ngFor="let material of materialesRecuperados" [value]="material.materiales_id">{{material.materiales_id + " - " + material.nombre}}
+                            </option>
+
+                        </select>
+                    </td>
+                    <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center" scope="col">{{
+                        fila.nombre_material }}</td>
+                    <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center" scope="col">{{
+                        fila.descripcion_categoria }}</td>
+                    <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center" scope="col">
+                        <input [ngModelOptions]="{standalone: true}" [(ngModel)]="fila.unidades" (keydown)="noAction($event)" class="form-control text-center" scope="col" type="number" />
+                    </td>
+                    <td class="col-lg-2 col-md-6 text-center align-items-center d-flex justify-content-center" scope="col">
+                        <i (click)="eliminarFila(fila)" class="fa fa-sharp fa-solid fa-trash fa-sm color-red center"></i>
+                    </td>
+
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
 </form>
 
 
-<button (click)="anadirFila()" class="btn-edit mt-3" type="button">Añadir fila</button>
-
-<div class="table-responsive-sm">
-    <hr>
-    <table class="table table-striped">
-        <thead>
-            <tr class="thead row">
-                <th scope="row" class="col-lg-2 col-md-6 center d-flex justify-content-center">Posición</th>
-                <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Nºmaterial</th>
-                <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Nombre material</th>
-                <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Descripción Categoría
-                </th>
-                <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Total Unidades</th>
-                <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Editar</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr *ngFor="let fila of filasStock" class="row text-center d-flex justify-content-center">
-                <td class="col-lg-2 col-md-6 text-center align-items-center d-flex justify-content-center" scope="col">
-                    {{fila.posicion}}</td>
-                <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center">
-                    <select (change)="informarFilaStock($event,fila)" class="form-control">
-                        <option *ngIf="!fila.descripcion_categoria"></option>
-
-                        <!-- No pillo nada esta línea -->
-                        <option *ngFor="let stock of stocksOrigen" [value]="stock.stocks_id">{{stock.stocks_id}}
-                        </option>
-
-                    </select>
-                </td>
-                <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center" scope="col">{{
-                    fila.descripcion_material }}</td>
-                <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center" scope="col">{{
-                    fila.descripcion_categoria }}</td>
-                <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center" scope="col">{{
-                    fila.total_unidades }}</td>
-                <td class="col-lg-2 col-md-6 text-center align-items-center d-flex justify-content-center" scope="col">
-                    <i (click)="eliminarFila(fila)" class="fa fa-sharp fa-solid fa-trash fa-sm color-red center"></i>
-                </td>
-
-            </tr>
-
-        </tbody>
-    </table>
-</div>
