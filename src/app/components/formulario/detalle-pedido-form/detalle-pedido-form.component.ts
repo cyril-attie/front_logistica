@@ -87,15 +87,27 @@ export class DetallePedidoFormComponent implements OnInit {
       try { 
         const pedido =  this.pedidoForm.value;
         delete pedido["pedidos_id"];
+        
+        //Formatemos fechas
+        let fechaSalida= new Date(pedido.fecha_salida);
+        let fechaLlegada= new Date(pedido.fecha_llegada);
+
+        let fechaSalidaFormat =formatDate(fechaSalida,'yyyy-MM-dd hh:mm:ss','en');
+        let fechaLlegadaFormat =formatDate(fechaLlegada,'yyyy-MM-dd hh:mm:ss','en');
+        
+        pedido.fecha_salida  =fechaSalidaFormat;
+        pedido.fecha_llegada  =fechaLlegadaFormat;
+      
+        //Montamos stocks
         pedido.stocks = this.stocksFiltred(this.filasStock);
+        console.log(pedido);  
+
+        //Realizamos petición
         const response = await this.pedidosService.create(pedido);
         if (response.fatal) {
           return this.notificacionesService.showError(response.fatal);
         }
         this.notificacionesService.showInfo("Se ha creado correctamente el pedido " + response.insertId);
-        //this.id = response.insertId;
-        //this.isUpdate = true;
-        //this.buttonName = "Actualizar";
         this.router.navigate(['/pedido/' + response.insertId]);
         return;
       } catch (error) {
@@ -108,9 +120,24 @@ export class DetallePedidoFormComponent implements OnInit {
     try{
       const pedido =  this.pedidoForm.value;
       delete pedido["pedidos_id"];
+
+      //Formatemos fechas
+      let fechaSalida= new Date(pedido.fecha_salida);
+      let fechaLlegada= new Date(pedido.fecha_llegada);
+
+      let fechaSalidaFormat =formatDate(fechaSalida,'yyyy-MM-dd hh:mm:ss','en');
+      let fechaLlegadaFormat =formatDate(fechaLlegada,'yyyy-MM-dd hh:mm:ss','en');
+
+      pedido.fecha_salida  =fechaSalidaFormat;
+      pedido.fecha_llegada  =fechaLlegadaFormat;
+      
+      //Montamos stocks
       pedido.stocks = this.stocksFiltred(this.filasStock);
       console.log(pedido);  
+
+      //Realizamos petición
       const response = await this.pedidosService.update(pedido,this.id);
+      console.log(response);  
       if (response.fatal) {
         return this.notificacionesService.showError(response.fatal);
       }

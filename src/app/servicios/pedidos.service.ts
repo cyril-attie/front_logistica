@@ -54,6 +54,7 @@ export class PedidosService {
         'Authorization': localStorage.getItem('token_almacen')!
       })
     }
+    console.log(`${this.baseUrl}/${id}`);
     return lastValueFrom(this.httpClient.put<Pedido>(`${this.baseUrl}/${id}`, pedido, httpOptions))
   }
 
