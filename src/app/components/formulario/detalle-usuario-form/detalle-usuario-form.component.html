@@ -3,13 +3,13 @@
 <hr class="mb-5">
 
 <form class="template" [formGroup]="usuarioForm" (ngSubmit)="submitUsuario()">
-  
+
   <div class="row">
 
     <div class="col-md-4 mb-3">
       <div class="image-section">
         <div class="image-container">
-          <img [src]="imageProfile" alt="imagen" class="round-image"/>
+          <img [src]="imageProfile" alt="imagen" class="round-image" />
         </div>
       </div>
       <p class="error" *ngIf="controlError('image', 'pattern')">
@@ -19,12 +19,12 @@
 
     <div class="col-md-4 mb-3">
       <div *ngIf="isUpdate" class="col-md-12 mb-3">
-        <label  for="usuarios_id" class="form-label">ID</label>
+        <label for="usuarios_id" class="form-label">ID</label>
         <input readonly type="number" class="form-control form-control-plaintext" formControlName="usuarios_id" />
       </div>
       <div class="col-md-12 mb-3">
         <label required for="nombre" class="form-label">Nombre</label>
-        <input type="text" class="form-control" formControlName="nombre" />
+        <input type="text" class="form-control" formControlName="nombre" /> {{nombre | capitalize}}
         <p class="error" *ngIf="controlError('nombre', 'required')">El nombre debe de estar informado</p>
       </div>
       <div class="col-md-12 mb-3">
@@ -52,7 +52,7 @@
         <input type="number" class="form-control" formControlName="edad" />
       </div>
       <div class="col-md-12 mb-3">
-        <input class="form-check-input" type="checkbox" id="activo"  formControlName="activo"/>
+        <input class="form-check-input" type="checkbox" id="activo" formControlName="activo" />
         <label class="form-check-label" for="activo">Activo</label>
       </div>
       <div class="col-md-12 mb-3">
@@ -76,8 +76,9 @@
     </div>
     <div class="col-md-4 mb-3">
       <label required for="codigo_postal" class="form-label">Código postal</label>
-      <input type="text" class="form-control" formControlName="codigo_postal"/>
-      <p class="error" *ngIf="controlError('codigo_postal', 'minlength')">El código postal debe tener una longítud mínima de 3 caracteres</p>
+      <input type="text" class="form-control" formControlName="codigo_postal" />
+      <p class="error" *ngIf="controlError('codigo_postal', 'minlength')">El código postal debe tener una longítud
+        mínima de 3 caracteres</p>
     </div>
   </div>
 
@@ -89,18 +90,14 @@
     </div>
     <div class="col-md-4 mb-3">
       <label for="imagen">Imagen perfil URL:</label>
-      <input (input)="updateImage($event)" formControlName="imagen" type="text" class="form-control" id="imagen"/>
+      <input (input)="updateImage($event)" formControlName="imagen" type="text" class="form-control" id="imagen" />
     </div>
   </div>
   <section col-md-12 mb-3>
     <div class="input d-flex justify-content-end gap-3">
       <button type="submit" [disabled]="!usuarioForm.valid" class="btn-edit">{{ buttonName }}</button>
       <button class="btn-cancel" (click)="cancelar()">Atrás</button>
-      <app-delete-button
-        *ngIf="isUpdate"
-        [url_param]="'usuario'"
-        [id]="id"
-      ></app-delete-button>
+      <app-delete-button *ngIf="isUpdate" [url_param]="'usuario'" [id]="id"></app-delete-button>
     </div>
   </section>
 </form>

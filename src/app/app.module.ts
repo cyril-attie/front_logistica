@@ -31,6 +31,9 @@ import { TablaComponent } from './components/utils/tabla/tabla.component';
 import { ItemTablaComponent } from './components/utils/item-tabla/item-tabla.component';
 import { DeleteButtonComponent } from './components/utils/delete-button/delete-button.component';
 
+// Pipes
+import { CapitalizePipe } from './pipes/capitalize.pipe';
+
 
 
 
@@ -59,7 +62,8 @@ import { DeleteButtonComponent } from './components/utils/delete-button/delete-b
     TablaComponent,
     ItemTablaComponent,
     DeleteButtonComponent,
-   
+    CapitalizePipe,
+
   ],
   imports: [
     BrowserModule,
