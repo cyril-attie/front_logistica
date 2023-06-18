@@ -50,14 +50,14 @@ export class MaterialService {
   }
 
 
-  update(material: Material): Promise<Material>{
+  update(material: Material, id : number): Promise<Material | any>{
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json', 
         'Authorization': localStorage.getItem('token_almacen')!
       })
     }
-    return lastValueFrom(this.httpClient.put<Material>(`${this.baseUrl}/${material.materiales_id}`, material, httpOptions ))
+    return lastValueFrom(this.httpClient.put<Material>(`${this.baseUrl}/${id}`, material, httpOptions ))
   }
 
   

@@ -46,14 +46,14 @@ export class CategoriasMaterialesService {
   }
 
   // Actualizar un nuevo camión
-  update(categoria: Categoria): Promise<Categoria>{
+  update(categoria: Categoria, id : number): Promise<Categoria | any>{
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json', 
         'Authorization': localStorage.getItem('token_almacen')!
       })
     }
-    return lastValueFrom(this.httpClient.put<Categoria>(`${this.baseUrl}/${categoria.categorias_materiales_id}`, categoria, httpOptions))
+    return lastValueFrom(this.httpClient.put<Categoria>(`${this.baseUrl}/${id}`, categoria, httpOptions))
   }
 
   // Eliminar un camión

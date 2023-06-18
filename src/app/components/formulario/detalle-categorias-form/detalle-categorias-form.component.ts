@@ -94,7 +94,9 @@ export class DetalleCategoriasFormComponent {
     //Actualizar
     try{
       const categoria =  this.categoriaForm.value;
-      const response = await this.categoriasServices.update(categoria);
+      delete categoria["categorias_materiales_id"];
+      const response = await this.categoriasServices.update(categoria, this.id);
+      console.log(response)
       this.notificacionesService.showInfo("Se ha actualizado correctamente la categoría");
     }catch(error){
       console.log(error);

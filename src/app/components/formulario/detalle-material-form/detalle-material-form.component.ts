@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Categoria } from 'src/app/interfaces/categoria';
 import { Material } from 'src/app/interfaces/material';
+import { CategoriasMaterialesService } from 'src/app/servicios/categorias-materiales.service';
 import { MaterialService } from 'src/app/servicios/material.service';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
 
@@ -16,11 +18,13 @@ export class DetalleMaterialFormComponent implements OnInit {
   isUpdate : boolean = false;
   id: number = 0;
   buttonName: string = '';
+  idCategorias: any[] = [];
 
   constructor(
     private materialesServices: MaterialService,
     private activatedRoute: ActivatedRoute,
     private notificacionesService: NotificacionesService,
+    private categoriasService: CategoriasMaterialesService,
     private router: Router
     ) {
     this.materialForm = new FormGroup({
@@ -62,6 +66,8 @@ export class DetalleMaterialFormComponent implements OnInit {
         this.notificacionesService.showError("No ha cargado correctamente el material");
       }
     })
+
+    this.getAllCategorias();
 }
 
 rellenarCamposForm(response : any) {
@@ -97,10 +103,12 @@ async submitMaterial() {
     return;
   }
 
-  //Actualziar
+  //Actualizar
   try{
     const material =  this.materialForm.value;
-    const response = await this.materialesServices.update(material);
+    delete material["materiales_id"]; 
+    const response = await this.materialesServices.update(material, this.id);
+    console.log(response)
     this.notificacionesService.showInfo("Se ha actualizado correctamente el material");
   }catch(error){
     console.log(error);
@@ -118,5 +126,27 @@ async submitMaterial() {
       return true
     }
     return false
-  }
+  } 
+
+
+  async getAllCategorias() {
+    try {
+        const data: any = await this.categoriasService.getAll();
+        console.log(data[0])
+        this.idCategorias = data.categorias_materiales_id;
+    } catch (error) {
+        console.error('Error al obtener las categorías:', error);
+    }
+}
+
+// EL SELECT PARA LAS CATEGORIAS DISPONIBLES
+// Categorias(event: any) {
+//   // Tu código existente
+//   const idCategoria = event.target.value;
+//   const findCategoria: Categoria = this.idCategorias.find((element: Categoria) => element.categorias_materiales_id == idCategoria);
+//   console.log(findCategoria);
+// }
+
+ 
+  
 }
