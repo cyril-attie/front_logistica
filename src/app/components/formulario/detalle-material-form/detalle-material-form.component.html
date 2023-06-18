@@ -1,7 +1,7 @@
 
 
 <h3 class="mb-1" *ngIf="!isUpdate">Crear nuevo material</h3>
-<h3 class="mb-1" *ngIf="isUpdate">Editar material</h3>
+<h3 class="mb-1" *ngIf="isUpdate">Editar material nº{{id}}</h3>
 <hr class="mb-5">
 
 <form class="template" [formGroup]="materialForm" (ngSubmit)="submitMaterial()" class="formulario-global">
@@ -19,7 +19,12 @@
             </div>
             <div class="col">
                 <label for="estado" class="form-label" required>Estado</label>
-                <input class="form-control" type="text" id="estado" formControlName="estado">
+                <!-- <input class="form-control" type="text" id="estado" formControlName="estado"> -->
+                <select class="form-control" name="estado" id="estado" formControlName="estado">
+                    <option value="habilitado">Habilitado</option>
+                    <option value="inactivo">Inactivo</option>
+                    <option value="completo">Completo</option>
+                </select> 
                 <p class="error" *ngIf="controlError('estado', 'required')">El campo es obligatorio</p>
             </div>
         </div>
