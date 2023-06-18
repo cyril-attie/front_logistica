@@ -58,7 +58,7 @@ export class DetallePedidoFormComponent implements OnInit {
       fecha_llegada: new FormControl('', [
         Validators.required
       ]),
-      estado_pedido: new FormControl('En preparación', []),
+      estado_pedido: new FormControl('En revisión', []),
       medida: new FormControl('', [
         Validators.required
       ]),
@@ -74,7 +74,7 @@ export class DetallePedidoFormComponent implements OnInit {
       camiones_id: new FormControl('', [
         Validators.required
       ]),
-      usuario_id_aprobador: new FormControl('', []), /*APSP: Se pone con el "usario_id_encargado" de la tabla almacenes del almacén origen*/
+      usuarios_id_aprobador: new FormControl('', []), /*APSP: Se pone con el "usario_id_encargado" de la tabla almacenes del almacén origen*/
       observaciones: new FormControl('', []), /*APSP: Digali al Cyril que el crei a la base de dates */
     }, []);
   }
@@ -88,58 +88,30 @@ export class DetallePedidoFormComponent implements OnInit {
         const pedido =  this.pedidoForm.value;
         delete pedido["pedidos_id"];
         pedido.stocks = this.stocksFiltred(this.filasStock);
-        
         console.log(pedido);
         const response = await this.pedidosService.create(pedido);
-        console.log(response);
         if (response.fatal) {
           return this.notificacionesService.showError(response.fatal);
         }
-
-        this.notificacionesService.showInfo("Se ha creado correctamente el usuario");
+        this.notificacionesService.showInfo("Se ha creado correctamente el pedido " + response.insertId);
+        this.id = response.response.insertId;
+        this.isUpdate = true;
+        this.buttonName = "Actualizar";
+        //this.router.navigate(['/pedido/' + response.insertId]);
+        return;
       } catch (error) {
         console.log(error);
-        this.notificacionesService.showError("No se ha creado correctamente el usuario.");
+        return this.notificacionesService.showError("No se ha creado correctamente el pedido.");
       }
-      return;
     }
 
     //Actualziar
     try{
       const pedido =  this.pedidoForm.value;
-      
       const response = await this.pedidosService.update(pedido);
       if (response.fatal) {
         return this.notificacionesService.showError(response.fatal);
       }
-
-      /*APSP: Una vez se actualize el pedido faltara actualizar los registros de 
-        las tablas "pedidos_have_stocks" y "stocks". 
-        2. Borrar las líneas de la tabla "pedidos_have_stocks" de la base de datos (digo 
-          borrar porque si queremos actualizar,si se cambia el stock de la línea, 
-          no lo encontrariamos y seria erroneo esto). Para hacerlo:
-            2.1 Primero ir a buscar los stocks que tiene el array "this.oldFilasStock" 
-                ya que este array tendra los datos antiguos antes de que se actualicen.
-                (este campo se debe crear pero la idea es que se informara cuando se
-                termine de crear el pedido haciendo copia del array this.filasStock,
-                o bien cuando se cargue el pedido y se cargue el array this.filasStock
-                con la base de datos, en este momento en el ngOnInit(), copiar wl array
-                this.filasStock a este nueva) 
-            2.2 Recorrer este array this.oldFilasStock" y:
-                2.2.1 Ir a la tabla de stocks de la base de datos y actualizar para cada stock 
-                  que encontremos con el mismo id "stocks.stocks_id" =  "this.oldFilasStock[x].stocks_id",
-                  sumarle a "stocks.unidades" la cantidad del registro "this.oldFilasStock[x].unidades_utilizadas",
-                  para que no perdamos el stock.
-                2.2.2 borrar los registros de la tabla "pedidos_have_stocks" de la base de datos filtrando por:
-                  "pedidos_have_stocks.pedidos_id" =  "this.oldFilasStock[x].pedidos_id" y
-                  "pedidos_have_stocks.stocks_id" =  "this.oldFilasStock[x].stocks_id"
-        3. Hacer el mismo ciclo que al crear->
-           Buscar en la tabla stocks si las "unidades" son mayores al campo informado "this.filasStock[x].unidades_utilizadas" 
-        4. Si se cumple esto, procedemos a crear un registro de la tabla "pedidos_have_stocks" con los campos:
-              4.1 "pedidos_have_stocks.pedidos_id" =  "[response].pedidos_id"
-              4.2 "pedidos_have_stocks.stocks_id" =  "this.filasStock[x].stocks_id"
-              4.3 "pedidos_have_stocks.unidades_utilizadas" =  "this.filasStock[x].unidades_utilizadas"
-      */
 
       this.notificacionesService.showInfo("Se ha actualizado correctamente el usuario");
     }catch(error){
@@ -150,7 +122,10 @@ export class DetallePedidoFormComponent implements OnInit {
 
 
   /* Cuando se incia el componente se verifica si es creación o no, si es actualización se informan campos del formulario */
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+
+      await this.obtenerAlmacenes();
+      await this.obtenerCamiones();
   
       this.activatedRoute.params.subscribe(async (params:any) : Promise<void>=> {
         this.id = (params.id); 
@@ -178,29 +153,39 @@ export class DetallePedidoFormComponent implements OnInit {
         }
       }) 
 
-      this.obtenerAlmacenes();
-      this.obtenerCamiones();
-  
+      
   }
 
   /* Acción que rellena los campos del formulario */
-  rellenarCamposForm(response : any) {
+  rellenarCamposForm (response : any) {
   
     const pedido: Pedido = response[0]; 
-    console.log(pedido)
+
+    //Convertimos las fechas
+    const fechaCreacion = new Date(pedido.fecha_creacion);
+    const fechaCreacionFormat = formatDate(new Date(),'yyyy-MM-dd hh:mm:ss','en');
+    
+    const fechaSalida = new Date(pedido.fecha_salida);
+    const fechaSalidaFormat = formatDate(new Date(),'yyyy-MM-dd hh:mm:ss','en');
+
+    const fechaLlegada = new Date(pedido.fecha_salida);
+    const fechaLlegadaFormat = formatDate(new Date(),'yyyy-MM-dd hh:mm:ss','en');
+
+   
+    //Rellenamos form
     this.pedidoForm = new FormGroup({
       pedidos_id: new FormControl(pedido.pedidos_id,[]),
-      fecha_salida: new FormControl(pedido.fecha_salida, [
+      fecha_salida: new FormControl(fechaSalidaFormat, [
         Validators.required
       ]),
-      fecha_llegada: new FormControl(pedido.fecha_llegada, [
+      fecha_llegada: new FormControl(fechaLlegadaFormat, [
         Validators.required
       ]),
       estado_pedido: new FormControl(pedido.estado_pedido, []),
       medida: new FormControl(pedido.medida, [
         Validators.required
       ]),
-      fecha_creacion: new FormControl(pedido.fecha_creacion, []),
+      fecha_creacion: new FormControl(fechaCreacionFormat, []),
       usuarios_id_creador: new FormControl(pedido.usuarios_id_creador, []), 
       usuarios_id_revisador: new FormControl(pedido.usuarios_id_revisador, []),
       almacenes_id_origen: new FormControl(pedido.almacenes_id_origen, [
@@ -212,9 +197,42 @@ export class DetallePedidoFormComponent implements OnInit {
       camiones_id: new FormControl(pedido.camiones_id, [
         Validators.required
       ]),
-      usuario_id_aprobador: new FormControl(pedido.usuario_id_aprobador, []), 
+      usuarios_id_aprobador: new FormControl(pedido.usuarios_id_aprobador, []), 
       observaciones: new FormControl(pedido.observaciones, []),
     }, []);
+    
+    //Informamos stocksOrgien para que se pueda recuperar en cada línea de pedidos_have_stock
+    const findAlmacen : Almacen  = this.almacenes.find((element:Almacen) => element.almacenes_id == pedido.almacenes_id_origen);
+    this.stocksOrigen = findAlmacen.stocks;
+    
+    //Rellenamos tabla pedidos_have_Stock
+    const stocks = pedido.stocks;
+    if (stocks) {
+      
+      stocks.forEach(stock => {
+        let newFila : PedidosHaveStock = {
+          unidades_utilizadas: stock.unidades_utilizadas,
+          posicion: stock.posicion,
+          stocks_id: stock.stocks_id,
+          unidades: 0,
+          materiales_id: 0,
+          descripcion_material: "",
+          descripcion_categoria: ""
+        }
+        
+        const stockAlmacenRecuperado = this.stocksOrigen.find((stockBuscar : StockAlmacen) => stockBuscar.stocks_id == stock.stocks_id);
+        
+        if (stockAlmacenRecuperado && stockAlmacenRecuperado.unidades) {
+          newFila.descripcion_material =  stockAlmacenRecuperado.nombre_material;
+          newFila.descripcion_categoria = stockAlmacenRecuperado.categorias_materiales_id + 
+                                          " - " + 
+                                          stockAlmacenRecuperado.descripcion_categoria;
+          newFila.unidades = stockAlmacenRecuperado.unidades;
+          newFila.materiales_id = stockAlmacenRecuperado.materiales_id;
+        }
+        this.filasStock.push(newFila);
+      });
+    }
   }
 
 
@@ -245,13 +263,13 @@ export class DetallePedidoFormComponent implements OnInit {
     })
   }
 
-  //Moficar usuario_id_aprobador y el listado de stocks para posiciones
+  //Moficar usuarios_id_aprobador y el listado de stocks para posiciones
   almacenDestinoChange(event : any) {
     const idAlmacenSelected = event.target.value;
     const findAlmacen : Almacen  = this.almacenes.find((element:Almacen) => element.almacenes_id == idAlmacenSelected);
     const encargadoAprobar = findAlmacen.usuarios_id_encargado;
     this.pedidoForm.patchValue({
-      usuario_id_aprobador: encargadoAprobar
+      usuarios_id_aprobador: encargadoAprobar
     })
   }
 
@@ -310,7 +328,6 @@ export class DetallePedidoFormComponent implements OnInit {
     const idStock = ev.target.value;
     const stockAlmacenRecuperado = this.stocksOrigen.find((stockBuscar : StockAlmacen) => stockBuscar.stocks_id == idStock);
     const filaPedidosHaveStock = this.filasStock.find( (filaBuscar : PedidosHaveStock) => filaBuscar.posicion == fila.posicion);
-    console.log(filaPedidosHaveStock);
     if (stockAlmacenRecuperado && stockAlmacenRecuperado.unidades && filaPedidosHaveStock) {
       filaPedidosHaveStock.descripcion_material =  stockAlmacenRecuperado.nombre_material;
       filaPedidosHaveStock.descripcion_categoria = stockAlmacenRecuperado.categorias_materiales_id + 
@@ -318,8 +335,7 @@ export class DetallePedidoFormComponent implements OnInit {
                                                   stockAlmacenRecuperado.descripcion_categoria;
       filaPedidosHaveStock.unidades = stockAlmacenRecuperado.unidades;
       filaPedidosHaveStock.materiales_id = stockAlmacenRecuperado.materiales_id;
-      console.log(filaPedidosHaveStock);
-
+      filaPedidosHaveStock.stocks_id = idStock;
     }
   }
   recalcularFilas() {
@@ -351,8 +367,9 @@ export class DetallePedidoFormComponent implements OnInit {
     return false
   }
 
+  //Método para enviar los stocks en la response (quitamos campos inecesarios de tabla)
   stocksFiltred = (filasStocks : any[]) => {
-    let fliasStock2 = filasStocks;
+    const fliasStock2 = filasStocks.map((stock : any) => ({ ...stock }));
     fliasStock2.forEach((stock) => {
       delete stock.descripcion_material;
       delete stock.descripcion_categoria;
@@ -362,42 +379,6 @@ export class DetallePedidoFormComponent implements OnInit {
     });
     return fliasStock2;
   } 
-
-  // obtenerStocks() {
-  //   const almacenSeleccionado = this.pedidoForm.get('almacen_origen')?.value;
-  
-  //   if (almacenSeleccionado) {
-  //     this.stockService.obtenerStocksPorAlmacen(almacenSeleccionado).then(
-  //       (response) => {
-  //         // Asignar los datos de stocks a una variable en el componente
-  //         // Por ejemplo, puedes crear un arreglo llamado 'stocks' y asignarle 'response' en esta línea
-  
-  //         this.stocks = response;
-  //         console.log(response)
-          
-  //         // O puedes asignar los datos directamente a los controles del formulario si eso es lo que deseas hacer
-  //         const stocksFormArray = this.pedidoForm.get('stocks') as FormArray;
-  //         console.log(stocksFormArray)
-  //         stocksFormArray.clear();
-  
-  //         for (const stock of response) {
-  //           const stockGroup = new FormGroup({
-  //             n_material: new FormControl(stock.n_material),
-  //             nombre_material: new FormControl(stock.nombre_material),
-  //             categoria: new FormControl(stock.categoria),
-  //             stock: new FormControl(stock.stock),
-  //             stock_total: new FormControl(stock.stock_total),
-  //           });
-  //           stocksFormArray.push(stockGroup);
-  //         }
-  //       },
-  //       (error) => {
-  //         console.log(error);
-  //       }
-  //     );
-  //   }
-  // }
-
 
 
  
