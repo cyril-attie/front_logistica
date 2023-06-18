@@ -1,6 +1,6 @@
 
 <h3 class="mb-1" *ngIf="!isUpdate">Crear nuevo pedido</h3>
-<h3 class="mb-1" *ngIf="isUpdate">Editar pedido</h3>
+<h3 class="mb-1" *ngIf="isUpdate">Editar pedido {{id}}</h3>
 <hr class="mb-5">
 
 <form class="template mb-5" [formGroup]="pedidoForm" (ngSubmit)=" submitPedido()" >
@@ -9,20 +9,11 @@
     <div class="row">
         <div class="col-md-4 mb-3">
             <label for="fecha_creacion" class="form-label">Fecha de creación</label>
-            <input readonly class="form-control form-control-plaintext" type="datetime" id="fecha_creacion" formControlName="fecha_creacion">
+            <input readonly class="form-control-plaintext" type="datetime" id="fecha_creacion" formControlName="fecha_creacion">
         </div>
         <div class="col-md-4 mb-3">
             <label required for="estado_pedido" class="form-label">Estado</label>
-
-            <select class="form-control" id="estado_pedido" formControlName="estado_pedido">
-                <option value="revision">En revisión</option>
-                <option [defaultSelected]="'En preparación'" value="preparacion">En preparación</option>
-                <option value="transito">En tránsito</option>
-                <option value="entregado">Entregado</option>
-                <option value="entregado">Aprobado</option>
-                <option value="cancelado">Cancelado</option>
-            </select>
-            <p class="error" *ngIf="controlError('estado_pedido', 'required')">El campo es obligatorio</p>
+            <input readonly class="form-control-plaintext" type="text" id="estado_pedido" formControlName="estado_pedido">
         </div>
         <div class="col-md-4 mb-3">
             <label for="usuarios_id_creador" class="form-label">Operario asignado</label>
@@ -79,11 +70,11 @@
         </div>
         <div class="col-md-4 mb-3">
             <label for="usuarios_id_revisador" class="form-label">Encargado a revisar</label>
-            <input readonly class="form-control form-control-plaintext" type="text" id="usuarios_id_revisador" formControlName="usuarios_id_revisador">
+            <input readonly class="form-control-plaintext" type="text" id="usuarios_id_revisador" formControlName="usuarios_id_revisador">
         </div>
         <div class="col-md-4 mb-3">
-            <label for="usuario_id_aprobador" class="form-label">Encargado a aprobar</label>
-            <input readonly class="form-control form-control-plaintext" type="text" id="usuario_id_aprobador" formControlName="usuario_id_aprobador">
+            <label for="usuarios_id_aprobador" class="form-label">Encargado a aprobar</label>
+            <input readonly class="form-control-plaintext" type="text" id="usuarios_id_aprobador" formControlName="usuarios_id_aprobador">
         </div>
     </div>
 
@@ -117,7 +108,7 @@
                     <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center">
                         <select (change)="informarFilaStock($event,fila)"  class="form-control">
                             <option *ngIf="!fila.descripcion_categoria"></option>
-                            <option *ngFor="let stock of stocksOrigen" [value]="stock.stocks_id">{{stock.stocks_id}}</option>
+                            <option *ngFor="let stock of stocksOrigen" [value]="stock.stocks_id">{{stock.stocks_id + " - " + stock.nombre_material}}</option>
                         </select>
                     </td>
                     <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center" scope="col">{{ fila.descripcion_material }}</td>

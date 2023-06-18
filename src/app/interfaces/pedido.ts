@@ -1,7 +1,7 @@
 export interface Pedido {
     pedidos_id?: number;
-    fecha_salida: Date | null;
-    fecha_llegada: Date | null;
+    fecha_salida: Date;
+    fecha_llegada: Date;
     estado_pedido: 'En revisión' | 'En preparación' | 'En tránsito' | 'Entregado' | 'Cancelado' | 'Aprobado' | 'Rechazado';
     medida: number;
     fecha_creacion: Date;
@@ -10,6 +10,7 @@ export interface Pedido {
     almacenes_id_origen: number;
     almacenes_id_destion: number;
     camiones_id: number;
-    usuario_id_aprobador: number;
+    usuarios_id_aprobador: number;
     observaciones?: string;
+    stocks?: any[];
   }
