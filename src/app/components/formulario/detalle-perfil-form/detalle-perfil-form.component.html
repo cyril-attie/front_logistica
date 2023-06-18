@@ -1,35 +1,32 @@
-
 <section>
-    <div class="wp-global d-flex justify-content-center align-items-center">
-            <div class="image-container">
-              <img [src]="imagen" alt="ImagenPerfil" class="img"/>
-            </div>
-            <div class="wp-info ">
-                  <div class="info-1 mb-4 mt-4">
-                    <h2>Nombre Apellido:  {{perfil.nombre}} {{perfil.apellido}}</h2>
-                    <p>Email:  {{perfil.email}}</p>
-                    <p>Edad:  {{perfil.edad}}</p>
-                    <p>Ciudad, País:  {{perfil.ciudad}} {{perfil.pais}}</p>
-                  </div>
-
-                  <div class="info2">
-                    <div class="d-flex justify-content-between"> 
-                            <div class="wp-estado">
-                                <h3>Estado</h3>
-                                  <div class="info-estado">
-                                      <p class="estado">Estado:  {{perfil.estado}}</p>
-                                  </div>
-                            </div>
-                            <div class="wp-rol">
-                                <h3>Rol</h3>
-                                    <div class="info-rol">
-                                       <p class="rol"> {{perfil.roles_id}}</p>
-                                </div>
-                            </div>
-                      </div>
-                    </div>
-              </div>
+  <div class="wp-global d-flex justify-content-center align-items-center">
+    <div class="image-container">
+      <img [src]="imagen" alt="ImagenPerfil" class="img" />
+    </div>
+    <div class="wp-info ">
+      <div class="info-1 mb-4 mt-4">
+        <h2>Nombre Apellido: {{perfil.nombre | capitalize}} {{perfil.apellido | capitalize}}</h2>
+        <p>Email: {{perfil.email}}</p>
+        <p>Edad: {{perfil.edad}}</p>
+        <p>Ciudad, País: {{perfil.ciudad | capitalize}} {{perfil.pais | capitalize}}</p>
       </div>
-  </section>
 
- 
+      <div class="info2">
+        <div class="d-flex justify-content-between">
+          <div class="wp-estado">
+            <h3>Estado</h3>
+            <div class="info-estado">
+              <p class="estado">Estado: {{perfil.estado}}</p>
+            </div>
+          </div>
+          <div class="wp-rol">
+            <h3>Rol</h3>
+            <div class="info-rol">
+              <p class="rol"> {{perfil.roles_id}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
