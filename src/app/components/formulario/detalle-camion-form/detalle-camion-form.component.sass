@@ -1,10 +1,10 @@
 
 .template 
-    max-width: 1000px
     margin: 0 auto
-    background: #E6E6E6
+    background-color: rgb(240, 240, 240)
     padding: 2rem
     border-radius: 10px
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px
 
 
 
@@ -70,8 +70,24 @@
 
 
 
+label[required]::after 
+    content: "*"
+    color: red
+    margin-left: 5px
 
-    
+
+input.ng-invalid.ng-touched
+    border-bottom: 3px solid tomato
+
+
+input.ng-valid.ng-touched
+    border-bottom: 3px solid lightgreen
+
+
+.error
+    color: tomato
+    font-size: 10px
+
 
 
 

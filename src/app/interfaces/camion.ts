@@ -1,6 +1,6 @@
 export interface Camion {
-    id?: number;
-    matricula: string;
-    capacidad: number;
+    camiones_id?: number;
+    matricula_camion: string;
+    capacidad_maxima: number;
     estado: string; 
 }
