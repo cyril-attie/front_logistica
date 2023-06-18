@@ -68,7 +68,7 @@ export class DetallePedidoFormComponent implements OnInit {
       almacenes_id_origen: new FormControl('', [
         Validators.required
       ]),
-      almacenes_id_destion: new FormControl('', [
+      almacenes_id_destino: new FormControl('', [
         Validators.required
       ]),
       camiones_id: new FormControl('', [
@@ -88,16 +88,15 @@ export class DetallePedidoFormComponent implements OnInit {
         const pedido =  this.pedidoForm.value;
         delete pedido["pedidos_id"];
         pedido.stocks = this.stocksFiltred(this.filasStock);
-        console.log(pedido);
         const response = await this.pedidosService.create(pedido);
         if (response.fatal) {
           return this.notificacionesService.showError(response.fatal);
         }
         this.notificacionesService.showInfo("Se ha creado correctamente el pedido " + response.insertId);
-        this.id = response.response.insertId;
-        this.isUpdate = true;
-        this.buttonName = "Actualizar";
-        //this.router.navigate(['/pedido/' + response.insertId]);
+        //this.id = response.insertId;
+        //this.isUpdate = true;
+        //this.buttonName = "Actualizar";
+        this.router.navigate(['/pedido/' + response.insertId]);
         return;
       } catch (error) {
         console.log(error);
@@ -108,12 +107,14 @@ export class DetallePedidoFormComponent implements OnInit {
     //Actualziar
     try{
       const pedido =  this.pedidoForm.value;
-      const response = await this.pedidosService.update(pedido);
+      delete pedido["pedidos_id"];
+      pedido.stocks = this.stocksFiltred(this.filasStock);
+      console.log(pedido);  
+      const response = await this.pedidosService.update(pedido,this.id);
       if (response.fatal) {
         return this.notificacionesService.showError(response.fatal);
       }
-
-      this.notificacionesService.showInfo("Se ha actualizado correctamente el usuario");
+      this.notificacionesService.showInfo("Se ha actualizado correctamente el pedido");
     }catch(error){
       console.log(error);
       this.notificacionesService.showError("No se ha actualizado correctamente el pedido.");
@@ -159,7 +160,7 @@ export class DetallePedidoFormComponent implements OnInit {
   /* Acción que rellena los campos del formulario */
   rellenarCamposForm (response : any) {
   
-    const pedido: Pedido = response[0]; 
+    const pedido: Pedido = response; 
 
     //Convertimos las fechas
     const fechaCreacion = new Date(pedido.fecha_creacion);
@@ -191,7 +192,7 @@ export class DetallePedidoFormComponent implements OnInit {
       almacenes_id_origen: new FormControl(pedido.almacenes_id_origen, [
         Validators.required
       ]),
-      almacenes_id_destion: new FormControl(pedido.almacenes_id_destion, [
+      almacenes_id_destino: new FormControl(pedido.almacenes_id_destino, [
         Validators.required
       ]),
       camiones_id: new FormControl(pedido.camiones_id, [

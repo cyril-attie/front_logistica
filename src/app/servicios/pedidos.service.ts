@@ -47,14 +47,14 @@ export class PedidosService {
   }
 
   // Actualizar un nuevo pedido
-  update(pedido: Pedido): Promise<Pedido | any>{
+  update(pedido: Pedido,id: number): Promise<Pedido | any>{
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json', 
         'Authorization': localStorage.getItem('token_almacen')!
       })
     }
-    return lastValueFrom(this.httpClient.put<Pedido>(`${this.baseUrl}/${pedido.pedidos_id}`, pedido, httpOptions))
+    return lastValueFrom(this.httpClient.put<Pedido>(`${this.baseUrl}/${id}`, pedido, httpOptions))
   }
 
   // Eliminar un pedido
