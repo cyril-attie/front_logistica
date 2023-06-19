@@ -1,4 +1,4 @@
-<nav class="sub-menu mb-4">
+<!--<nav class="sub-menu mb-4">
     <ul class="navigation" *ngIf="rolesMap.get(rol) === 'Operario'">
       <li class="navigation-li" [routerLink]="['/pedidos']" routerLinkActive="router-link-active"><a class="nav-item">Pedidos</a></li>
       <li class="navigation-li" [routerLink]="['/perfil']" routerLinkActive="router-link-active"><a class="nav-item">Perfil</a></li>
@@ -15,5 +15,21 @@
       <li class="navigation-li" [routerLink]="['/camiones']" routerLinkActive="router-link-active"><a class="nav-item">Camiones</a></li>
       <li class="navigation-li" [routerLink]="['/perfil']" routerLinkActive="router-link-active"><a class="nav-item">Perfil</a></li>
     </ul>
+  </nav>-->
+
+<div *ngIf="rol" class="mb-4">
+  <nav [style.border-color]="colorBorder" class="sub-menu">
+    <ul class="navigation">
+      <li class="navigation-li" 
+          *ngFor="let enlace of enlacesRouter"
+          [routerLink]="enlace.enlace"
+          routerLinkActive="router-link-active"
+          [style.flex-basis]="100 / enlacesRouter.length + '%'">
+        <a class="nav-item">{{ enlace.texto }}</a>
+      </li>
+    </ul>
   </nav>
-  
+  <div class="contenedor-label">
+    <div [style.border-color]="colorBorder" [style.background-color]="colorBorder" class="izquierda"><span [style.color]="colorText">{{rolDescripcion}}</span></div>
+  </div>
+</div>

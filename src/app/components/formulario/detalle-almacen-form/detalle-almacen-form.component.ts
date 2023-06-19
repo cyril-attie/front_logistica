@@ -109,7 +109,7 @@ export class DetalleAlmacenFormComponent implements OnInit {
      //Rellenamos tabla pedidos_have_Stock
      const stocks = almacen.stocks;
      if (stocks) {
-       
+       stocks.sort((a : any, b : any) => a.posicion - b.posicion);
        stocks.forEach((stock :any) => {
          let newFila : StockMaterial = {
             posicion: stock.posicion,

@@ -79,8 +79,8 @@
             <thead>
                 <tr class="thead row">
                     <th scope="row" class="col-lg-2 col-md-6 center d-flex justify-content-center">Posición</th>
+                    <th scope="row" class="col-lg-2 col-md-6 center d-flex justify-content-center">Stock ID</th>
                     <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Nºmaterial</th>
-                    <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Nombre material</th>
                     <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Descripción Categoría
                     </th>
                     <th scope="col" class="col-lg-2 col-md-6 center d-flex justify-content-center">Total Unidades</th>
@@ -92,6 +92,8 @@
                 <tr *ngFor="let fila of filasStock" class="row text-center d-flex justify-content-center">
                     <td class="col-lg-2 col-md-6 text-center align-items-center d-flex justify-content-center" scope="col">
                         {{fila.posicion}}</td>
+                    <td class="col-lg-2 col-md-6 text-center align-items-center d-flex justify-content-center" scope="col">
+                        {{fila.stocks_id}}</td>
                     <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center">
                         <select [ngModelOptions]="{standalone: true}" [(ngModel)]="fila.materiales_id" (keydown)="noAction($event)" (change)="informarFilaStock($event,fila)" class="form-control">
                             <option *ngIf="!fila.descripcion_categoria"></option>
@@ -102,8 +104,7 @@
 
                         </select>
                     </td>
-                    <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center" scope="col">{{
-                        fila.nombre_material }}</td>
+
                     <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center" scope="col">{{
                         fila.descripcion_categoria }}</td>
                     <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center" scope="col">

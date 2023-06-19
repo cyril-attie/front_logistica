@@ -9,7 +9,7 @@ import { UsuariosServiceService } from './servicios/usuarios-service.service';
 export class AppComponent {
   title = 'front_logistica';
   isLogged : boolean;
-
+  altura_minima : string = "";
   constructor(private usuariosServices: UsuariosServiceService) {
     this.isLogged = false;
   }
@@ -18,6 +18,12 @@ export class AppComponent {
   ngOnInit() {
     this.usuariosServices.isLogged.subscribe(value => {
       this.isLogged = value;
+      //Es para separar el footer
+      if (this.isLogged) {
+        this.altura_minima= "84vh";
+      } else {
+        this.altura_minima= "91vh";
+      }
     });
   }
 }

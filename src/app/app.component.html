@@ -1,6 +1,6 @@
 <app-header></app-header>
-<div class="container-padre">
-    <main [ngClass]="{'container':isLogged}" class="mb-5" >
+<div [style.min-height]="altura_minima" class="container-padre">
+    <main [ngClass]="{'container':isLogged,'mb-5': isLogged}">
         <router-outlet></router-outlet>
     </main>
     <app-footer></app-footer>
