@@ -18,7 +18,8 @@ export class DetalleMaterialFormComponent implements OnInit {
   isUpdate : boolean = false;
   id: number = 0;
   buttonName: string = '';
-  idCategorias: any[] = [];
+  Categorias: any[] = [];
+  nombresCategorias: string[] = [];
 
   constructor(
     private materialesServices: MaterialService,
@@ -131,22 +132,16 @@ async submitMaterial() {
 
   async getAllCategorias() {
     try {
-        const data: any = await this.categoriasService.getAll();
-        console.log(data[0])
-        this.idCategorias = data.categorias_materiales_id;
+        const data: any = await this.categoriasService.getAll();        
+        this.Categorias = data;
     } catch (error) {
         console.error('Error al obtener las categorías:', error);
     }
 }
 
-// EL SELECT PARA LAS CATEGORIAS DISPONIBLES
-// Categorias(event: any) {
-//   // Tu código existente
-//   const idCategoria = event.target.value;
-//   const findCategoria: Categoria = this.idCategorias.find((element: Categoria) => element.categorias_materiales_id == idCategoria);
-//   console.log(findCategoria);
-// }
+
+}
 
  
   
-}
+
