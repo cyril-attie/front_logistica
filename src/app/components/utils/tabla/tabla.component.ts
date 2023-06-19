@@ -75,20 +75,20 @@ export class TablaComponent {
         });
         return propiedadesOrdenadas.map(([, valor]) => valor);
       });
+      this.cargarPedidos();
+
 
     }
    
   }
 
   async ngOnInit(): Promise<void> {
-    await this.cargarPedidos();
   }
 
   async cargarPedidos() {
     try {
-      const response = await this.pedidosService.getAll();
-      this.totalPedidos = response.length;
-      this.pedidos = response.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize);
+      this.totalPedidos = this.propiedadesTabla.response.length;
+      this.pedidos = this.propiedadesTabla.response.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize);
       this.totalPaginas = Math.ceil(this.totalPedidos / this.pageSize);
     } catch (error) {
       console.log('error al cargar pedidos', error)
