@@ -1,21 +1,4 @@
-<!--<nav class="sub-menu mb-4">
-    <ul class="navigation" *ngIf="rolesMap.get(rol) === 'Operario'">
-      <li class="navigation-li" [routerLink]="['/pedidos']" routerLinkActive="router-link-active"><a class="nav-item">Pedidos</a></li>
-      <li class="navigation-li" [routerLink]="['/perfil']" routerLinkActive="router-link-active"><a class="nav-item">Perfil</a></li>
-    </ul>
-    <ul class="navigation" *ngIf="rolesMap.get(rol) === 'Encargado'">
-      <li class="navigation-li" [routerLink]="['/pedidos']" routerLinkActive="router-link-active"><a class="nav-item">Pedidos</a></li>
-      <li class="navigation-li" [routerLink]="['/materiales']" routerLinkActive="router-link-active"><a class="nav-item">Materiales</a></li>
-      <li class="navigation-li" [routerLink]="['/categorias']" routerLinkActive="router-link-active"><a class="nav-item">Categorías de materiales</a></li>
-      <li class="navigation-li" [routerLink]="['/perfil']" routerLinkActive="router-link-active"><a class="nav-item">Perfil</a></li>
-    </ul>
-    <ul class="navigation" *ngIf="rolesMap.get(rol) === 'Jefe de equipo'">
-      <li class="navigation-li" [routerLink]="['/usuarios']" routerLinkActive="router-link-active"><a class="nav-item">Usuarios</a></li>
-      <li class="navigation-li" [routerLink]="['/almacenes']" routerLinkActive="router-link-active"><a class="nav-item">Almacenes</a></li>
-      <li class="navigation-li" [routerLink]="['/camiones']" routerLinkActive="router-link-active"><a class="nav-item">Camiones</a></li>
-      <li class="navigation-li" [routerLink]="['/perfil']" routerLinkActive="router-link-active"><a class="nav-item">Perfil</a></li>
-    </ul>
-  </nav>-->
+
 
 <div *ngIf="rol" class="mb-4">
   <nav [style.border-color]="colorBorder" class="sub-menu">

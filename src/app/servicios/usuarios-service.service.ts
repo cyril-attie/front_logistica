@@ -18,8 +18,7 @@ export class UsuariosServiceService {
 
   constructor(private httpClient: HttpClient) {
 
-    // De momento estoy usando esta URL cómo prueba de usuarios
-    //this.baseUrl = 'http://34.65.131.41:3000/api/usuarios/';
+    
     this.baseUrl = environment.apiUrl + '/api/usuarios';
     
     this._isLogged = new BehaviorSubject(

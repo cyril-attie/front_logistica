@@ -354,8 +354,8 @@ export class DetalleAlmacenFormComponent implements OnInit {
     debugger;
     this.filasStock = this.filasStock.map( (fila, indice) => {
       return {
-        ...fila, // se crea un nuevo objeto con haciendo un spread de fila
-        posicion: indice + 1 // esto no lo pillo
+        ...fila, 
+        posicion: indice + 1 
       };
     });
     console.log(this.filasStock)

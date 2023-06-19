@@ -68,7 +68,6 @@ export class LoginFormComponent {
     localStorage.setItem('rol_almacen', tokenDecode.roles_id);
     localStorage.setItem('user_id', tokenDecode.usuarios_id);
 
-    //localStorage.setItem('usuario_id', tokenDecode.user_id) --> NO FUNCIONA 
     console.log("Te has logedo correctamente - " + response.token + " - " + tokenDecode.roles_id );
     console.log("Te has logedo correctamente - " + response.token + " - " + tokenDecode.roles_id);
   

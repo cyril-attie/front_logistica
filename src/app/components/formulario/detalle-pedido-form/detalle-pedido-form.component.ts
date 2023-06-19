@@ -196,9 +196,6 @@ export class DetallePedidoFormComponent implements OnInit {
         this.rol = localStorage.getItem('rol_almacen');
         console.log(this.rol)
         
-        // if (estado esta en preparacion){
-        //   this.enPreparacion = true; 
-        // }
 
         if (this.rol === '3'){
           this.esEncargado = true; 
