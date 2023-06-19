@@ -39,7 +39,6 @@ export class DetalleMaterialFormComponent implements OnInit {
       estado: new FormControl('', [Validators.required]),
       categorias_materiales_id: new FormControl('', [Validators.required]),
       peso: new FormControl('', [Validators.required]),
-      // stock: new FormControl('', [Validators.required]),
       descripcion_material: new FormControl('', [Validators.required]),
     }, []);
   }
@@ -68,7 +67,7 @@ export class DetalleMaterialFormComponent implements OnInit {
       this.isUpdate = true;
       this.buttonName = "Actualizar";
    
-      // Activa los botones 'Editar' y 'Eliminar' 
+     
       try {
         let response: any = await this.materialesServices.getById(this.id);
         if (response.fatal) {

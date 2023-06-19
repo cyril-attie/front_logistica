@@ -5,10 +5,10 @@
     </div>
     <div class="wp-info ">
       <div class="info-1 mb-4 mt-4">
-        <h2>Nombre Apellido: {{perfil.nombre | capitalize}} {{perfil.apellido | capitalize}}</h2>
-        <p>Email: {{perfil.email}}</p>
-        <p>Edad: {{perfil.edad}}</p>
-        <p>Ciudad, País: {{perfil.ciudad | capitalize}} {{perfil.pais | capitalize}}</p>
+        <h2>{{perfil.nombre | capitalize}} {{perfil.apellido | capitalize}}</h2>
+        <p>{{perfil.email}}</p>
+        <p>{{perfil.edad}}</p>
+        <p>{{perfil.ciudad | capitalize}} {{perfil.pais | capitalize}}</p>
       </div>
 
       <div class="info2">
@@ -16,7 +16,7 @@
           <div class="wp-estado">
             <h3>Estado</h3>
             <div class="info-estado">
-              <p class="estado">Estado: {{perfil.estado}}</p>
+              <p class="estado">{{perfil.estado}}</p>
             </div>
           </div>
           <div class="wp-rol">

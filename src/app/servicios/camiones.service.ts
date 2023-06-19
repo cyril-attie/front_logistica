@@ -13,7 +13,7 @@ export class CamionesService {
 
   constructor(private httpClient: HttpClient) { 
 
-     // De momento estoy usando esta URL cómo prueba de usuarios - NO EXISTE AUN ESTA URL
+     // URL
      this.baseUrl = environment.apiUrl + '/api/camiones';
   }
 

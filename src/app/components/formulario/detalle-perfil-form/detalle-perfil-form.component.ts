@@ -42,7 +42,7 @@ export class DetallePerfilFormComponent implements OnInit {
     const token : number | any = localStorage.getItem('token_almacen');
     console.log(token)
 
-    // Asignarle un numero al rol para que en el ngClass del html se pinte un color u otro según su rol
+   
     try {
       let response: Perfil | any = await this.perfilService.getPerfil();
       console.log('ESTOY PASANDO POR LA RESPONSE DE GETPERFIL()', response);
@@ -53,8 +53,6 @@ export class DetallePerfilFormComponent implements OnInit {
       this.notificacionesService.showError("error al solicitar perfil");
     }
   
-    // const token : number | any = localStorage.getItem('token_almacen');
-    // console.log(token)
 
 
   }
