@@ -3,11 +3,11 @@ export interface PropiedadesTabla {
     response: any[]; //Aqui irá un array de objetos []{} con la response acotada unicamente con los campos necesarios
     claves: string[]; //Array con las claves de la response que queremos mostrar
     botones: { //Botones que queremos habilitar en la tabla
-        ver : boolean,
         editar : boolean,
         borrar: boolean,
     },
-    url_param: string //ruta para los botones
+    url_param: string, //ruta para los botones
+    url_api: string
 }
 
     //IMPORTANTE: Las claves y las columnas deben seguir el mismo órden

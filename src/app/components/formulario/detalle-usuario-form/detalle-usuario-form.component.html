@@ -100,7 +100,7 @@
     <div class="input d-flex justify-content-end gap-3">
       <button type="submit" [disabled]="!usuarioForm.valid" class="btn-edit">{{ buttonName }}</button>
       <button class="btn-cancel" (click)="cancelar()">Atrás</button>
-      <app-delete-button *ngIf="isUpdate" [url_param]="'usuario'" [id]="id"></app-delete-button>
+      <app-delete-button *ngIf="isUpdate" [url_param]="'usuario'" [id]="id" [elementoHabilitado]="true"></app-delete-button>
     </div>
   </section>
 </form>

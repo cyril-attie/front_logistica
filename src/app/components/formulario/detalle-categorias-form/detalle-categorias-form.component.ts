@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Categoria } from 'src/app/interfaces/categoria';
 import { CategoriasMaterialesService } from 'src/app/servicios/categorias-materiales.service';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
+import { RolesService } from 'src/app/servicios/roles.service';
 
 @Component({
   selector: 'app-detalle-categorias-form',
@@ -17,6 +18,10 @@ export class DetalleCategoriasFormComponent {
   id: number = 0;
   buttonName: string = '';
 
+  //Para permitir crear o no
+  elementoDeleteHabilitado : boolean = false;
+  rolesService = inject(RolesService)
+  
   constructor(
     private categoriasServices: CategoriasMaterialesService,
     private activatedRoute: ActivatedRoute,
@@ -32,8 +37,16 @@ export class DetalleCategoriasFormComponent {
   }
 
 
-  ngOnInit(): void {
-  
+  async ngOnInit(): Promise<void> {
+    
+      //Para permitir eliminar o no
+      var getRole : any = localStorage.getItem('rol_almacen');
+      var responseDELETE = await this.rolesService.getRolesPermisos(getRole,"DELETE","categorias");
+
+      if (responseDELETE) {
+        this.elementoDeleteHabilitado = true;
+      } 
+
     this.activatedRoute.params.subscribe(async (params:any) : Promise<void>=> {
       this.id = (params.id); 
       console.log(this.id)

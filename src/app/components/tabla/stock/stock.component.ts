@@ -19,11 +19,11 @@ export class StockComponent {
     columnas: [],
     claves: [],
     botones: {
-      ver : false,
       editar : false,
       borrar: false,
     },
-    url_param: ""
+    url_param: "",
+    url_api: "",
   };
   //Definimos este campo para actualizar la tabla en el componente hijo
   isUpdated : boolean = false;
@@ -42,14 +42,17 @@ export class StockComponent {
   async pintarTabla() :Promise<void> {
     try{
       let response = await this.stockService.getAll();
+      if (response.fatal) {
+        return this.notificacionesService.showError(response.fatal);
+      }
       //Almacenamos los valores a a propiedad de la tabla
       this.propiedadesTabla.response = response;
       this.propiedadesTabla.columnas = ["ID","Unidades","Material", "Almacén"];
       this.propiedadesTabla.claves = ["stock_id","unidades","materiales_id", "almacenes_id"];
-      this.propiedadesTabla.botones.ver = true;
       this.propiedadesTabla.botones.editar = true;
       this.propiedadesTabla.botones.borrar = true;
       this.propiedadesTabla.url_param = "stock";
+      this.propiedadesTabla.url_api = "stocks";
       this.isUpdated = !this.isUpdated;
     } catch(error){
       this.notificacionesService.showError("Algo ha ido mal al cargar la tabla");

@@ -62,7 +62,7 @@ const routes: Routes = [
   { path: 'almacenes', 
     component: AlmacenesComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : [RolesService.rolJefeDeEquipoStatic]}
+    data: {role : [RolesService.rolJefeDeEquipoStatic,RolesService.rolEncargadoStatic]}
   },
   { path: 'almacen/nuevo',
     component: DetalleAlmacenFormComponent,
@@ -72,12 +72,12 @@ const routes: Routes = [
   { path: 'almacen/:id',
     component: DetalleAlmacenFormComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : [RolesService.rolJefeDeEquipoStatic]}
+    data: {role : [RolesService.rolJefeDeEquipoStatic,RolesService.rolEncargadoStatic]}
   },
   { path: 'camiones',
     component: CamionesComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : [RolesService.rolJefeDeEquipoStatic]}
+    data: {role : [RolesService.rolJefeDeEquipoStatic,RolesService.rolOperarioStatic]}
   },
   { path: 'camion/nuevo',
     component: DetalleCamionFormComponent,
@@ -87,37 +87,37 @@ const routes: Routes = [
   { path: 'camion/:id',
     component: DetalleCamionFormComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : [RolesService.rolJefeDeEquipoStatic]}
+    data: {role : [RolesService.rolJefeDeEquipoStatic,RolesService.rolOperarioStatic]}
   },
   { path: 'materiales',
     component: MaterialesComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : [RolesService.rolEncargadoStatic]}
+    data: {role : [RolesService.rolEncargadoStatic,RolesService.rolJefeDeEquipoStatic]}
   },
   { path: 'material/nuevo',
     component: DetalleMaterialFormComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : [RolesService.rolEncargadoStatic]}
+    data: {role : [RolesService.rolEncargadoStatic,RolesService.rolJefeDeEquipoStatic]}
   },
   { path: 'material/:id',
   component: DetalleMaterialFormComponent,
   canActivate: [LoginGuard,RoleGuard],
-  data: {role : [RolesService.rolEncargadoStatic]}
+  data: {role : [RolesService.rolEncargadoStatic,RolesService.rolJefeDeEquipoStatic]}
 },
   { path: 'categorias',
     component: CategoriasComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : [RolesService.rolEncargadoStatic]}
+    data: {role : [RolesService.rolEncargadoStatic,RolesService.rolJefeDeEquipoStatic]}
   },
   { path: 'categoria/nuevo',
     component: DetalleCategoriasFormComponent,
     canActivate: [LoginGuard,RoleGuard],
-    data: {role : [RolesService.rolEncargadoStatic]}
+    data: {role : [RolesService.rolEncargadoStatic,RolesService.rolJefeDeEquipoStatic]}
   },
   { path: 'categoria/:id',
   component: DetalleCategoriasFormComponent,
   canActivate: [LoginGuard,RoleGuard],
-  data: {role : [RolesService.rolEncargadoStatic]}
+  data: {role : [RolesService.rolEncargadoStatic,RolesService.rolJefeDeEquipoStatic]}
 },
   { path: 'perfil',
     component: DetallePerfilFormComponent, 

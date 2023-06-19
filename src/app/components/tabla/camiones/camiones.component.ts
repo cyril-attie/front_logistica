@@ -17,11 +17,11 @@ export class CamionesComponent {
     columnas: [],
     claves: [],
     botones: {
-      ver : false,
       editar : false,
       borrar: false,
     },
-    url_param: ""
+    url_param: "",
+    url_api:""
   };
 
   isUpdated : boolean = false;
@@ -41,16 +41,18 @@ export class CamionesComponent {
     // Recuperamos los datos
     async pintarTabla() :Promise<void> {
       try{
-         let response = await this.camionesService.getAll();
-         console.log(response);
+        let response = await this.camionesService.getAll();
+        if (response.fatal) {
+          return this.notificacionesService.showError(response.fatal);
+        }
         //Almacenamos los valores a a propiedad de la tabla
         this.propiedadesTabla.response = response;
         this.propiedadesTabla.columnas = ["ID","Matrícula","Capacidad", "Estado"];
         this.propiedadesTabla.claves = ["camiones_id","matricula_camion","capacidad_maxima", "estado"];
-        this.propiedadesTabla.botones.ver = true;
         this.propiedadesTabla.botones.editar = true;
         this.propiedadesTabla.botones.borrar = true;
         this.propiedadesTabla.url_param = "camion";
+        this.propiedadesTabla.url_api = "camiones";
         this.isUpdated = !this.isUpdated;
       } catch(error){
         this.notificacionesService.showError("Algo ha ido mal al cargar la tabla, mira el error en la consola");

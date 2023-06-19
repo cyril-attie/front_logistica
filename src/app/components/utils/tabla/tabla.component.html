@@ -1,6 +1,5 @@
 <div class="wp">
-    <a [routerLink]="['/',propiedadesTabla.url_param,'nuevo']" class="btn-edit">Crear nuevo</a>
-    <a href="#" class="new">(Filtros)</a>
+    <a [hidden]="!elementoHabilitado" [routerLink]="['/',propiedadesTabla.url_param,'nuevo']" class="btn-edit">Crear nuevo</a>
 </div>
 <hr class="mb-2">
 <div class="table-responsive-sm overflow-x-scroll">
@@ -10,7 +9,6 @@
                 <th *ngFor="let columna of tablaColumnas">
                     <span>{{columna}}</span>
                 </th> 
-                <th *ngIf="propiedadesTabla.botones.ver"><span>Ver</span></th>
                 <th *ngIf="propiedadesTabla.botones.editar"><span>Editar</span></th>
                 <th *ngIf="propiedadesTabla.botones.borrar"><span>Borrar</span></th>
             </tr> 
@@ -18,7 +16,7 @@
         <tbody> 
 
             <ng-container *ngFor="let row of tablaValores.slice((currentPage - 1) * pageSize, currentPage * pageSize)">
-                <tr appItemTabla [rowValue]="row" [botones]="propiedadesTabla.botones" [url_param]="propiedadesTabla.url_param"></tr>
+                <tr appItemTabla [rowValue]="row" [botones]="propiedadesTabla.botones" [url_param]="propiedadesTabla.url_param" [elementoDeleteHabilitado]="elementoDeleteHabilitado"></tr>
             
               </ng-container>
             <!-- <ng-container *ngFor="let row of tablaValores;">

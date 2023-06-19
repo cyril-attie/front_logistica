@@ -1,4 +1,4 @@
-import { Component, Input, } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: '[appItemTabla]',
@@ -7,8 +7,11 @@ import { Component, Input, } from '@angular/core';
 })
 export class ItemTablaComponent {
 
+
   @Input() rowValue : any;
   @Input() botones : any = {};
   @Input() url_param : string = "";
-    
+  @Input() elementoDeleteHabilitado : boolean = false;
+
+ 
 }

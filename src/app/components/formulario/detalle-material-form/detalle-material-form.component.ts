@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Categoria } from 'src/app/interfaces/categoria';
@@ -6,6 +6,7 @@ import { Material } from 'src/app/interfaces/material';
 import { CategoriasMaterialesService } from 'src/app/servicios/categorias-materiales.service';
 import { MaterialService } from 'src/app/servicios/material.service';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
+import { RolesService } from 'src/app/servicios/roles.service';
 
 @Component({
   selector: 'app-detalle-material-form',
@@ -21,6 +22,10 @@ export class DetalleMaterialFormComponent implements OnInit {
   Categorias: any[] = [];
   nombresCategorias: string[] = [];
 
+  //Para permitir crear o no
+  elementoDeleteHabilitado : boolean = false;
+  rolesService = inject(RolesService)
+  
   constructor(
     private materialesServices: MaterialService,
     private activatedRoute: ActivatedRoute,
@@ -39,8 +44,16 @@ export class DetalleMaterialFormComponent implements OnInit {
     }, []);
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
   
+    //Para permitir eliminar o no
+    var getRole : any = localStorage.getItem('rol_almacen');
+    var responseDELETE = await this.rolesService.getRolesPermisos(getRole,"DELETE","materiales");
+
+    if (responseDELETE) {
+      this.elementoDeleteHabilitado = true;
+    } 
+
     this.activatedRoute.params.subscribe(async (params:any) : Promise<void>=> {
       this.id = (params.id); 
       console.log(this.id)

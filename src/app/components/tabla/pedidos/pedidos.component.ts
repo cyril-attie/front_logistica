@@ -19,11 +19,11 @@ export class PedidosComponent {
     columnas: [],
     claves: [],
     botones: {
-      ver : false,
       editar : false,
       borrar: false,
     },
-    url_param: ""
+    url_param: "",
+    url_api: ""
   };
   //Definimos este campo para actualizar la tabla en el componente hijo
   isUpdated : boolean = false;
@@ -42,14 +42,17 @@ export class PedidosComponent {
   async pintarTabla() :Promise<void> {
     try{
       let response = await this.pedidoService.getAll();
+      if (response.fatal) {
+        return this.notificacionesService.showError(response.fatal);
+      }
       //Almacenamos los valores a a propiedad de la tabla
       this.propiedadesTabla.response = response;
       this.propiedadesTabla.columnas = ["Nºpedido","Estado","Fecha de salida", "Fecha de llegada", "Usuario asignado"];
       this.propiedadesTabla.claves = ["pedidos_id","estado_pedido","fecha_salida", "fecha_llegada","usuarios_id_creador"];
-      this.propiedadesTabla.botones.ver = true;
       this.propiedadesTabla.botones.editar = true;
       this.propiedadesTabla.botones.borrar = true;
       this.propiedadesTabla.url_param = "pedido";
+      this.propiedadesTabla.url_api = "pedidos";
       this.isUpdated = !this.isUpdated;
     } catch(error){
       this.notificacionesService.showError("Algo ha ido mal al cargar la tabla");
