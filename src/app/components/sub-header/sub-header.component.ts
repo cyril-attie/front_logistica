@@ -13,12 +13,15 @@ import { Usuario } from 'src/app/interfaces/usuario';
 export class SubHeaderComponent implements OnInit {
   
   rol: Number;
-  usuario: string = "";
+  rolDescripcion: string | any = "";
+  enlacesRouter : any[] = []; 
+  colorBorder: string = "";
+  colorText: string = "";
 
   rolesMap = new Map<Number, string>([
-    [myGlobals.rolJefeDeEquipo, 'Jefe de equipo'],
-    [myGlobals.rolEncargado, 'Encargado'],
-    [myGlobals.rolOperario, 'Operario']
+    [myGlobals.rolJefeDeEquipo, 'JEFE DE EQUIPO'],
+    [myGlobals.rolEncargado, 'ENCARGADO'],
+    [myGlobals.rolOperario, 'OPERARIO']
   ]);
 
   constructor(
@@ -31,26 +34,56 @@ export class SubHeaderComponent implements OnInit {
 
   }
 
+  /**APSP - Guardamos en un array el nombre de la pestaña
+   * y la ruta que se abre para cada caso dependiendo del
+   * rol del usuario.Con Map bindemos el codigo del rol
+   * con su decripción. Despues en el HTML iteramos y pintamos.
+   */
   ngOnInit(): void {
-
-
-      // roles
-     this.usuarioService.rol.subscribe(value => {
+    // roles
+    this.usuarioService.rol.subscribe(value => {
       this.rol = value;
-      this.usuario = this.rolesMap.get(value) || "";});
+      this.rolDescripcion = this.rolesMap.get(value);
 
+      if (this.rol == myGlobals.rolJefeDeEquipo) {
+        this.enlacesRouter =[
+          { texto: 'Pedidos', enlace: ['/pedidos'] },
+          { texto: 'Almacenes', enlace: ['/almacenes'] },
+          { texto: 'Camiones', enlace: ['/camiones'] },
+          { texto: 'Materiales', enlace: ['/materiales'] },
+          { texto: 'Categorias', enlace: ['/categorias'] },
+          { texto: 'Usuarios', enlace: ['/usuarios'] },
+          { texto: 'Perfil', enlace: ['/perfil'] }
+        ];
+        this.colorBorder = "rgba(16, 93, 148, 1)";
+        this.colorText = "white";
+      }
 
-      // OPCIÓN MANUAL 
-      /*
-      if (this.rol === 2){
-        this.usuario = 'Jefe de equipo'
-      } else if (this.rol === 3){
-        this.usuario = 'Encargado'
-      } else if (this.rol === 4) {
-        this.usuario = 'Operario'
-      }; 
+      if (this.rol == myGlobals.rolEncargado) {
+        this.enlacesRouter =[
+          { texto: 'Pedidos', enlace: ['/pedidos'] },
+          { texto: 'Almacenes', enlace: ['/almacenes'] },
+          { texto: 'Materiales', enlace: ['/materiales'] },
+          { texto: 'Categorias', enlace: ['/categorias'] },
+          { texto: 'Perfil', enlace: ['/perfil'] }
+        ];
+        this.colorBorder = "#af3216";
+        this.colorText = "white";
+      }
 
-      */
+      if (this.rol == myGlobals.rolOperario) {
+        this.enlacesRouter =[
+          { texto: 'Pedidos', enlace: ['/pedidos'] },
+          { texto: 'Camiones', enlace: ['/camiones'] },
+          { texto: 'Perfil', enlace: ['/perfil'] }
+        ];
+        this.colorBorder = "rgb(224 212 47)";
+        this.colorText = "black";
+
+      }
+    });
+    
+     
 
   }
 }
