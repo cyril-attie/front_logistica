@@ -3,8 +3,8 @@
 <h3 class="" *ngIf="isUpdate">Editar pedido {{id}}</h3>
 <div class="input d-flex justify-content-end gap-3">
     <!-- botones del ENCARGADO cuando el pedido está en REVISIÓN -->
-    <button *ngIf="isUpdate && esEncargado" (click)="revisarPedido()" class="btn btn-warning">Revisar</button>
-    <button *ngIf="isUpdate && esEncargado" (click)="cancelarPedido()" class="btn btn-danger">Cancelar</button>
+    <button *ngIf="isUpdate && esEncargado && !entregado" (click)="revisarPedido()" class="btn btn-warning">Revisar</button>
+    <button *ngIf="isUpdate && esEncargado && !entregado" (click)="cancelarPedido()" class="btn btn-danger">Cancelar</button>
     <!-- botones del ENCARGADO cuando el pedido está en ENTREGADO -->
     <button *ngIf="isUpdate && esEncargado && entregado" (click)="aprobarPedido()" class="btn btn-success">Aprobar</button>
     <button *ngIf="isUpdate && esEncargado && entregado" (click)="rechazarPedido()" class="btn btn-danger">Rechazar</button>
@@ -124,20 +124,21 @@
                             <option *ngIf="!fila.descripcion_categoria"></option>
                             <option *ngFor="let stock of stocksOrigen" [value]="stock.stocks_id">{{stock.stocks_id + " - " + stock.nombre_material}}</option>
                         </select>
+                        
                     </td>
                     <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center" scope="col">{{ fila.descripcion_material }}</td>
                     <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center" scope="col">{{ fila.descripcion_categoria }}</td>
                     <td class="col-lg-1 col-md-4 align-items-center d-flex justify-content-center" scope="col">
+                        <!-- <input [ngModelOptions]="{standalone: true}" [(ngModel)]="fila.unidades_utilizadas" (keydown)="noAction($event)" class="form-control text-center" scope="col" type="number" [maxlength]="fila.unidades" /> -->
                         <input [ngModelOptions]="{standalone: true}" [(ngModel)]="fila.unidades_utilizadas" (keydown)="noAction($event)" class="form-control text-center" scope="col" type="number" [maxlength]="fila.unidades" />
                     </td>
                     <td class="col-lg-2 col-md-4 align-items-center d-flex justify-content-center" scope="col">{{ fila.unidades }}</td>
                     <td class="col-lg-1 col-md-4 text-center align-items-center d-flex justify-content-center" scope="col">
                         <i (click)="eliminarFila(fila)" class="fa fa-sharp fa-solid fa-trash fa-sm color-red center"></i>
                     </td>
-                    
-                </tr>
-        
+                </tr>    
             </tbody>
+            
         </table>
     </div>
 
