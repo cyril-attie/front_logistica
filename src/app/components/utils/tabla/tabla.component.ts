@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { PropiedadesTabla } from 'src/app/interfaces/propiedades-tabla';
+import { PedidosService } from 'src/app/servicios/pedidos.service';
 import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.service';
 
 @Component({
@@ -28,7 +29,16 @@ export class TablaComponent {
   @Input() isUpdated : boolean = false;
   oldIsUpdated : boolean = false;
 
-  constructor(private userService: UsuariosServiceService){}     
+  pedidos: any[] = [];
+  currentPage: number = 1;
+  pageSize: number = 10;
+  totalPedidos: number = 0;
+  totalPaginas: number = 0;
+
+  constructor(
+    private userService: UsuariosServiceService, 
+    private pedidosService: PedidosService
+    ){}     
 
   //Esta definido el ngDoCheck porque en el ngOnInit la propiedad Input
   //aún no se habia informado - APSP
@@ -67,6 +77,34 @@ export class TablaComponent {
       });
 
     }
+    this.cargarPedidos();
+  }
 
+  async cargarPedidos() {
+    try {
+      const response = await this.pedidosService.getAll();
+      this.totalPedidos = response.length;
+      this.pedidos = response.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize);
+      this.totalPaginas = Math.ceil(this.totalPedidos / this.pageSize);
+    } catch (error) {
+      console.log('error al cargar pedidos', error)
+    }
+  }
+
+
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.cargarPedidos();
+    }
+  }
+  
+  nextPage() {
+  
+    if (this.currentPage < this.totalPaginas) {
+      this.currentPage++;
+      this.cargarPedidos();
+    }
   }
 }

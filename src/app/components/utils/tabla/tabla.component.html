@@ -3,7 +3,7 @@
     <a href="#" class="new">(Filtros)</a>
 </div>
 <hr class="mb-2">
-<div class="table-responsive-sm">
+<div class="table-responsive-sm overflow-x-scroll">
     <table class="table table-striped table-container" > 
         <thead> 
             <tr class="thead"> 
@@ -16,11 +16,20 @@
             </tr> 
         </thead> 
         <tbody> 
-            
-            <ng-container *ngFor="let row of tablaValores;">
-                <!-- Esta forma es un selector nuevo para abrir un componente, se ha hecho asi ya que sino renderiza mal el DOM por culpa de la etiqueta HTML del componente "appItemTabla" - APSP -->
+
+            <ng-container *ngFor="let row of tablaValores.slice((currentPage - 1) * pageSize, currentPage * pageSize)">
                 <tr appItemTabla [rowValue]="row" [botones]="propiedadesTabla.botones" [url_param]="propiedadesTabla.url_param"></tr>
-            </ng-container>
+            
+              </ng-container>
+            <!-- <ng-container *ngFor="let row of tablaValores;">
+                 Esta forma es un selector nuevo para abrir un componente, se ha hecho asi ya que sino renderiza mal el DOM por culpa de la etiqueta HTML del componente "appItemTabla" - APSP 
+                <tr appItemTabla [rowValue]="row" [botones]="propiedadesTabla.botones" [url_param]="propiedadesTabla.url_param"></tr>
+            </ng-container> -->
         </tbody> 
     </table>
+      <div class="d-flex justify-content-center mt-5 align-items-center">
+        <button [disabled]="currentPage === 1" (click)="previousPage()"><i class="fa-regular fa-circle-left" style="color: #105d94;"></i></button>
+        <span class="">Página {{ currentPage }} de {{ totalPaginas }} </span>
+        <button [disabled]="currentPage === totalPaginas" (click)="nextPage()"><i class="fa-regular fa-circle-right" style="color: #105d94;"></i></button>
+      </div>
 </div>
