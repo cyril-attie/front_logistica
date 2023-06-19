@@ -7,17 +7,17 @@
 <form class="template" [formGroup]="camionForm" (ngSubmit)="submitCamion()" >
     <div class="container">
             <div class="d-flex justify-content-center row">
-                <div class="col">
+                <div class="col-md-4 mb-3">
                     <label for="matricula_camion" class="form-label" required>Matrícula</label>
                     <input type="text" id="matricula_camion" class="form-control" formControlName="matricula_camion">
                     <p class="error" *ngIf="controlError('matricula_camion', 'required')">El campo es obligatorio</p>
                 </div>
-                <div class="col">
+                <div class="col-md-4 mb-3">
                     <label for="capacidad_maxima" class="form-label" required>Capacidad</label>
                     <input type="number" id="capacidad_maxima" class="form-control" formControlName="capacidad_maxima">
                     <p class="error" *ngIf="controlError('capacidad_maxima', 'required')">El campo es obligatorio</p>
                 </div>
-                <div class="col">
+                <div class="col-md-4 mb-3">
                     <label for="estado" class="form-label" required>Estado</label>
                     <select class="form-control" name="estado" id="estado" formControlName="estado">
                     <option *ngIf="isUpdate" selected>{{estado}}</option>
