@@ -8,10 +8,7 @@
 
     <div class="container">
         <div class="row">
-            <!-- <div class="col">
-                <label for="materiales_id" class="form-label">NºMaterial</label>
-                <input class="form-control form-control-plaintext" type="number" id="materiales_id" formControlName="materiales_id">
-            </div> -->
+
             <div class="col">
                 <label for="nombre" class="form-label" required >Nombre</label>
                 <input class="form-control" type="text" id="nombre" formControlName="nombre">
@@ -19,7 +16,6 @@
             </div>
             <div class="col">
                 <label for="estado" class="form-label" required>Estado</label>
-                <!-- <input class="form-control" type="text" id="estado" formControlName="estado"> -->
                 <select class="form-control" name="estado" id="estado" formControlName="estado">
                     <option value="Activo">Activo</option>
                     <option value="Obsoleto">Obsoleto</option>
@@ -30,12 +26,10 @@
         <div class="row">
             <div class="col">
                 <label for="categorias_materiales_id" class="form-label" required>Categoría</label>
-                <input class="form-control" type="text" id="categorias_materiales_id" formControlName="categorias_materiales_id">
+                <select (change)="getAllCategorias()" class="form-control" id="categorias_materiales_id" formControlName="categorias_materiales_id">
+                    <option *ngFor="let categoria of Categorias" [value]="categoria.categorias_materiales_id">{{categoria.categorias_materiales_id}} {{categoria.descripcion}}</option>
+                </select>
 
-                <!-- HACER UN SELECT PARA LAS CATEGORÍAS DISPONIBLES -->
-                <!-- <select (change)="Categorias($event)" class="form-control" id="categorias_materiales_id" formControlName="categorias_materiales_id">
-                    <option *ngFor="let categoria of idCategorias" [value]="categoria">{{categoria}}</option>
-                </select> -->
                 <p class="error" *ngIf="controlError('categorias_materiales_id', 'required')">El campo es obligatorio</p>
             </div>
             <div class="col">
