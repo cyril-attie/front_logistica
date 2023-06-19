@@ -9,12 +9,12 @@
     <div class="container">
         <div class="row">
 
-            <div class="col">
+            <div class="col-md-6 mb-3">
                 <label for="nombre" class="form-label" required >Nombre</label>
                 <input class="form-control" type="text" id="nombre" formControlName="nombre">
                 <p class="error" *ngIf="controlError('nombre', 'required')">El campo es obligatorio</p>
             </div>
-            <div class="col">
+            <div class="col-md-6 mb-3">
                 <label for="estado" class="form-label" required>Estado</label>
                 <select class="form-control" name="estado" id="estado" formControlName="estado">
                     <option value="Activo">Activo</option>
@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col-md-6 mb-3">
                 <label for="categorias_materiales_id" class="form-label" required>Categoría</label>
                 <select (change)="getAllCategorias()" class="form-control" id="categorias_materiales_id" formControlName="categorias_materiales_id">
                     <option *ngFor="let categoria of categorias" [value]="categoria.categorias_materiales_id">{{categoria.categorias_materiales_id}} - {{categoria.descripcion}}</option>
@@ -32,14 +32,14 @@
 
                 <p class="error" *ngIf="controlError('categorias_materiales_id', 'required')">El campo es obligatorio</p>
             </div>
-            <div class="col">
+            <div class="col-md-6 mb-3">
                 <label for="peso" class="form-label" required>Peso</label>
                 <input class="form-control" type="number" id="peso" formControlName="peso">
                 <p class="error" *ngIf="controlError('peso', 'required')">El campo es obligatorio</p>
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col-md-12 mb-3">
                 <label for="descripcion_material" class="form-label" required>Descripción</label>
                 <input class="form-control" type="text" id="descripcion_material" formControlName="descripcion_material">
                 <p class="error" *ngIf="controlError('descripcion_material', 'required')">El campo es obligatorio</p>
