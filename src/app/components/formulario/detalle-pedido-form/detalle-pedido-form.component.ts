@@ -33,6 +33,7 @@ export class DetallePedidoFormComponent implements OnInit {
   title: string = "Registrar";
   isUpdate : boolean = false;
   buttonName : string = "";
+  isValidStocks : boolean = false;
 
   filasStock : PedidosHaveStock[] = [];
   fila: PedidosHaveStock | any = {};
@@ -220,6 +221,19 @@ export class DetallePedidoFormComponent implements OnInit {
       
   }
 
+  ngDoCheck(): void {
+    //Validamos si se hace un cambio que los stocks esten bien informados
+    function validarStocksCorrecto(stocks: PedidosHaveStock[]): boolean {
+      for (const item of stocks) {
+        if (!item.materiales_id || !item.unidades_utilizadas) {
+          return false;
+        }
+      }
+      return true;
+    }
+    this.isValidStocks = validarStocksCorrecto(this.filasStock);
+  }
+  
   /* Acción que rellena los campos del formulario */
   rellenarCamposForm (response : any) {
   
