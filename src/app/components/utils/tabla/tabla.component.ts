@@ -42,7 +42,7 @@ export class TablaComponent {
 
   //Esta definido el ngDoCheck porque en el ngOnInit la propiedad Input
   //aún no se habia informado - APSP
-  ngDoCheck(): void {
+   ngDoCheck(): void {
 
     //Cuando el campo del padre isUpdate se actualize por el suscribe, entrara en el código
     if (this.isUpdated != this.oldIsUpdated) {
@@ -77,7 +77,11 @@ export class TablaComponent {
       });
 
     }
-    this.cargarPedidos();
+   
+  }
+
+  async ngOnInit(): Promise<void> {
+    await this.cargarPedidos();
   }
 
   async cargarPedidos() {
