@@ -43,6 +43,9 @@ export class DetallePedidoFormComponent implements OnInit {
   enPreparacion: boolean = false; 
   enTransito: boolean = false; 
   entregado: boolean = false; 
+
+  
+
   
   
   constructor(
@@ -87,6 +90,7 @@ export class DetallePedidoFormComponent implements OnInit {
 
   
   }
+
 
    // Creación de un nuevo pedido
    async submitPedido() {
@@ -281,6 +285,7 @@ export class DetallePedidoFormComponent implements OnInit {
         }
         
         const stockAlmacenRecuperado = this.stocksOrigen.find((stockBuscar : StockAlmacen) => stockBuscar.stocks_id == stock.stocks_id);
+
         
         if (stockAlmacenRecuperado && stockAlmacenRecuperado.unidades) {
           newFila.descripcion_material =  stockAlmacenRecuperado.nombre_material;
@@ -296,16 +301,16 @@ export class DetallePedidoFormComponent implements OnInit {
   }
 
 
+
+
   // Obtención de los nombres de los almacenes para pintarlos en el html (almacen de origen / destino)
   async obtenerAlmacenes() : Promise<void>  {
-
     try {
       let response = await this.almacenesService.getAll();
       if (response.fatal) {
         return this.notificacionesService.showError(response.fatal);
       }
-      this.almacenes = response;
-      
+      this.almacenes = response;    
     }catch(error){
       this.notificacionesService.showError("Algo ha ido mal al cargar la tabla");
       console.log(error)
@@ -359,6 +364,8 @@ export class DetallePedidoFormComponent implements OnInit {
   cancelar(){
     this.router.navigate(['/pedidos']);
   }
+
+
  
   /* APSP -> Métodos para añadir/borrar una filas  y posateriormente en la acción "submitForm" 
     añadir estas filas en la tabla de la base de datos "pedidos_have_Stocks" */ 
@@ -373,7 +380,7 @@ export class DetallePedidoFormComponent implements OnInit {
                         materiales_id: 0
                       };
     this.filasStock.push(nuevaFila);
-    
+
   }
 
   // Método para eliminar una fila de la tabla
@@ -398,6 +405,8 @@ export class DetallePedidoFormComponent implements OnInit {
       filaPedidosHaveStock.materiales_id = stockAlmacenRecuperado.materiales_id;
       filaPedidosHaveStock.stocks_id = idStock;
     }
+  
+
   }
   recalcularFilas() {
     this.filasStock = this.filasStock.map( (fila, indice) => {
@@ -407,6 +416,10 @@ export class DetallePedidoFormComponent implements OnInit {
       };
     });
   }
+
+
+  
+    
 
   //Para eviar el envío del formulario
   noAction(ev: KeyboardEvent) {
@@ -482,8 +495,6 @@ export class DetallePedidoFormComponent implements OnInit {
         this.pedidosService.update({ estado_pedido: aprobado }, this.id)
           .then((pedido) => {
             console.log('Pedido actualizado:', pedido);
-            this.pedidoForm = new FormGroup({
-              estado_pedido: new FormControl(pedido.estado_pedido,[])});
             this.notificacionesService.showInfo("El pedido ha sido aprobado");
             // this.router.navigate(['/pedidos']);
           });
