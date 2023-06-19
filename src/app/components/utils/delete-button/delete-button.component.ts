@@ -11,6 +11,7 @@ import { StockService } from 'src/app/servicios/stock.service';
 import { MaterialService } from 'src/app/servicios/material.service';
 import { CamionesService } from 'src/app/servicios/camiones.service';
 import { CategoriasMaterialesService } from 'src/app/servicios/categorias-materiales.service';
+import { RolesService } from 'src/app/servicios/roles.service';
 
 @Component({
   selector: 'app-delete-button',
@@ -23,6 +24,7 @@ export class DeleteButtonComponent {
   @Input() url_param : string = "";
   @Input() id : number | undefined;
   @Input() isIcon : boolean = false;
+  @Input() elementoHabilitado : boolean = false;
 
 
   userService = inject(UsuariosServiceService);
@@ -33,13 +35,14 @@ export class DeleteButtonComponent {
   camioneService = inject(CamionesService);
   categoriaMaterialService = inject(CategoriasMaterialesService);
 
-
   
+  //Para permitir elminar o no
   notificacionesService = inject(NotificacionesService);
   tablaRefreshService = inject(TablaRefreshService);
 
   location = inject(Location);
   activatedRoute= inject(ActivatedRoute);
+
 
   modalDelete(url_name:string,id: number | undefined) : void {
     Swal.fire({

@@ -18,11 +18,11 @@ export class MaterialesComponent {
     columnas: [],
     claves: [],
     botones: {
-      ver : false,
       editar : false,
       borrar: false,
     },
-    url_param: ""
+    url_param: "",
+    url_api:""
   };
 
   isUpdated : boolean = false;
@@ -43,15 +43,18 @@ export class MaterialesComponent {
     async pintarTabla() :Promise<void> {
       try{
         let response = await this.materialesService.getAll();
+        if (response.fatal) {
+          return this.notificacionesService.showError(response.fatal);
+        }
         console.log(response);
         //Almacenamos los valores a a propiedad de la tabla
         this.propiedadesTabla.response = response;
         this.propiedadesTabla.columnas = ["ID","Nombre", "Estado","Categoría","Peso","Descripción"];
         this.propiedadesTabla.claves = ["materiales_id","nombre", "estado","categorias_materiales_id","peso","descripcion_material"];
-        this.propiedadesTabla.botones.ver = true;
         this.propiedadesTabla.botones.editar = true;
         this.propiedadesTabla.botones.borrar = true;
         this.propiedadesTabla.url_param = "material";
+        this.propiedadesTabla.url_api = "materiales";
         this.isUpdated = !this.isUpdated;
       } catch(error){
         this.notificacionesService.showError("Algo ha ido mal al cargar la tabla, mira el error en la consola");

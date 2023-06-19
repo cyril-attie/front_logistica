@@ -1,12 +1,9 @@
 <ng-container *ngFor="let column of rowValue; let last = last;">
     <td class="table-td">{{ column }}</td>
-    <td *ngIf="last && botones.ver">
-        <i [routerLink]="['/',url_param,rowValue[0]]" class="fa-solid fa-eye fa-2xl color-gris"></i>
-    </td>
     <td *ngIf="last && botones.editar">
         <i [routerLink]="['/',url_param,rowValue[0]]" class="fa-solid fa-pen-to-square fa-2xl color-blue"></i>
     </td>
     <td *ngIf="last && botones.borrar">
-        <app-delete-button [url_param]="url_param" [id]="rowValue[0]" [isIcon]="true"></app-delete-button>
+        <app-delete-button [url_param]="url_param" [id]="rowValue[0]" [isIcon]="true" [elementoHabilitado]="elementoDeleteHabilitado"></app-delete-button>
     </td>
 </ng-container>

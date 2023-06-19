@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { PropiedadesTabla } from 'src/app/interfaces/propiedades-tabla';
 import { PedidosService } from 'src/app/servicios/pedidos.service';
+import { RolesService } from 'src/app/servicios/roles.service';
 import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.service';
 
 @Component({
@@ -19,15 +20,20 @@ export class TablaComponent {
     response: [],
     claves: [],
     botones: {
-      ver : false,
       editar : false,
       borrar: false,
     },
-    url_param: ""
+    url_param: "",
+    url_api: ""
   };
   //Campo para refrescar la tabla
   @Input() isUpdated : boolean = false;
   oldIsUpdated : boolean = false;
+
+  //Para permitir crear o no
+  elementoHabilitado : boolean = false;
+  elementoDeleteHabilitado : boolean = false;
+  rolesService = inject(RolesService)
 
   pedidos: any[] = [];
   currentPage: number = 1;
@@ -42,10 +48,26 @@ export class TablaComponent {
 
   //Esta definido el ngDoCheck porque en el ngOnInit la propiedad Input
   //aún no se habia informado - APSP
-   ngDoCheck(): void {
+   async ngDoCheck(): Promise<void> {
+
+    
 
     //Cuando el campo del padre isUpdate se actualize por el suscribe, entrara en el código
     if (this.isUpdated != this.oldIsUpdated) {
+
+      //Para permitir crear o no
+      var getRole : any = localStorage.getItem('rol_almacen');
+      var responsePOST = await this.rolesService.getRolesPermisos(getRole,"POST",this.propiedadesTabla.url_api);
+      if (responsePOST) {
+        this.elementoHabilitado = true;
+      } 
+       //Para permitir eliminar o no
+      var getRole : any = localStorage.getItem('rol_almacen');
+      var responseDELETE = await this.rolesService.getRolesPermisos(getRole,"DELETE",this.propiedadesTabla.url_api);
+
+      if (responseDELETE) {
+        this.elementoDeleteHabilitado = true;
+      } 
 
       //Actualizamos campo oldIsUpdated para terminar el flujo
       this.oldIsUpdated = this.isUpdated;
@@ -55,7 +77,7 @@ export class TablaComponent {
       this.tablaClaves = this.propiedadesTabla.claves;
       
       //Filtramos la response con las claves de la propiedad "this.tablaClaves" 
-      const responseFiltrada = this.propiedadesTabla.response.map((item : any) => {
+      const responseFiltrada = await this.propiedadesTabla.response.map((item : any) => {
         const nuevoObjeto : any= {};
         this.tablaClaves.forEach((propiedad) => {
           nuevoObjeto[propiedad] = item[propiedad];
@@ -83,6 +105,7 @@ export class TablaComponent {
   }
 
   async ngOnInit(): Promise<void> {
+   
   }
 
   async cargarPedidos() {

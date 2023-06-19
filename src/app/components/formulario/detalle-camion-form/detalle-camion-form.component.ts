@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Camion } from 'src/app/interfaces/camion';
 import { CamionesService } from 'src/app/servicios/camiones.service';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
+import { RolesService } from 'src/app/servicios/roles.service';
 
 @Component({
   selector: 'app-detalle-camion-form',
@@ -21,7 +22,9 @@ export class DetalleCamionFormComponent {
   buttonName: string = '';
   estado: string = '';
 
-  
+  //Para permitir crear o no
+  elementoDeleteHabilitado : boolean = false;
+  rolesService = inject(RolesService)
 
   constructor(
     private camionService: CamionesService,
@@ -40,6 +43,14 @@ export class DetalleCamionFormComponent {
 
 
   async ngOnInit(): Promise<void> {
+
+    //Para permitir eliminar o no
+    var getRole : any = localStorage.getItem('rol_almacen');
+    var responseDELETE = await this.rolesService.getRolesPermisos(getRole,"DELETE","camiones");
+
+    if (responseDELETE) {
+      this.elementoDeleteHabilitado = true;
+    } 
 
     this.activatedRoute.params.subscribe(async (params:any)=> {
       this.id = (params.id); 

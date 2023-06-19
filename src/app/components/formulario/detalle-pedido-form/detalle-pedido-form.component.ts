@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { Almacen } from 'src/app/interfaces/almacen';
@@ -12,6 +12,7 @@ import { AlmacenService } from 'src/app/servicios/almacen.service';
 import { CamionesService } from 'src/app/servicios/camiones.service';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
 import { PedidosService } from 'src/app/servicios/pedidos.service';
+import { RolesService } from 'src/app/servicios/roles.service';
 import { StockService } from 'src/app/servicios/stock.service';
 
 @Component({
@@ -46,7 +47,9 @@ export class DetallePedidoFormComponent implements OnInit {
   entregado: boolean = false; 
 
   
-
+  //Para permitir crear o no
+  elementoDeleteHabilitado : boolean = false;
+  rolesService = inject(RolesService)
   
   
   constructor(
@@ -169,7 +172,15 @@ export class DetallePedidoFormComponent implements OnInit {
 
       await this.obtenerAlmacenes();
       await this.obtenerCamiones();
-  
+
+      //Para permitir eliminar o no
+      var getRole : any = localStorage.getItem('rol_almacen');
+      var responseDELETE = await this.rolesService.getRolesPermisos(getRole,"DELETE","pedidos");
+
+      if (responseDELETE) {
+        this.elementoDeleteHabilitado = true;
+      } 
+
       this.activatedRoute.params.subscribe(async (params:any) : Promise<void>=> {
         this.id = (params.id); 
         

@@ -16,11 +16,11 @@ export class AlmacenesComponent {
     columnas: [],
     claves: [],
     botones: {
-      ver : false,
       editar : false,
       borrar: false,
     },
-    url_param: ""
+    url_param: "",
+    url_api:"",
   };
   //Definimos este campo para actualizar la tabla en el componente hijo
   isUpdated : boolean = false;
@@ -33,15 +33,18 @@ export class AlmacenesComponent {
     
     try{
       let response = await this.almacenService.getAll();
+      if (response.fatal) {
+        return this.notificacionesService.showError(response.fatal);
+      }
       //Almacenamos los valores a a propiedad de la tabla
       this.propiedadesTabla.response = response;
       console.log(response);
       this.propiedadesTabla.columnas = ["ID","Nombre","Localidad","Pais","Capacidad Almacén"];
       this.propiedadesTabla.claves = ["almacenes_id","nombre_almacen","localidad","pais","capacidad_almacen"];
-      this.propiedadesTabla.botones.ver = true;
       this.propiedadesTabla.botones.editar = true;
       this.propiedadesTabla.botones.borrar = true;
       this.propiedadesTabla.url_param = "almacen";
+      this.propiedadesTabla.url_api = "almacenes";
       this.isUpdated = !this.isUpdated;
 
     } catch(error){

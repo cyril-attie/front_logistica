@@ -19,11 +19,11 @@ export class UsuariosComponent {
     columnas: [],
     claves: [],
     botones: {
-      ver : false,
       editar : false,
       borrar: false,
     },
-    url_param: ""
+    url_param: "",
+    url_api: ""
   };
   //Definimos este campo para actualizar la tabla en el componente hijo
   isUpdated : boolean = false;
@@ -44,16 +44,18 @@ export class UsuariosComponent {
 
     try{
       let response = await this.userService.getAll();
-      console.log(response); 
+      if (response.fatal) {
+        return this.notificacionesService.showError(response.fatal);
+      }
       //Almacenamos los valores a a propiedad de la tabla
       this.propiedadesTabla.response = response;
     
       this.propiedadesTabla.columnas = ["ID","Nombre","Email","Edad","Ciudad","Estado","Rol"];
       this.propiedadesTabla.claves = ["usuarios_id","nombre","email","edad","ciudad","pais","descripcion_rol"];
-      this.propiedadesTabla.botones.ver = true;
       this.propiedadesTabla.botones.editar = true;
       this.propiedadesTabla.botones.borrar = true;
       this.propiedadesTabla.url_param = "usuario";
+      this.propiedadesTabla.url_api = "usuarios";
       this.isUpdated = !this.isUpdated;
     } catch(error){
 

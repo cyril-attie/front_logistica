@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Rol } from '../interfaces/rol';
+import { NotificacionesService } from './notificaciones.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class RolesService {
   static rolEncargadoStatic = 3;
   static rolOperarioStatic = 4;
 
-
+  notificacionesService = inject(NotificacionesService);
 
   constructor(private httpClient: HttpClient) { 
 
@@ -46,25 +47,38 @@ export class RolesService {
    return lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}`,httpOptions)) 
  }
 
- //Obtener mediante el ID
- getById(pId: number) : Promise<Rol> {
-   const httpOptions = {
-     headers: new HttpHeaders({
-       'Authorization': localStorage.getItem('token_almacen')!
-     })
-   }
-   return lastValueFrom(this.httpClient.get<Rol>(`${this.baseUrl}/${pId}`, httpOptions))
- }
 
  //Obtener roles y permisos
- getRolesPermisos(pId: number) : Promise<any> {
+ async getRolesPermisos(pId: number,metodo: string, rutaAPI: string): Promise<boolean> {
+
   const httpOptions = {
     headers: new HttpHeaders({
       'Authorization': localStorage.getItem('token_almacen')!
     })
+  };
+
+  try {
+    //Buscamos en la tabla roles_have_permisos por el id de rol
+    const response = await lastValueFrom(this.httpClient.get<any>(`${this.baseUrl}/${pId}`, httpOptions));
+    if (response.fatal) {
+      this.notificacionesService.showError("Al recuperar los permisos algo ha ido mal");
+      return false;
+    }
+    const rolesPermisos = response[0];
+    //Si nada va mal, este nos va a devolver un objeto con la propiedad permisos, y dentro de 
+    //esta, un array con todos los permisos que tiene el rol, filtraremos por la ruta del API y el metodo que sera GET,POST,PUT,DELETE
+    for (const permiso of rolesPermisos.permisos) {
+      if (permiso.ruta && permiso.ruta.includes(`api/${rutaAPI}%`) && permiso.metodo === metodo) {
+        return true; //Si encontramos devolvemos true
+      }
+    }
+    return false; //Si no encontramos devolvemos false
+  } catch (err) {
+    this.notificacionesService.showError("Al recuperar los permisos algo ha ido mal");
+    console.log(err);
+    return false;
   }
-  return lastValueFrom(this.httpClient.get<Rol>(`${this.baseUrl}/${pId}`, httpOptions))
-}
+ }
 
  // Crear un nuevo camión
  create(rol: Rol): Promise <Rol>{

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Almacen } from 'src/app/interfaces/almacen';
@@ -9,6 +9,7 @@ import { Usuario } from 'src/app/interfaces/usuario';
 import { AlmacenService } from 'src/app/servicios/almacen.service';
 import { MaterialService } from 'src/app/servicios/material.service';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
+import { RolesService } from 'src/app/servicios/roles.service';
 import { StockService } from 'src/app/servicios/stock.service';
 import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.service';
 import Swal from 'sweetalert2';
@@ -28,6 +29,9 @@ export class DetalleAlmacenFormComponent implements OnInit {
   buttonName: string = '';
   encargados: Usuario | any = [];
 
+  //Para permitir crear o no
+  elementoDeleteHabilitado : boolean = false;
+  rolesService = inject(RolesService)
 
   materialesRecuperados: Material[] = [];
   filasStock: StockMaterial[] = [];
@@ -61,6 +65,14 @@ export class DetalleAlmacenFormComponent implements OnInit {
     await this.obtenerEncargados();
     await this.obtenerMateriales();
 
+    //Para permitir eliminar o no
+    var getRole : any = localStorage.getItem('rol_almacen');
+    var responseDELETE = await this.rolesService.getRolesPermisos(getRole,"DELETE","almacenes");
+
+    if (responseDELETE) {
+      this.elementoDeleteHabilitado = true;
+    } 
+    
     this.activatedRoute.params.subscribe(async (params:any) : Promise<void> => {
       this.id = (params.id); 
 

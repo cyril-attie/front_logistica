@@ -17,11 +17,11 @@ export class CategoriasComponent {
     columnas: [],
     claves: [],
     botones: {
-      ver : false,
       editar : false,
       borrar: false,
     },
-    url_param: ""
+    url_param: "",
+    url_api:""
   };
 
 
@@ -39,15 +39,17 @@ export class CategoriasComponent {
   async pintarTabla() :Promise<void> {
     try{
       let response = await this.categoriasService.getAll();
-      console.log(response);
+      if (response.fatal) {
+        return this.notificacionesService.showError(response.fatal);
+      }
       //Almacenamos los valores a a propiedad de la tabla
       this.propiedadesTabla.response = response;
       this.propiedadesTabla.columnas = ["ID","Nombre","Comentarios"];
       this.propiedadesTabla.claves = ["categorias_materiales_id", "descripcion","comentario"];
-      this.propiedadesTabla.botones.ver = true;
       this.propiedadesTabla.botones.editar = true;
       this.propiedadesTabla.botones.borrar = true;
       this.propiedadesTabla.url_param = "categoria";
+      this.propiedadesTabla.url_api = "categorias";
       this.isUpdated = !this.isUpdated;
     } catch(error){
       this.notificacionesService.showError("Algo ha ido mal al cargar la tabla, mira el error en la consola");
