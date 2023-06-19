@@ -47,7 +47,7 @@ export class PedidosService {
   }
 
   // Actualizar un nuevo pedido
-  update(pedido: Pedido,id: number): Promise<Pedido | any>{
+  update(pedido: Pedido | any ,id: number): Promise<Pedido | any>{
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json', 

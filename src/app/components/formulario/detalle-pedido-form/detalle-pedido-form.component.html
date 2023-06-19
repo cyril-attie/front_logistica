@@ -1,7 +1,21 @@
 
-<h3 class="mb-1" *ngIf="!isUpdate">Crear nuevo pedido</h3>
-<h3 class="mb-1" *ngIf="isUpdate">Editar pedido {{id}}</h3>
+<h3 class="" *ngIf="!isUpdate">Crear nuevo pedido</h3>
+<h3 class="" *ngIf="isUpdate">Editar pedido {{id}}</h3>
+<div class="input d-flex justify-content-end gap-3">
+    <!-- botones del ENCARGADO cuando el pedido está en REVISIÓN -->
+    <button *ngIf="isUpdate && esEncargado" (click)="revisarPedido()" class="btn btn-warning">Revisar</button>
+    <button *ngIf="isUpdate && esEncargado" (click)="cancelarPedido()" class="btn btn-danger">Cancelar</button>
+    <!-- botones del ENCARGADO cuando el pedido está en ENTREGADO -->
+    <button *ngIf="isUpdate && esEncargado && entregado" (click)="aprobarPedido()" class="btn btn-success">Aprobar</button>
+    <button *ngIf="isUpdate && esEncargado && entregado" (click)="rechazarPedido()" class="btn btn-danger">Rechazar</button>
+    
+    <!-- botones del OPERARIO cuando el pedido está en PREPARACIÓN -->
+    <button *ngIf="isUpdate && esOperario && enPreparacion" (click)="transito()" class="btn-edit">Marcar como pedido en tránsito</button>
+    <!-- botones del OPERARIO cuando el pedido está en TRÁNSITO -->
+    <button *ngIf="isUpdate && esOperario && enTransito" (click)="entregarPedido()" class="btn-edit">Entregar</button>
+    </div>
 <hr class="mb-5">
+
 
 <form class="template mb-5" [formGroup]="pedidoForm" (ngSubmit)=" submitPedido()" >
 
@@ -46,7 +60,7 @@
     <div class="row">
         <div class="col-md-6 mb-3">
             <label required for="almacenes_id_origen" class="form-label">Almacén de origen</label>
-            <select (change)="almacenOrigenChange($event)" class="form-control" id="almacenes_id_origen" formControlName="almacenes_id_origen" (change)="obtenerStocks()">
+            <select (change)="almacenOrigenChange($event)" class="form-control" id="almacenes_id_origen" formControlName="almacenes_id_origen">
                 <option *ngFor="let almacen of almacenes" [value]="almacen.almacenes_id">{{almacen.almacenes_id + " - " + almacen.nombre_almacen }}</option>
             </select>
             <p class="error" *ngIf="controlError('almacenes_id_origen', 'required')">El campo es obligatorio</p>

@@ -35,7 +35,14 @@ export class DetallePedidoFormComponent implements OnInit {
   buttonName : string = "";
 
   filasStock : PedidosHaveStock[] = [];
-  fila : PedidosHaveStock | any = {};
+  fila: PedidosHaveStock | any = {};
+  estadoPedido: string = ''; 
+  rol: number | any = 0;
+  esEncargado: boolean = false;
+  esOperario: boolean = false;
+  enPreparacion: boolean = false; 
+  enTransito: boolean = false; 
+  entregado: boolean = false; 
   
   
   constructor(
@@ -77,6 +84,8 @@ export class DetallePedidoFormComponent implements OnInit {
       usuarios_id_aprobador: new FormControl('', []), /*APSP: Se pone con el "usario_id_encargado" de la tabla almacenes del almacén origen*/
       observaciones: new FormControl('', []), /*APSP: Digali al Cyril que el crei a la base de dates */
     }, []);
+
+  
   }
 
    // Creación de un nuevo pedido
@@ -146,6 +155,7 @@ export class DetallePedidoFormComponent implements OnInit {
       console.log(error);
       this.notificacionesService.showError("No se ha actualizado correctamente el pedido.");
     }
+   
   }
 
 
@@ -167,13 +177,35 @@ export class DetallePedidoFormComponent implements OnInit {
         //Si esta editando un pedido entrara aqui
         this.isUpdate = true;
         this.buttonName = "Actualizar";
-  
-        // Activa los botones 'Editar' y 'Eliminar' 
+        this.rol = localStorage.getItem('rol_almacen');
+        console.log(this.rol)
+        
+        // if (estado esta en preparacion){
+        //   this.enPreparacion = true; 
+        // }
+
+        if (this.rol === '3'){
+          this.esEncargado = true; 
+        } else if(this.rol === '4'){
+          this.esOperario = true; 
+        }
+
+        
         try {
           let response: any = await this.pedidosService.getById(this.id);
-          if (response.fatal) {
+          let estadoActual = response.estado_pedido
+          console.log(estadoActual)
+          if(estadoActual === 'En preparación'){
+            this.enPreparacion = true; 
+          } else if (estadoActual === 'En tránsito'){
+            this.enTransito = true; 
+          } else if (estadoActual === 'Entregado' ) {
+            this.entregado = true; 
+          }else if (response.fatal){
             return this.notificacionesService.showError(response.fatal);
           }
+          console.log(response)
+      
           this.rellenarCamposForm(response);
         } catch(err) {
           console.log(err);
@@ -323,11 +355,6 @@ export class DetallePedidoFormComponent implements OnInit {
     }
   }
 
-  //APSP: Obtención de los stocks disponibles del almacén, para pintarlos en el html
-  obtenerStocks(){
-    
-  }
-
   /* Cuando se le de al botón de cancelar*/
   cancelar(){
     this.router.navigate(['/pedidos']);
@@ -415,7 +442,110 @@ export class DetallePedidoFormComponent implements OnInit {
   } 
 
 
+  // BOTONES ENCARGADO 
+  revisarPedido() {
+    const preparacion = 'En preparación';
+    if (this.id){
+      try {
+        this.pedidosService.update({ estado_pedido: preparacion }, this.id)
+          .then((pedido) => {
+            console.log('Pedido actualizado:', pedido);
+            this.notificacionesService.showInfo("El pedido ha pasado a estar en preparación");
+            // this.router.navigate(['/pedidos']);
+          });
+      } catch (error) {
+        console.error('Error al actualizar el pedido:', error);
+      }
+    }
+  }
+  
+  cancelarPedido() {
+    const cancelado = 'Cancelado';
+    if (this.id){
+      try {
+        this.pedidosService.update({ estado_pedido: cancelado }, this.id)
+          .then((pedido) => {
+            console.log('Pedido actualizado:', pedido);
+            this.notificacionesService.showInfo("El pedido ha sido cancelado");
+            // this.router.navigate(['/pedidos']);
+          });
+      } catch (error) {
+        console.error('Error al actualizar el pedido:', error);
+      }
+    }
+  }
+
+  aprobarPedido(){
+    const aprobado = 'Aprobado';
+    if (this.id){
+      try {
+        this.pedidosService.update({ estado_pedido: aprobado }, this.id)
+          .then((pedido) => {
+            console.log('Pedido actualizado:', pedido);
+            this.pedidoForm = new FormGroup({
+              estado_pedido: new FormControl(pedido.estado_pedido,[])});
+            this.notificacionesService.showInfo("El pedido ha sido aprobado");
+            // this.router.navigate(['/pedidos']);
+          });
+      } catch (error) {
+        console.error('Error al actualizar el pedido:', error);
+      }
+    }
+  }
+
+  rechazarPedido(){
+    const rechazado = 'Rechazado';
+    if (this.id){
+      try {
+        this.pedidosService.update({ estado_pedido: rechazado }, this.id)
+          .then((pedido) => {
+            console.log('Pedido actualizado:', pedido);
+            this.notificacionesService.showInfo("El pedido ha sido rechazado");
+            // this.router.navigate(['/pedidos']);
+          });
+      } catch (error) {
+        console.error('Error al actualizar el pedido:', error);
+      }
+    }
+  }
+
+  // BOTONES OPERARIO 
+
+  transito(){
+    const transito = 'En tránsito';
+    if (this.id){
+      try {
+        this.pedidosService.update({ estado_pedido: transito }, this.id)
+          .then((pedido) => {
+            console.log('Pedido actualizado:', pedido);
+            this.notificacionesService.showInfo("El pedido ha sido marcado como en tránsito");
+            // this.router.navigate(['/pedidos']);
+          });
+      } catch (error) {
+        console.error('Error al actualizar el pedido:', error);
+      }
+    }
+  }
+
+  entregarPedido(){
+    const entregado = 'Entregado';
+    if (this.id){
+      try {
+        this.pedidosService.update({ estado_pedido: entregado }, this.id)
+          .then((pedido) => {
+            console.log('Pedido actualizado:', pedido);
+            this.notificacionesService.showInfo("El pedido ha sido entregado");
+            // this.router.navigate(['/pedidos']);
+          });
+      } catch (error) {
+        console.error('Error al actualizar el pedido:', error);
+      }
+    }
+  }
+
+  }
+
+
  
-    };
   
   
