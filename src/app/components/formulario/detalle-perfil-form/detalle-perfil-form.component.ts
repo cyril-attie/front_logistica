@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
-import * as myGlobals from '../../../general/globals';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
 import { PerfilesService } from 'src/app/servicios/perfiles.service';
 import { Perfil } from 'src/app/interfaces/perfil';
+import { RolesService } from 'src/app/servicios/roles.service';
 
 @Component({
   selector: 'app-detalle-perfil-form',
@@ -22,12 +22,14 @@ export class DetallePerfilFormComponent implements OnInit {
     roles_id: 0
   };
   id: number = 0;
-  notificacionesService = inject(NotificacionesService)
 
+  notificacionesService = inject(NotificacionesService)
+  rolesService = inject(RolesService);
+  
   rolesMap = new Map<Number, string>([
-    [myGlobals.rolJefeDeEquipo, 'Jefe de equipo'],
-    [myGlobals.rolEncargado, 'Encargado'],
-    [myGlobals.rolOperario, 'Operario']
+    [this.rolesService.rolJefeDeEquipo, 'Jefe de equipo'],
+    [this.rolesService.rolEncargado, 'Encargado'],
+    [this.rolesService.rolOperario, 'Operario']
   ]);
 
   constructor(

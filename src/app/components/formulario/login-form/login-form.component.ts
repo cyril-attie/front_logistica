@@ -3,8 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.service';
 import jwtDecode from "jwt-decode";
-import * as myGlobals from './../../../general/globals';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
+import { RolesService } from 'src/app/servicios/roles.service';
 
 @Component({
   selector: 'app-login-form',
@@ -15,7 +15,8 @@ import { NotificacionesService } from 'src/app/servicios/notificaciones.service'
 export class LoginFormComponent {
   formModel : FormGroup;
   notificacionesService = inject(NotificacionesService);
-
+  rolesService = inject(RolesService);
+  
   constructor(
     private usuariosService : UsuariosServiceService,
     private router : Router

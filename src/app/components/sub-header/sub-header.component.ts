@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { UsuariosServiceService } from 'src/app/servicios/usuarios-service.service';
-import * as myGlobals from '../../general/globals';
 import { Usuario } from 'src/app/interfaces/usuario';
+import { RolesService } from 'src/app/servicios/roles.service';
 
 
 @Component({
@@ -17,11 +17,13 @@ export class SubHeaderComponent implements OnInit {
   enlacesRouter : any[] = []; 
   colorBorder: string = "";
   colorText: string = "";
+  
+  rolesService = inject(RolesService);
 
   rolesMap = new Map<Number, string>([
-    [myGlobals.rolJefeDeEquipo, 'JEFE DE EQUIPO'],
-    [myGlobals.rolEncargado, 'ENCARGADO'],
-    [myGlobals.rolOperario, 'OPERARIO']
+    [this.rolesService.rolJefeDeEquipo, 'JEFE DE EQUIPO'],
+    [this.rolesService.rolEncargado, 'ENCARGADO'],
+    [this.rolesService.rolOperario, 'OPERARIO']
   ]);
 
   constructor(
@@ -45,7 +47,7 @@ export class SubHeaderComponent implements OnInit {
       this.rol = value;
       this.rolDescripcion = this.rolesMap.get(value);
 
-      if (this.rol == myGlobals.rolJefeDeEquipo) {
+      if (this.rol == this.rolesService.rolJefeDeEquipo) {
         this.enlacesRouter =[
           { texto: 'Pedidos', enlace: ['/pedidos'] },
           { texto: 'Almacenes', enlace: ['/almacenes'] },
@@ -59,7 +61,7 @@ export class SubHeaderComponent implements OnInit {
         this.colorText = "white";
       }
 
-      if (this.rol == myGlobals.rolEncargado) {
+      if (this.rol == this.rolesService.rolEncargado) {
         this.enlacesRouter =[
           { texto: 'Pedidos', enlace: ['/pedidos'] },
           { texto: 'Almacenes', enlace: ['/almacenes'] },
@@ -71,7 +73,7 @@ export class SubHeaderComponent implements OnInit {
         this.colorText = "white";
       }
 
-      if (this.rol == myGlobals.rolOperario) {
+      if (this.rol == this.rolesService.rolOperario) {
         this.enlacesRouter =[
           { texto: 'Pedidos', enlace: ['/pedidos'] },
           { texto: 'Camiones', enlace: ['/camiones'] },
