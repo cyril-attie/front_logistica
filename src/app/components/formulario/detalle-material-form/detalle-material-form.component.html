@@ -27,7 +27,7 @@
             <div class="col">
                 <label for="categorias_materiales_id" class="form-label" required>Categoría</label>
                 <select (change)="getAllCategorias()" class="form-control" id="categorias_materiales_id" formControlName="categorias_materiales_id">
-                    <option *ngFor="let categoria of Categorias" [value]="categoria.categorias_materiales_id">{{categoria.categorias_materiales_id}} {{categoria.descripcion}}</option>
+                    <option *ngFor="let categoria of categorias" [value]="categoria.categorias_materiales_id">{{categoria.categorias_materiales_id}} - {{categoria.descripcion}}</option>
                 </select>
 
                 <p class="error" *ngIf="controlError('categorias_materiales_id', 'required')">El campo es obligatorio</p>

@@ -18,7 +18,7 @@ export class DetalleMaterialFormComponent implements OnInit {
   isUpdate : boolean = false;
   id: number = 0;
   buttonName: string = '';
-  Categorias: any[] = [];
+  categorias: any[] = [];
   nombresCategorias: string[] = [];
 
   constructor(
@@ -133,7 +133,7 @@ async submitMaterial() {
   async getAllCategorias() {
     try {
         const data: any = await this.categoriasService.getAll();        
-        this.Categorias = data;
+        this.categorias = data;
     } catch (error) {
         console.error('Error al obtener las categorías:', error);
     }

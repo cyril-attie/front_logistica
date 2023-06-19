@@ -22,7 +22,9 @@ export class DetalleUsuarioFormComponent implements OnInit {
   usuarioForm: FormGroup;
   isUpdate: boolean = false;
   buttonName: string = "";
-  imageProfile: string = "";
+  imageProfile: string = "/assets/imagenpordefecto.jpg";
+  usuarioRegistrado: boolean = false; 
+  jefes: any[] = [];
 
 
   notificacionesService = inject(NotificacionesService);
@@ -36,7 +38,7 @@ export class DetalleUsuarioFormComponent implements OnInit {
 
     // El formulario aparecerá vacío
     this.usuarioForm = new FormGroup({
-      usuarios_id: new FormControl('', []),
+      usuarios_id: new FormControl('Se asignará automáticamente', []),
       nombre: new FormControl('', [
         Validators.required
       ]),
@@ -64,7 +66,7 @@ export class DetalleUsuarioFormComponent implements OnInit {
       ]),
       edad: new FormControl(''),
       activo: new FormControl(false),
-      imagen: new FormControl(''),
+      imagen: new FormControl( []),
       roles_id: new FormControl('', [
         Validators.required
       ])
@@ -123,7 +125,9 @@ export class DetalleUsuarioFormComponent implements OnInit {
 
 
   /* Cuando se incia el componente se verifica si es creación o no, si es actualización se informan campos del formulario */
-  ngOnInit(): void {
+   ngOnInit(): void {
+
+    this.getAllJefes()
 
     this.activatedRoute.params.subscribe(async (params: any): Promise<void> => {
       this.id = (params.id);
@@ -137,6 +141,8 @@ export class DetalleUsuarioFormComponent implements OnInit {
       //Si esta actualizando un usuario entrara aqui
       this.isUpdate = true;
       this.buttonName = "Actualizar";
+      this.imageProfile = "/assets/imagenpordefecto.jpg";
+      this.usuarioRegistrado = true; 
 
       // Activa los botones 'Editar usuario' y 'Eliminar' 
       try {
@@ -150,15 +156,23 @@ export class DetalleUsuarioFormComponent implements OnInit {
         this.notificacionesService.showError("No ha cargado correctamente el usuario");
       }
     })
+
+   
   };
+
 
 
   /* Acción que rellena los campos del formulario */
   rellenarCamposForm(response: any) {
 
-    const usuario: Usuario = response[0];
+    const usuario: Usuario = response;
+    if (usuario.imagen === null){
+      usuario.imagen = "/assets/imagenpordefecto.jpg";
+    }
+    console.log(usuario)
+  
 
-    this.imageProfile = response[0].imagen;
+   
     this.usuarioForm = new FormGroup({
       usuarios_id: new FormControl(usuario.usuarios_id, [
         Validators.required
@@ -176,15 +190,12 @@ export class DetalleUsuarioFormComponent implements OnInit {
         Validators.required,
         Validators.pattern(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)
       ]),
-      contrasena: new FormControl(usuario.contrasena, [
-        Validators.required,
-        Validators.minLength(3)
-      ]),
+      contrasena: new FormControl(usuario.contrasena, []),
       pais: new FormControl(usuario.pais, [
         Validators.required
       ]),
       ciudad: new FormControl(usuario.ciudad),
-      codigo_postal: new FormControl('', [
+      codigo_postal: new FormControl(usuario.codigo_postal, [
         Validators.minLength(3),
         Validators.required
       ]),
@@ -192,16 +203,35 @@ export class DetalleUsuarioFormComponent implements OnInit {
       activo: new FormControl(usuario.activo),
       imagen: new FormControl(usuario.imagen),
       roles_id: new FormControl(usuario.roles_id, [
-        Validators.required
+       
       ])
+    
     }, []);
+
+
+     
   }
 
-  //Métodos para la imágen
-  updateImage($event: any): void {
-    let valorImagen = $event.target.value;
-    this.imageProfile = valorImagen;
-  }
+  async getAllJefes() {
+    try {
+        const data: any = await this.usuarioService.getAll();
+        console.log(data)
+        const jefesFiltrados = data.filter((usuario : Usuario) => usuario.roles_id === 2);
+        console.log('resultado filtrado', jefesFiltrados)
+
+
+      const nombresJefes = jefesFiltrados.map((usuario: { usuarios_id: number; nombre: string; apellido: string; usuarios_id_lider: number}) => ({
+        id: usuario.usuarios_id,
+        nombre: usuario.nombre,
+        apellido: usuario.apellido,
+        usuarios_id_lider: usuario.usuarios_id_lider
+      }));
+        this.jefes = nombresJefes;
+        console.log(this.jefes)
+    } catch (error) {
+        console.error('Error al obtener los jefes registrados:', error);
+    }
+}
 
   //Control de errores del form
   controlError(nombreCampo: string, tipoError: string): boolean {
