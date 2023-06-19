@@ -94,15 +94,16 @@
                         {{fila.posicion}}</td>
                     <td class="col-lg-2 col-md-6 text-center align-items-center d-flex justify-content-center" scope="col">
                         {{fila.stocks_id}}</td>
-                    <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center">
+                    <!-- No se puede actualizar el material si ya se ha creado el stock-->
+                    <td *ngIf="!fila.stocks_id" class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center">
                         <select [ngModelOptions]="{standalone: true}" [(ngModel)]="fila.materiales_id" (keydown)="noAction($event)" (change)="informarFilaStock($event,fila)" class="form-control">
                             <option *ngIf="!fila.descripcion_categoria"></option>
-
-                            <!-- No pillo nada esta línea -->
-                            <option *ngFor="let material of materialesRecuperados" [value]="material.materiales_id">{{material.materiales_id + " - " + material.nombre}}
-                            </option>
+                            <option *ngFor="let material of materialesRecuperados" [value]="material.materiales_id">{{material.materiales_id + " - " + material.nombre}}</option>
 
                         </select>
+                    </td>
+                    <td *ngIf="fila.stocks_id" class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center">
+                        {{fila.materiales_id + " - " + fila.nombre_material}}
                     </td>
 
                     <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center" scope="col">{{

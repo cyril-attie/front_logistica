@@ -272,59 +272,81 @@ export class DetalleAlmacenFormComponent implements OnInit {
   
   /*Para la modal *************************/
   // Método para eliminar una fila de la tabla
-  eliminarFila(fila: StockMaterial | any) : any {
-    
-    Swal.fire({
+  async eliminarFila(fila: StockMaterial | any): Promise<any> {
+
+    // Cuando se esté creando no lanzaremos modal
+    if (!this.isUpdate) {
+      const indice = this.filasStock.indexOf(fila);
+      if (indice !== -1) {
+        this.filasStock.splice(indice, 1);
+        this.recalcularFilas();
+      }
+      return;
+    }
+  
+    // Cuando se elimine de un almacén que ya existe
+    const result = await Swal.fire({
       title: 'Deseas borrar el stock ' + fila.stocks_id + ' ?',
       text: '',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Aceptar',
       cancelButtonText: 'Cancelar'
-    }).then(async (result) => {
-      if (result.value) {
-        //consultar al servicio para hacer el borrado.
-        try {
-      
-          //Miramos que servicio debemos consultar
-          const response = await this.stocksService.delete(fila.stocks_id);
+    });
+  
+    if (result.value) {
+      try {
 
-          
-          if (!response) {
-            this.notificacionesService.showError("Algo ha ido mal");
-            return;
-          }
-          if(response.fatal) {
-            this.notificacionesService.showError(response.fatal);
-            return;
-          }
-          const indice = this.filasStock.indexOf(fila); // busca la primera aparicion de la fila que se le ha pasado por parámetro y se guarda en indice
-          if (indice !== -1) {  // si ese indice es diferente de -1 se elimina con el splice esa posición
-            this.filasStock.splice(indice, 1);
-            this.recalcularFilas();
-          }
-          //Lanzamos mensaje de que todo ha ido bien
-          Swal.fire(
-            'Borrado!',
-            'Se a borrado el stock ' + fila.stocks_id + ' correctamente.',
-            'success'
-          )
-          
-    
-        } catch (err) {
-          return this.notificacionesService.showError("Algo ha ido mal");
-          console.log(err);
+        //Borramos stock de la base de datos
+        const response = await this.stocksService.delete(fila.stocks_id);
+        if (!response) {
+          this.notificacionesService.showError("Algo ha ido mal");
+          return;
         }
-      } 
-    })
+        if (response.fatal) {
+          this.notificacionesService.showError(response.fatal);
+          return;
+        }
+
+        const indice = this.filasStock.indexOf(fila);
+        if (indice !== -1) {
+          debugger;
+          this.filasStock.splice(indice, 1);
+
+          //Reordenamos posiciones de los stocks
+          await this.recalcularFilas();
+
+          //Actualizamos unicamente posiciones nuevas de los stocks
+          this.filasStock.forEach(async fila => {
+            const stockUpdate = {
+              posicion: fila.posicion
+            }
+            const response = await this.stocksService.update(stockUpdate,fila.stocks_id);
+            console.log(response);
+          });
+        }
+  
+        Swal.fire(
+          'Borrado!',
+          'Se ha borrado el stock ' + fila.stocks_id + ' correctamente.',
+          'success'
+        );
+      } catch (err) {
+        this.notificacionesService.showError("Algo ha ido mal");
+        console.log(err);
+      }
+    }
   }
+
   recalcularFilas() {
+    debugger;
     this.filasStock = this.filasStock.map( (fila, indice) => {
       return {
         ...fila, // se crea un nuevo objeto con haciendo un spread de fila
         posicion: indice + 1 // esto no lo pillo
       };
     });
+    console.log(this.filasStock)
   }   
 
 }

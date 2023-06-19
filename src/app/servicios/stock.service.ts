@@ -35,14 +35,14 @@ export class StockService {
   }
 
   // Actualizar stock
-  update(stock: Stock): Promise<Stock>{
+  update(stock: any,id : number): Promise<Stock | any>{
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json', 
         'Authorization': localStorage.getItem('token_almacen')!
       })
     }
-    return lastValueFrom(this.httpClient.put<Stock>(`${this.baseUrl}/${stock.n_material}`, stock, httpOptions))
+    return lastValueFrom(this.httpClient.put<Stock>(`${this.baseUrl}/${id}`, stock, httpOptions))
   }
 
   delete(id: number): Promise<any>{
