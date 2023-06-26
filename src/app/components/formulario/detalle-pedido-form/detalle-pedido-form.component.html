@@ -148,7 +148,7 @@
 
     <section col-md-12 mb-3>
         <div class="input d-flex justify-content-end gap-3">
-          <button type="submit" [disabled]="(!pedidoForm.valid || !isValidStocks) || enPreparacion || enTransito || entregado || enAprobado" class="btn-edit">{{ buttonName }}</button>
+          <button [hidden]="enPreparacion || enTransito || entregado || enAprobado || enCancelado || enRechazo" type="submit" [disabled]="(!pedidoForm.valid || !isValidStocks) " class="btn-edit">{{ buttonName }}</button>
           <button class="btn-cancel" (click)="cancelar()">Atrás</button>
           <app-delete-button
             *ngIf="isUpdate"

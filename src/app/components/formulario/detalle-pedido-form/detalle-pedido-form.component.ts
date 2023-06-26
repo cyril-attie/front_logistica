@@ -47,6 +47,8 @@ export class DetallePedidoFormComponent implements OnInit {
   enRevision: boolean = false; 
   enAprobado: boolean = false;
   entregado: boolean = false; 
+  enCancelado : boolean = false;
+  enRechazo : boolean = false;
 
   
   //Para permitir crear o no
@@ -218,6 +220,10 @@ export class DetallePedidoFormComponent implements OnInit {
             this.entregado = true; 
           }else if (estadoActual ===  'Aprobado' ) {
             this.enAprobado = true; 
+          }else if (estadoActual ===  'Cancelado' ) {
+            this.enCancelado = true; 
+          }else if (estadoActual ===  'Rechazado' ) {
+            this.enRechazo = true; 
           }else if (response.fatal){
             return this.notificacionesService.showError(response.fatal);
           }
@@ -291,12 +297,11 @@ export class DetallePedidoFormComponent implements OnInit {
     }, []);
     
     //Informamos stocksOrgien para que se pueda recuperar en cada línea de pedidos_have_stock
+    
     const findAlmacen : Almacen  = this.almacenes.find((element:Almacen) => element.almacenes_id == pedido.almacenes_id_origen);
     this.stocksOrigen = findAlmacen.stocks;
-    
     //Rellenamos tabla pedidos_have_Stock
     const stocks = pedido.stocks;
-
     if (stocks) {
       
       stocks.forEach(stock => {
@@ -310,6 +315,7 @@ export class DetallePedidoFormComponent implements OnInit {
           descripcion_categoria: ""
         }
         const stockAlmacenRecuperado = this.stocksOrigen.find((stockBuscar : StockAlmacen) => stockBuscar.stocks_id == stock.stocks_id);
+        console.log(stockAlmacenRecuperado);
 
         
         if (stockAlmacenRecuperado && stockAlmacenRecuperado.unidades) {
@@ -348,10 +354,7 @@ export class DetallePedidoFormComponent implements OnInit {
     console.log(idAlmacenSelected)
     
     const findAlmacen : Almacen  = this.almacenes.find((element:Almacen) => element.almacenes_id == idAlmacenSelected);
-    console.log(findAlmacen)
-
     const encargadoRevisar = findAlmacen.usuarios_id_encargado;
-    console.log(encargadoRevisar);
 
     this.stocksOrigen = findAlmacen.stocks;
     this.pedidoForm.patchValue({
