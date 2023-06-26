@@ -3,8 +3,8 @@
 <h3 class="" *ngIf="isUpdate">Editar pedido {{id}}</h3>
 <div class="input d-flex justify-content-end gap-3">
     <!-- botones del ENCARGADO cuando el pedido está en REVISIÓN -->
-    <button *ngIf="isUpdate && esEncargado && !entregado" (click)="revisarPedido()" class="btn btn-warning">Revisar</button>
-    <button *ngIf="isUpdate && esEncargado && !entregado" (click)="cancelarPedido()" class="btn btn-danger">Cancelar</button>
+    <button *ngIf="isUpdate && esEncargado && enRevision" (click)="revisarPedido()" class="btn btn-warning">Revisar</button>
+    <button *ngIf="isUpdate && esEncargado && enRevision" (click)="cancelarPedido()" class="btn btn-danger">Cancelar</button>
     <!-- botones del ENCARGADO cuando el pedido está en ENTREGADO -->
     <button *ngIf="isUpdate && esEncargado && entregado" (click)="aprobarPedido()" class="btn btn-success">Aprobar</button>
     <button *ngIf="isUpdate && esEncargado && entregado" (click)="rechazarPedido()" class="btn btn-danger">Rechazar</button>
@@ -120,7 +120,7 @@
                 <tr *ngFor="let fila of filasStock" class="row text-center d-flex justify-content-center">
                     <td class="col-lg-2 col-md-6 text-center align-items-center d-flex justify-content-center" scope="col">{{fila.posicion}}</td>
                     <td class="col-lg-2 col-md-6 align-items-center d-flex justify-content-center">
-                        <select (change)="informarFilaStock($event,fila)"  class="form-control">
+                        <select [ngModelOptions]="{standalone: true}" [(ngModel)]="fila.stocks_id" (keydown)="noAction($event)" (change)="informarFilaStock($event,fila)"  class="form-control">
                             <option *ngIf="!fila.descripcion_categoria"></option>
                             <option *ngFor="let stock of stocksOrigen" [value]="stock.stocks_id">{{stock.stocks_id + " - " + stock.nombre_material}}</option>
                         </select>

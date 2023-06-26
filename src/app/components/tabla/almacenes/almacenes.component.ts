@@ -36,6 +36,21 @@ export class AlmacenesComponent {
       if (response.fatal) {
         return this.notificacionesService.showError(response.fatal);
       }
+
+      //Filtramos la response de tal manera que solo nos mande el almacén que tenga el encargado
+      const rol : any = localStorage.getItem('rol_almacen');
+      const user_id : any = localStorage.getItem('user_id');
+      if (rol == "3") {//Si es encargado
+        response = response.filter((almacen: any) => almacen.usuarios_id_encargado == user_id);
+        response = response.map((almacen: any) => {
+          return {
+            ...almacen,
+            stocks: almacen.stocks.filter((stock: any) => stock.usuarios_id_encargado == user_id)
+          };
+        });
+      }
+
+      
       //Almacenamos los valores a a propiedad de la tabla
       this.propiedadesTabla.response = response;
       console.log(response);

@@ -43,7 +43,8 @@ export class DetallePedidoFormComponent implements OnInit {
   esEncargado: boolean = false;
   esOperario: boolean = false;
   enPreparacion: boolean = false; 
-  enTransito: boolean = false; 
+  enTransito: boolean = false;
+  enRevision: boolean = false; 
   entregado: boolean = false; 
 
   
@@ -194,7 +195,6 @@ export class DetallePedidoFormComponent implements OnInit {
         this.isUpdate = true;
         this.buttonName = "Actualizar";
         this.rol = localStorage.getItem('rol_almacen');
-        console.log(this.rol)
         
 
         if (this.rol === '3'){
@@ -207,17 +207,17 @@ export class DetallePedidoFormComponent implements OnInit {
         try {
           let response: any = await this.pedidosService.getById(this.id);
           let estadoActual = response.estado_pedido
-          console.log(estadoActual)
           if(estadoActual === 'En preparación'){
             this.enPreparacion = true; 
           } else if (estadoActual === 'En tránsito'){
             this.enTransito = true; 
+          } else if (estadoActual === 'En revisión'){
+            this.enRevision = true; 
           } else if (estadoActual === 'Entregado' ) {
             this.entregado = true; 
           }else if (response.fatal){
             return this.notificacionesService.showError(response.fatal);
           }
-          console.log(response)
       
           this.rellenarCamposForm(response);
         } catch(err) {
@@ -293,6 +293,7 @@ export class DetallePedidoFormComponent implements OnInit {
     
     //Rellenamos tabla pedidos_have_Stock
     const stocks = pedido.stocks;
+
     if (stocks) {
       
       stocks.forEach(stock => {
@@ -305,7 +306,6 @@ export class DetallePedidoFormComponent implements OnInit {
           descripcion_material: "",
           descripcion_categoria: ""
         }
-        
         const stockAlmacenRecuperado = this.stocksOrigen.find((stockBuscar : StockAlmacen) => stockBuscar.stocks_id == stock.stocks_id);
 
         
@@ -484,9 +484,14 @@ export class DetallePedidoFormComponent implements OnInit {
       try {
         this.pedidosService.update({ estado_pedido: preparacion }, this.id)
           .then((pedido) => {
+            if (pedido.fatal) {
+              return this.notificacionesService.showError(pedido.fatal);
+            }
             console.log('Pedido actualizado:', pedido);
             this.notificacionesService.showInfo("El pedido ha pasado a estar en preparación");
-            // this.router.navigate(['/pedidos']);
+            setTimeout(function() {
+              window.location.reload();
+            }, 2000);
           });
       } catch (error) {
         console.error('Error al actualizar el pedido:', error);
@@ -500,9 +505,14 @@ export class DetallePedidoFormComponent implements OnInit {
       try {
         this.pedidosService.update({ estado_pedido: cancelado }, this.id)
           .then((pedido) => {
+            if (pedido.fatal) {
+              return this.notificacionesService.showError(pedido.fatal);
+            }
             console.log('Pedido actualizado:', pedido);
             this.notificacionesService.showInfo("El pedido ha sido cancelado");
-            // this.router.navigate(['/pedidos']);
+            setTimeout(function() {
+              window.location.reload();
+            }, 2000);
           });
       } catch (error) {
         console.error('Error al actualizar el pedido:', error);
@@ -516,9 +526,14 @@ export class DetallePedidoFormComponent implements OnInit {
       try {
         this.pedidosService.update({ estado_pedido: aprobado }, this.id)
           .then((pedido) => {
+            if (pedido.fatal) {
+              return this.notificacionesService.showError(pedido.fatal);
+            }
             console.log('Pedido actualizado:', pedido);
             this.notificacionesService.showInfo("El pedido ha sido aprobado");
-            // this.router.navigate(['/pedidos']);
+            setTimeout(function() {
+              window.location.reload();
+            }, 2000);
           });
       } catch (error) {
         console.error('Error al actualizar el pedido:', error);
@@ -532,9 +547,14 @@ export class DetallePedidoFormComponent implements OnInit {
       try {
         this.pedidosService.update({ estado_pedido: rechazado }, this.id)
           .then((pedido) => {
+            if (pedido.fatal) {
+              return this.notificacionesService.showError(pedido.fatal);
+            }
             console.log('Pedido actualizado:', pedido);
             this.notificacionesService.showInfo("El pedido ha sido rechazado");
-            // this.router.navigate(['/pedidos']);
+            setTimeout(function() {
+              window.location.reload();
+            }, 2000);
           });
       } catch (error) {
         console.error('Error al actualizar el pedido:', error);
@@ -550,9 +570,14 @@ export class DetallePedidoFormComponent implements OnInit {
       try {
         this.pedidosService.update({ estado_pedido: transito }, this.id)
           .then((pedido) => {
+            if (pedido.fatal) {
+              return this.notificacionesService.showError(pedido.fatal);
+            }
             console.log('Pedido actualizado:', pedido);
             this.notificacionesService.showInfo("El pedido ha sido marcado como en tránsito");
-            // this.router.navigate(['/pedidos']);
+            setTimeout(function() {
+              window.location.reload();
+            }, 2000);
           });
       } catch (error) {
         console.error('Error al actualizar el pedido:', error);
@@ -566,9 +591,14 @@ export class DetallePedidoFormComponent implements OnInit {
       try {
         this.pedidosService.update({ estado_pedido: entregado }, this.id)
           .then((pedido) => {
+            if (pedido.fatal) {
+              return this.notificacionesService.showError(pedido.fatal);
+            }
             console.log('Pedido actualizado:', pedido);
             this.notificacionesService.showInfo("El pedido ha sido entregado");
-            // this.router.navigate(['/pedidos']);
+            setTimeout(function() {
+              window.location.reload();
+            }, 2000);
           });
       } catch (error) {
         console.error('Error al actualizar el pedido:', error);
