@@ -124,6 +124,7 @@ export class DetallePedidoFormComponent implements OnInit {
         console.log(pedido);  
 
         //Realizamos petición
+        console.log(pedido);
         const response = await this.pedidosService.create(pedido);
         if (response.fatal) {
           return this.notificacionesService.showError(response.fatal);
@@ -209,6 +210,7 @@ export class DetallePedidoFormComponent implements OnInit {
         
         try {
           let response: any = await this.pedidosService.getById(this.id);
+          console.log(response);
           let estadoActual = response.estado_pedido
           if(estadoActual === 'En preparación'){
             this.enPreparacion = true; 
@@ -258,13 +260,13 @@ export class DetallePedidoFormComponent implements OnInit {
 
     //Convertimos las fechas
     const fechaCreacion = new Date(pedido.fecha_creacion);
-    const fechaCreacionFormat = formatDate(new Date(),'yyyy-MM-dd hh:mm:ss','en');
+    const fechaCreacionFormat = formatDate(fechaCreacion,'yyyy-MM-dd hh:mm:ss','en');
     
     const fechaSalida = new Date(pedido.fecha_salida);
-    const fechaSalidaFormat = formatDate(new Date(),'yyyy-MM-dd hh:mm:ss','en');
+    const fechaSalidaFormat = formatDate(fechaSalida,'yyyy-MM-dd hh:mm:ss','en');
 
-    const fechaLlegada = new Date(pedido.fecha_salida);
-    const fechaLlegadaFormat = formatDate(new Date(),'yyyy-MM-dd hh:mm:ss','en');
+    const fechaLlegada = new Date(pedido.fecha_llegada);
+    const fechaLlegadaFormat = formatDate(fechaLlegada,'yyyy-MM-dd hh:mm:ss','en');
 
    
     //Rellenamos form
