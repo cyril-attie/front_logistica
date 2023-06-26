@@ -45,6 +45,7 @@ export class DetallePedidoFormComponent implements OnInit {
   enPreparacion: boolean = false; 
   enTransito: boolean = false;
   enRevision: boolean = false; 
+  enAprobado: boolean = false;
   entregado: boolean = false; 
 
   
@@ -215,10 +216,12 @@ export class DetallePedidoFormComponent implements OnInit {
             this.enRevision = true; 
           } else if (estadoActual === 'Entregado' ) {
             this.entregado = true; 
+          }else if (estadoActual ===  'Aprobado' ) {
+            this.enAprobado = true; 
           }else if (response.fatal){
             return this.notificacionesService.showError(response.fatal);
           }
-      
+          
           this.rellenarCamposForm(response);
         } catch(err) {
           console.log(err);
